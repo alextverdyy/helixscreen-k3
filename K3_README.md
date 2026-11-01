@@ -85,6 +85,12 @@ packaging, other architectures and required runtime libraries. The manual
 packages an installer archive as a build artifact. A successful cross-build does
 not validate a physical panel.
 
+After a successful build, **K3 reviewed installer** checks that application
+sources are unchanged, refreshes the reviewed runtime files and setup tools, and
+creates a draft preview release with checksums and build provenance. Its
+`k3-reviewed-pi-installer` artifact is the complete K3 delivery. Draft releases
+are available to the repository owner; nothing is declared hardware-validated.
+
 ## Keeping updates predictable
 
 The theme is installed in the user configuration directory so normal upstream

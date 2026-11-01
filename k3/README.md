@@ -40,21 +40,28 @@ under `build/pi/bin/`, with framebuffer output under `build/pi-fbdev/bin/`.
 Keep `ui_xml/`, `assets/` and the binary from the same source revision together.
 Use the upstream service/launcher; it reads `config/helixscreen.env`.
 
-The manual **K3 Pi build** workflow supplies a complete installer archive in its
-artifact, including assets and the upstream installer. Download the artifact,
-unzip it, and copy its `.tar.gz` to the display host. Then extract it and run the
-included installer from the extracted directory:
+Run **K3 Pi build**, then use the follow-up **K3 reviewed installer** workflow's
+`k3-reviewed-pi-installer` artifact or its draft preview release. It includes
+the compiled application, matching runtime assets, upstream installer, K3 setup
+tools, checksums and source provenance. Download/unzip the artifact and copy
+its `.tar.gz` to the display host. Then extract it and run the included installer:
 
 ```bash
-tar xzf helixscreen-pi-*.tar.gz
+tar xzf helixscreen-k3-pi-arm64.tar.gz
 cd helixscreen
 sh install.sh
 ```
 
-Return to your source clone to run the K3 configuration commands below. The
-installer can also be given its local archive with `--local`. Runtime OS
+The refreshed archive includes the setup tool. After installation, commands
+can use `python3 ~/helixscreen/k3/configure.py` instead of running from a source
+clone. The installer can also be given its local archive with `--local`. Runtime OS
 libraries are still required; follow the installer's platform diagnostics.
 See [BUILD_SYSTEM.md](../docs/devel/BUILD_SYSTEM.md) for the full packaging path.
+
+The runtime-refresh workflow refuses builds whose application sources or
+compiled fonts/version changed. It never recompiles or changes a binary while
+refreshing XML/theme/setup files. A successful package is a development preview,
+not proof of physical hardware compatibility.
 
 Once your installation is at `~/helixscreen`, stop **only the screen service**,
 apply the appearance, and start it again:

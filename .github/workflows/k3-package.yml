@@ -1,0 +1,68 @@
+name: K3 reviewed installer
+on:
+  workflow_run:
+    workflows: [K3 Pi build]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      build_run:
+        description: Successful K3 Pi build run ID
+        required: true
+permissions:
+  actions: read
+  contents: write
+jobs:
+  package:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BUILD_RUN: ${{ github.event.inputs.build_run || github.event.workflow_run.id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/k3
+      - name: Verify build provenance and unchanged application sources
+        run: |
+          [[ "$BUILD_RUN" =~ ^[0-9]+$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$BUILD_RUN" > /tmp/k3-build.json
+          python3 - <<'PY'
+          import json, os
+          r=json.load(open('/tmp/k3-build.json'))
+          assert r['conclusion']=='success', 'Build must have succeeded'
+          assert r['head_repository']['full_name']==os.environ['GITHUB_REPOSITORY'], 'Wrong repository'
+          assert r['name']=='K3 Pi build', 'Wrong build workflow'
+          PY
+          BUILD_SHA=$(python3 -c "import json; print(json.load(open('/tmp/k3-build.json'))['head_sha'])")
+          [[ "$BUILD_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git fetch origin "$BUILD_SHA" --depth=1
+          git diff --quiet "$BUILD_SHA" HEAD -- src include lib patches assets/fonts .gitmodules Makefile mk lv_conf.h VERSION.txt RELEASE_CHANNEL
+          echo "BUILD_SHA=$BUILD_SHA" >> "$GITHUB_ENV"
+          echo "DATA_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Run K3 configuration checks
+        run: |
+          python3 -m unittest discover -s k3 -p 'test_*.py' -v
+          python3 -m unittest discover -s k3 -p 'package_checks.py' -v
+      - name: Download and refresh the installer
+        run: |
+          gh run download "$BUILD_RUN" --repo "$GITHUB_REPOSITORY" --name k3-pi-arm64-installer --dir input
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          from k3.package import refresh
+          archives=list(Path('input').glob('*.tar.gz'))
+          assert len(archives)==1, 'Expected exactly one Pi installer'
+          refresh(archives[0], Path('dist/helixscreen-k3-pi-arm64.tar.gz'), os.environ['BUILD_SHA'], os.environ['DATA_SHA'])
+          PY
+          cd dist
+          sha256sum *.tar.gz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k3-reviewed-pi-installer
+          path: dist/
+          if-no-files-found: error
+      - name: Create a draft preview release
+        run: |
+          TAG="k3-preview-$BUILD_RUN-${DATA_SHA:0:7}"
+          gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --target "$DATA_SHA" --draft --prerelease --title 'HelixScreen K3 native preview' --notes-file k3/RELEASE_NOTES.md

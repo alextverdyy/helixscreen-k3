@@ -8,6 +8,7 @@ Source base: upstream `f7f68cca25649b731d47b3d2a81b51197d699ed1`
 | Check | Result |
 |---|---|
 | K3 configuration integration tests | 19 passed |
+| Installer refresh, binary preservation, provenance and archive safety | 3 passed |
 | Native theme, portrait, default-layout and template tests | 262 cases, 40,578 assertions passed |
 | Native machine-guard XML census | 5 cases, 1,857 assertions passed |
 | Upstream XML linter | 475 files, zero errors/warnings |
