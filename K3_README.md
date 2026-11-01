@@ -11,6 +11,11 @@ portrait controls. Landscape screens keep the upstream layout.
 “K3” is not a verified Waveshare SKU; no resolution, display overlay, touch driver,
 or printer hardware is guessed. Start with automatic display detection.
 
+**ARM64 installer built:** [draft preview release](https://github.com/alextverdyy/helixscreen-k3/releases/tag/untagged-d191569854ede8daa717)
+or the [reviewed installer build artifact](https://github.com/alextverdyy/helixscreen-k3/actions/runs/41361637327).
+The archive checksum, AArch64 binary, reviewed XML and packaged setup tool have
+been checked. This remains a development preview with physical validation pending.
+
 ## What you get
 
 - Native LVGL interface talking directly to Moonraker; no browser kiosk needed.

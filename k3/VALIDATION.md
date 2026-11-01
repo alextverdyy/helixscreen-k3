@@ -35,8 +35,9 @@ The screenshots and relevant native tests use upstream CI artifact 13104455260,
 compiled from `c9ac63354225bb67c1642b75629d6df27cc357fb`. Comparing that revision
 with the fork base lists changes only in shell tooling and its shell tests, so
 the application C++ sources match. K3 XML, theme and settings load at runtime.
-The local cold native build was stopped after this matching artifact became
-available; it is not claimed as a completed local source build.
+The local cold desktop build was stopped after matching native artifacts and
+the completed ARM build supplied the required evidence; it is not claimed as a
+completed local desktop source build.
 
 The new portrait XML initially needed an entry in the upstream guard census.
 Its 17 machine guards are now registered in
@@ -65,8 +66,20 @@ claim is made. The separate deliberate printer-retention test break did run.
 
 The [K3 Pi build](https://github.com/alextverdyy/helixscreen-k3/actions/workflows/k3-pi.yml)
 workflow cross-compiles DRM/framebuffer binaries and packages an installer.
-Its result must be checked independently; the native simulator is not evidence
-that an ARM package builds or boots.
+The [Pi run](https://github.com/alextverdyy/helixscreen-k3/actions/runs/41358544806)
+and [reviewed packaging run](https://github.com/alextverdyy/helixscreen-k3/actions/runs/41361637327)
+both succeeded. The preview tag is `k3-preview-41358544806-da4bc44` (draft).
+
+The downloaded archive passed its SHA256SUMS check. Its main binary is ELF
+AArch64, and its digest matches the embedded build provenance. The package
+contains the corrected macro rows/fixed-header XML, installer and K3 tools.
+The packaged configuration helper successfully applied the 400x1280 profile
+and exported appearance options in an isolated directory while retaining the
+first-run wizard. No ARM binary was executed on the x86 host.
+
+The main Pi binary includes both DRM and fbdev backends; a separate
+`helix-screen-fbdev` executable is not part of this archive. Native rendering
+and successful cross-compilation do not establish that a panel boots.
 
 No physical Waveshare panel or printer was available. The likely Annex K3
 7.9-inch Waveshare profile is 400x1280, but the user's exact SKU, host, wiring,
