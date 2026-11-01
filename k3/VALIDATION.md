@@ -56,6 +56,10 @@ The Wi-Fi test uses a `/tmp` symlink target while the implementation deliberatel
 rejects volatile targets. Screensaver results are recorded as fingerprint
 mismatches, without claiming a proven rendering cause.
 
+The mutation gate was attempted after pushing. Its launcher declined this
+four-core host because no configured test host was available; no mutation-pass
+claim is made. The separate deliberate printer-retention test break did run.
+
 ## Pi build and physical hardware
 
 The [K3 Pi build](https://github.com/alextverdyy/helixscreen-k3/actions/workflows/k3-pi.yml)
