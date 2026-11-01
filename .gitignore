@@ -183,3 +183,6 @@ docs/superpowers/
 # Advisory inter-session resource claims (see scripts/helix-claim)
 .helix-claims/
 
+# Native review captures and mock logs; curated screenshots live in docs/images/k3/.
+.impeccable/review/
+

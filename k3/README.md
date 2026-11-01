@@ -20,6 +20,13 @@ ls -l /dev/input/by-id/
 `doctor` prints no API keys and sends no commands to the printer. It cannot
 identify a Waveshare SKU from the label “K3”, or test physical touch alignment.
 
+The likely reference is the Annex Engineering K3's vertical Waveshare 7.9-inch
+screen. Waveshare lists its [DSI panel](https://www.waveshare.com/7.9inch-DSI-LCD.htm)
+and [HDMI panel](https://www.waveshare.com/wiki/7.9inch_HDMI_LCD) at 400x1280.
+An [Annex K3 build log](https://github.com/OldGuyMeltsPlastic/Escalade) documents
+both variants. This is evidence for a useful profile, not identification of your
+physical panel. The HDMI and DSI versions need different connections/drivers.
+
 The app uses DRM or framebuffer output. A Pi display already owned by a desktop
 compositor or another touchscreen UI needs the upstream display/service setup.
 See [installation](../docs/user/INSTALL.md). Display rotation and touch rotation
@@ -82,10 +89,18 @@ your printer image. Configure macros and the four Controls quick-action slots
 in their upstream settings. Calibration and hardware-specific controls appear
 according to detected printer capabilities.
 
-The custom Controls page scrolls in portrait mode. Motion opens the existing jog
+The custom Controls page scrolls below its fixed Emergency header in portrait
+mode. Motion opens the existing jog
 pad; cooling opens the full fan controls; every printer command still passes
 through the upstream command handling and guards. The bottom navigation remains
 available outside that scrolling content.
+
+Applying a profile installs K3 dashboard defaults in `config/default_layout.json`.
+The 400x1280 layout adds print statistics, motion, preheat, a temperature graph,
+macros and console access. Existing saved/edited home pages remain intact; reset
+the home page in its editor to use the new defaults. Existing defaults for other
+grids are merged and preserved. The target K3 grid itself is replaced deliberately
+by applying the K3 profile, with the previous file saved in the backup.
 
 ## Display profiles and colors
 
@@ -93,6 +108,7 @@ Stop the screen before running these commands and restart it afterwards:
 
 ```bash
 python3 k3/configure.py profiles
+python3 k3/configure.py apply --profile waveshare-7.9-portrait
 python3 k3/configure.py apply --profile portrait-480x800
 python3 k3/configure.py apply --profile portrait-480x1280
 python3 k3/configure.py apply --size 480x1920 --rotation 90

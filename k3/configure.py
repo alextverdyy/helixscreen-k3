@@ -6,6 +6,7 @@ Python 3.9+, standard library only. Stop HelixScreen before applying a profile.
 All changed files are backed up; exports contain appearance only, never printer keys.
 """
 import argparse
+from copy import deepcopy
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import fcntl
@@ -101,6 +102,43 @@ def update_env(text, options):
     return "\n".join(lines).strip() + "\n"
 
 
+def dashboard_defaults(existing=None):
+    """Extend only the measured 400x1280 default; preserve every other grid."""
+    layout = deepcopy(existing) if existing is not None else json.loads((ROOT / "assets/config/default_layout.json").read_text())
+    if not isinstance(layout, dict) or not isinstance(layout.get("anchors"), list):
+        raise ValueError("Existing default_layout.json must contain an anchors array.")
+    custom = json.loads((ROOT / "k3/home-layout.json").read_text())
+    variants = layout.setdefault("variants", {})
+    if not isinstance(variants, dict):
+        raise ValueError("Existing default_layout.json has invalid variants.")
+    portrait = variants.get("portrait")
+    if portrait is None:
+        portrait = {"anchors": deepcopy(layout["anchors"]),
+                    "disabled": deepcopy(layout.get("disabled", {})),
+                    "gaps": deepcopy(layout.get("gaps", {}))}
+        variants["portrait"] = portrait
+    elif isinstance(portrait, list):
+        portrait = {"anchors": portrait}
+        variants["portrait"] = portrait
+    if not isinstance(portrait, dict) or not isinstance(portrait.get("anchors"), list):
+        raise ValueError("Existing portrait defaults must contain an anchors array.")
+    if any(not isinstance(a, dict) or not isinstance(a.get("placements", {}), dict) for a in portrait["anchors"]):
+        raise ValueError("Existing portrait anchors have invalid placements.")
+    if any(not isinstance(portrait.get(k, {}), dict) for k in ("disabled", "gaps")):
+        raise ValueError("Existing portrait default metadata is invalid.")
+    key = custom["grid"]
+    for kind, field in (("placements", "id"), ("slots", "slot")):
+        for name, rect in custom[kind].items():
+            anchor = next((a for a in portrait["anchors"] if a.get(field) == name), None)
+            if anchor is None:
+                anchor = {field: name, "placements": {}}
+                portrait["anchors"].append(anchor)
+            anchor["placements"][key] = dict(zip(("col", "row", "colspan", "rowspan"), rect))
+    portrait.setdefault("disabled", {})[key] = custom["disabled"]
+    portrait.setdefault("gaps", {})[key] = custom["gaps"]
+    return layout
+
+
 def apply(directory, options):
     options = validate_options(options)
     directory = Path(directory).resolve()
@@ -124,8 +162,11 @@ def apply(directory, options):
                 theme[palette]["focus"] = options["accent"]
         env_path = directory / "helixscreen.env"
         env = env_path.read_text() if env_path.exists() else ""
+        layout_path = directory / "default_layout.json"
+        existing_layout = json.loads(layout_path.read_text()) if layout_path.exists() else None
         changes = {
             "themes/k3-violet.json": json_bytes(theme),
+            "default_layout.json": json_bytes(dashboard_defaults(existing_layout)),
             "helixscreen.env": update_env(env, options).encode(),
             "k3-appearance.json": json_bytes(options),
             "settings.json": json_bytes(settings),
@@ -163,7 +204,7 @@ def restore(directory, stamp):
         raise ValueError("Use a backup folder name, not a path.")
     backup = directory / "k3-backups" / stamp
     manifest = json.loads((backup / "manifest.json").read_text())
-    names = {"settings.json", "helixscreen.env", "themes/k3-violet.json", "k3-appearance.json"}
+    names = {"settings.json", "helixscreen.env", "themes/k3-violet.json", "k3-appearance.json", "default_layout.json"}
     if set(manifest) != names or any(type(v) is not bool for v in manifest.values()):
         raise ValueError("Invalid backup manifest.")
     # Read and validate everything before replacing any live file.

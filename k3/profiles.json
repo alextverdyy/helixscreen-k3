@@ -1,5 +1,6 @@
 {
   "auto": {"description": "Use the display mode reported by Linux (recommended)", "size": null},
+  "waveshare-7.9-portrait": {"description": "400x1280, Waveshare 7.9-inch HDMI/DSI portrait mode; verify your exact SKU", "size": "400x1280"},
   "portrait-480x800": {"description": "Portrait preview / rotated 800x480 panel", "size": "480x800"},
   "portrait-480x1280": {"description": "Tall portrait; select only for a matching panel mode", "size": "480x1280"},
   "portrait-320x1480": {"description": "Narrow portrait; select only for a matching panel mode", "size": "320x1480"},

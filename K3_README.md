@@ -27,6 +27,17 @@ This is a downstream customization of HelixScreen, not a new firmware for an
 MCU-only screen. It requires a Linux host such as a Raspberry Pi with a working
 display and touch input, plus Klipper and Moonraker on that host or on the network.
 
+## Native screenshots
+
+400x1280 captures with synthetic printer data. The printer picture is the
+upstream Voron demo asset; use Printer Manager to select your own K3 image.
+
+<img src="docs/images/k3/home.png" alt="K3 native home dashboard with mock printer data" width="200"> <img src="docs/images/k3/controls.png" alt="K3 portrait controls with fixed Emergency header and quick macros" width="200">
+
+[Motion](docs/images/k3/motion.png) · [Settings](docs/images/k3/settings.png) ·
+[Scrolled compact controls](docs/images/k3/compact-controls-scrolled.png) ·
+[Emergency confirmation](docs/images/k3/emergency-confirmation.png)
+
 ## Start here
 
 For hardware setup, installation, customization and rollback, see
@@ -51,7 +62,7 @@ Follow [upstream build prerequisites](docs/devel/ONBOARDING.md), then:
 make
 python3 k3/demo.py --size 480x800
 # No display server required for captures:
-python3 k3/demo.py --size 480x1280 --capture /tmp/k3-screenshots
+python3 k3/demo.py --size 400x1280 --capture /tmp/k3-screenshots
 python3 -m unittest discover -s k3 -p 'test_*.py' -v
 ```
 

@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-01T23:01:38.347226+00:00",
+  "title": "Design System: HelixScreen K3",
+  "extensions": {
+    "colorMeta": {
+      "screen-bg": {
+        "role": "neutral",
+        "displayName": "Screen Bg"
+      },
+      "overlay-bg": {
+        "role": "neutral",
+        "displayName": "Overlay Bg"
+      },
+      "card-bg": {
+        "role": "neutral",
+        "displayName": "Card Bg"
+      },
+      "elevated-bg": {
+        "role": "neutral",
+        "displayName": "Elevated Bg"
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Border"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Text"
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Text Muted"
+      },
+      "text-subtle": {
+        "role": "neutral",
+        "displayName": "Text Subtle"
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Primary"
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Secondary"
+      },
+      "tertiary": {
+        "role": "tertiary",
+        "displayName": "Tertiary"
+      },
+      "info": {
+        "role": "neutral",
+        "displayName": "Info"
+      },
+      "success": {
+        "role": "neutral",
+        "displayName": "Success"
+      },
+      "warning": {
+        "role": "neutral",
+        "displayName": "Warning"
+      },
+      "danger": {
+        "role": "neutral",
+        "displayName": "Danger"
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Focus"
+      }
+    },
+    "typographyMeta": {
+      "heading-small": {
+        "displayName": "Small heading",
+        "purpose": "Native font_heading at Small breakpoint."
+      },
+      "body-small": {
+        "displayName": "Small body",
+        "purpose": "Native font_body at Small breakpoint."
+      },
+      "label-small": {
+        "displayName": "Small supporting label",
+        "purpose": "Native font_small at Small breakpoint."
+      },
+      "metadata-small": {
+        "displayName": "Small metadata",
+        "purpose": "Native font_xs at Small breakpoint."
+      }
+    },
+    "shadows": [
+      {
+        "name": "k3-resting",
+        "value": "none",
+        "purpose": "K3 theme shadow intensity and opacity are zero."
+      }
+    ],
+    "motion": [],
+    "breakpoints": [
+      {
+        "name": "micro",
+        "value": "min(width,height) <= 272px"
+      },
+      {
+        "name": "tiny",
+        "value": "273px\u2013390px"
+      },
+      {
+        "name": "small",
+        "value": "391px\u2013460px"
+      },
+      {
+        "name": "medium",
+        "value": "461px\u2013550px"
+      },
+      {
+        "name": "large",
+        "value": "551px\u2013700px"
+      },
+      {
+        "name": "xlarge",
+        "value": "701px\u20131000px"
+      },
+      {
+        "name": "xxlarge",
+        "value": "min(width,height) > 1000px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "description": "Native ui_button primary variant; runtime contrast and state styling remain authoritative. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
+      "refersTo": "button-primary"
+    },
+    {
+      "name": "Secondary macro action",
+      "kind": "button",
+      "description": "Native secondary quick macro; content-height container. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
+      "refersTo": "button-secondary"
+    },
+    {
+      "name": "Emergency action",
+      "kind": "button",
+      "description": "Native danger variant outside the Controls scroller, using the existing emergency handler. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
+      "refersTo": "button-danger"
+    },
+    {
+      "name": "Control group",
+      "kind": "card",
+      "description": "Native full-width ui_card with responsive theme radius. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
+      "refersTo": "card"
+    },
+    {
+      "name": "Text field",
+      "kind": "input",
+      "description": "Existing ui_text_input; native keyboard, focus and error behavior. Native LVGL documentation only; no HTML/CSS emulation is supplied."
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "description": "Native orientation-aware navigation_bar; portrait bottom strip and landscape leading strip. Native LVGL documentation only; no HTML/CSS emulation is supplied."
+    }
+  ],
+  "narrative": {
+    "northStar": "",
+    "overview": "HelixScreen K3 extends the existing native embedded Linux/LVGL interface. Charcoal surfaces, violet actions and pale lavender icons follow the user\u2019s portrait reference while retaining the upstream component vocabulary, typography and broad printer functionality.\n\nThe visual character is compact, calm and operational. Group related readings and actions in clear tonal containers; reserve semantic colors for the state or command they communicate. This documents the implemented K3 theme and portrait extension, not a replacement identity for upstream HelixScreen.",
+    "keyCharacteristics": [
+      "Charcoal tonal surfaces with violet action emphasis.",
+      "Native Noto Sans text and Material Design Icons.",
+      "Full-width portrait groups with reachable scrolling content.",
+      "Existing command handlers, feature discovery and machine guards."
+    ],
+    "rules": [
+      {
+        "name": "Semantic State",
+        "body": "Use danger, warning, success and info for their existing state meanings; violet identifies ordinary primary actions.",
+        "section": "colors"
+      },
+      {
+        "name": "Native Hierarchy",
+        "body": "Reuse upstream responsive font tokens and MDI assets; do not introduce web fonts, a new display face or an unrelated icon family.",
+        "section": "typography"
+      },
+      {
+        "name": "Tonal Depth",
+        "body": "Separate resting surfaces with the existing background ladder and borders; the K3 preset has no visible drop shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the Emergency action above the portrait Controls scroll container.",
+      "Do let quick macro content determine its card height.",
+      "Do use runtime responsive tokens and existing native components.",
+      "Do preserve user-edited home layouts, other resolution defaults and command guards.",
+      "Do review both first-view and scrolled content at the target resolution."
+    ],
+    "donts": [
+      "Don\u2019t apply the 400\u00d71280 home grid to every display.",
+      "Don\u2019t treat mock screenshots as physical touch, printer or display validation.",
+      "Don\u2019t replace semantic state colors with violet for decoration.",
+      "Don\u2019t turn incidental truncation, clipping or a transient mock value into a design rule."
+    ]
+  }
+}

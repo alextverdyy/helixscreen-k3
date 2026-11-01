@@ -153,6 +153,54 @@ class ConfigurationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             configure.restore(self.path, "../../elsewhere")
 
+    def test_k3_dashboard_regions_fill_grid_without_overlap(self):
+        custom = json.loads((configure.ROOT / "k3/home-layout.json").read_text())
+        occupied = set()
+        for name, rect in dict(custom["placements"], **custom["slots"]).items():
+            col, row, width, height = rect
+            with self.subTest(widget=name):
+                self.assertGreater(width, 0)
+                self.assertGreater(height, 0)
+                cells = {(c, r) for c in range(col, col + width) for r in range(row, row + height)}
+                self.assertTrue(all(0 <= c < 10 and 0 <= r < 28 for c, r in cells))
+                self.assertFalse(cells & occupied)
+                occupied |= cells
+        self.assertEqual(len(occupied), 280)
+
+    def test_k3_dashboard_does_not_modify_other_grid_defaults(self):
+        original = json.loads((configure.ROOT / "assets/config/default_layout.json").read_text())
+        custom = configure.dashboard_defaults()
+        self.assertEqual(original["anchors"], custom["anchors"])
+        self.assertEqual(original["variants"]["ultrawide"], custom["variants"]["ultrawide"])
+        key = "small@10x28"
+        for entry in original["variants"]["portrait"]["anchors"]:
+            after = next(a for a in custom["variants"]["portrait"]["anchors"] if a.get("id", a.get("slot")) == entry.get("id", entry.get("slot")))
+            for grid, placement in entry["placements"].items():
+                if grid != key:
+                    self.assertEqual(after["placements"][grid], placement)
+
+    def test_existing_user_default_layout_customizations_survive(self):
+        original = json.loads((configure.ROOT / "assets/config/default_layout.json").read_text())
+        original["user_note"] = "Retain my dashboard defaults"
+        original["anchors"][0]["placements"]["medium"]["colspan"] = 5
+        original["variants"]["portrait"]["anchors"][0]["placements"]["medium"]["rowspan"] = 5
+        (self.path / "default_layout.json").write_bytes(configure.json_bytes(original))
+        backup = configure.apply(self.path, {})
+        after = json.loads((self.path / "default_layout.json").read_text())
+        self.assertEqual(after["user_note"], original["user_note"])
+        self.assertEqual(after["anchors"], original["anchors"])
+        self.assertEqual(after["variants"]["portrait"]["anchors"][0]["placements"]["medium"]["rowspan"], 5)
+        configure.restore(self.path, backup.name)
+        self.assertEqual(json.loads((self.path / "default_layout.json").read_text()), original)
+
+    def test_invalid_user_default_layout_is_not_replaced(self):
+        content = b'{"anchors": "invalid"}'
+        (self.path / "default_layout.json").write_bytes(content)
+        with self.assertRaises(ValueError):
+            configure.apply(self.path, {})
+        self.assertEqual((self.path / "default_layout.json").read_bytes(), content)
+        self.assertFalse((self.path / "settings.json").exists())
+
 
 if __name__ == "__main__":
     unittest.main()
