@@ -1,0 +1,25 @@
+name: K3 Pi build
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pi:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install packaging tools
+        run: sudo apt-get update && sudo apt-get install -y python3-venv zip
+      - name: Build Pi DRM and framebuffer binaries
+        run: make pi-all-docker HELIX_PACKAGING=1 ENABLE_REMOTE_CONTROL=no ENABLE_MOCKS=no DBGLEVEL=0
+      - name: Package the complete application and installer
+        run: make release-pi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k3-pi-arm64-installer
+          path: |
+            releases/helixscreen-pi-*.tar.gz
+          if-no-files-found: error

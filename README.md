@@ -1,3 +1,7 @@
+> **HelixScreen K3 fork:** start with [K3_README.md](K3_README.md) for the Waveshare
+> setup, violet theme, portrait controls, customization tool and validation status.
+> The upstream project documentation follows below.
+
 <p align="center">
   <img src="assets/images/helix-icon-256.png" alt="HelixScreen" width="128"/>
   <br>
