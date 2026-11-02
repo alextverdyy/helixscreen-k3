@@ -38,13 +38,15 @@ display and touch input, plus Klipper and Moonraker on that host or on the netwo
 ## Native screenshots
 
 400x1280 captures with synthetic printer data. The printer picture is the Annex K3 raster from the supplied reference project.
-Use Printer Manager to change it. The 400px Home follows the reference hierarchy;
-axis jogging remains on the native Motion screen, and 480px Home retains the
-upstream composition.
+Use Printer Manager to change it. The 400px Home and portrait Control screens
+follow the supplied reference composition directly in native LVGL (including
+three-column machine statistics, the 90px `Print` action, `Move`/`Preheat`/`Extrude`
+rows, and the inline circular XY jog wheel with fan step controls on Control),
+while 480px Home retains the upstream composition.
 
-<img src="docs/images/k3/home.png" alt="K3 native home dashboard with mock printer data" width="200"> <img src="docs/images/k3/controls.png" alt="K3 portrait controls with fixed Emergency header and quick macros" width="200">
+<img src="docs/images/k3/home.png" alt="K3 native home dashboard with mock printer data" width="200"> <img src="docs/images/k3/controls.png" alt="K3 portrait controls with inline circular jog wheel and fixed Emergency header" width="200">
 
-[Motion](docs/images/k3/motion.png) · [Settings](docs/images/k3/settings.png) ·
+[Controls (scrolled)](docs/images/k3/controls-scrolled.png) · [Motion](docs/images/k3/motion.png) · [Settings](docs/images/k3/settings.png) ·
 [Scrolled compact controls](docs/images/k3/compact-controls-scrolled.png) ·
 [Emergency confirmation](docs/images/k3/emergency-confirmation.png)
 

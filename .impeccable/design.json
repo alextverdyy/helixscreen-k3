@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-02T00:16:41.762659+00:00",
+  "generatedAt": "2026-11-02T18:00:00.000000+00:00",
   "title": "Design System: HelixScreen K3",
   "extensions": {
     "colorMeta": {
@@ -67,6 +67,10 @@
       "focus": {
         "role": "neutral",
         "displayName": "Focus"
+      },
+      "selected-surface": {
+        "role": "secondary",
+        "displayName": "Selected Surface"
       }
     },
     "typographyMeta": {
@@ -85,6 +89,30 @@
       "metadata-small": {
         "displayName": "Small metadata",
         "purpose": "Native font_xs at Small breakpoint."
+      },
+      "portrait-display": {
+        "displayName": "Portrait Print hero",
+        "purpose": "40px bold Noto Sans CTA label on Home Print button."
+      },
+      "portrait-title": {
+        "displayName": "Portrait title & stat value",
+        "purpose": "28px bold Noto Sans for K3/Control headers and 3-column statistics values."
+      },
+      "portrait-subsection": {
+        "displayName": "Portrait subsection",
+        "purpose": "20px bold Noto Sans for Cooling and One-Tap Macros titles."
+      },
+      "portrait-section": {
+        "displayName": "Portrait action row & position",
+        "purpose": "18px bold Noto Sans for Home action rows and Position readouts."
+      },
+      "portrait-action": {
+        "displayName": "Portrait control button",
+        "purpose": "16px bold/regular Noto Sans for Homing, step selector, Z jog, fan step, and macro buttons."
+      },
+      "portrait-nav-label": {
+        "displayName": "Portrait nav & group label",
+        "purpose": "14px bold Noto Sans for navigation labels and uppercase group headings."
       }
     },
     "shadows": [
@@ -135,104 +163,86 @@
       "platform": "C++ / LVGL / XML",
       "theme": "assets/config/themes/defaults/k3-violet.json",
       "portrait": "ui_xml/portrait/",
+      "dashboardComponent": "ui_xml/components/panel_widget_k3_dashboard.xml",
+      "dashboardWidget": "src/ui/panel_widgets/k3_dashboard_widget.cpp",
       "homeLayout": "k3/home-layout.json",
       "primaryTarget": "400x1280",
       "secondaryTarget": "480x800",
       "evidence": [
-        ".impeccable/review/native-reference-400/",
-        ".impeccable/review/native-reference-480/"
+        ".impeccable/review/exact-reference-400/",
+        ".impeccable/review/exact-reference-480/"
       ],
-      "validationLimits": "Mock simulator evidence only; no hardware validation or pixel-parity claim."
+      "validationLimits": "Mock simulator evidence only; no hardware validation."
     },
     "homeGrid": {
       "grid": "small@10x28",
       "description": "K3 400x1280 home dashboard defaults; existing edited home pages are preserved.",
       "placements": {
-        "printer_image": [
+        "k3_dashboard": [
           0,
           0,
           10,
-          13
-        ],
-        "print_stats": [
-          0,
-          13,
-          10,
-          3
-        ],
-        "print_status": [
-          0,
-          16,
-          10,
-          4
-        ],
-        "motion": [
-          0,
-          20,
-          10,
-          2
-        ],
-        "preheat": [
-          0,
-          22,
-          10,
-          2
-        ],
-        "macros": [
-          0,
-          24,
-          5,
-          2
-        ],
-        "gcode_console": [
-          5,
-          24,
-          5,
-          2
+          28
         ]
       },
       "slots": {},
       "disabled": [
-        "tips",
-        "temperature",
-        "bed_temperature",
-        "temp_stack",
-        "fan_stack",
-        "temp_graph",
-        "notifications",
-        "network",
-        "led",
         "active_spool",
-        "filament",
-        "dryer",
+        "ams",
+        "bed_temperature",
         "chamber_temperature",
-        "ams"
+        "dryer",
+        "fan_stack",
+        "filament",
+        "gcode_console",
+        "led",
+        "macros",
+        "motion",
+        "network",
+        "notifications",
+        "preheat",
+        "print_stats",
+        "print_status",
+        "printer_image",
+        "temp_graph",
+        "temp_stack",
+        "temperature",
+        "tips"
       ],
-      "gaps": [
-        [
-          0,
-          26,
-          10,
-          2
-        ]
-      ]
+      "gaps": []
     },
     "nativeGeometry": {
       "navigation": {
-        "height": 128,
-        "mainHeight": 80,
-        "secondaryHeight": 44,
-        "gap": 4,
+        "widthPct": 94,
+        "radius": 24,
+        "bottomOffset": 12,
+        "height": 132,
+        "heightWithSafety": 180,
+        "tabHeight": 96,
         "safetySlot": 44,
         "editorButtonHeight": 64
+      },
+      "home": {
+        "printerCardHeight": 536,
+        "statusCardHeight": 54,
+        "printerFrameHeight": 388,
+        "tempChipHeight": 40,
+        "statsCardHeight": 128,
+        "printButtonHeight": 90,
+        "actionRowHeight": 56
       },
       "controls": {
         "outerPadding": 12,
         "gap": 12,
         "cardPadding": 14,
         "cardRadius": 16,
-        "macroHeight": 52,
-        "toolsGridHeight": 196
+        "positionCardHeight": 64,
+        "homingCardHeight": 108,
+        "axisControlsCardHeight": 422,
+        "jogWheelSize": 224,
+        "jogHomeSize": 74,
+        "coolingCardHeight": 272,
+        "macroHeight": 48
       }
     }
   },
@@ -240,107 +250,107 @@
     {
       "name": "Primary action",
       "kind": "button",
-      "description": "Native ui_button primary variant; runtime contrast and state styling remain authoritative. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
+      "description": "Native ui_button primary variant (#8047FF); runtime contrast and state styling remain authoritative. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
       "refersTo": "button-primary"
     },
     {
-      "name": "Quick macro action",
+      "name": "One-Tap Macro action",
       "kind": "button",
-      "description": "Native outline macro buttons at 52px in content-height rows; configured Light cells use secondary treatment.",
+      "description": "Native 48px elevated macro buttons in content-height rows bound to upstream macro slots.",
       "refersTo": "portrait-macro"
     },
     {
       "name": "Emergency action",
       "kind": "button",
-      "description": "Controls header: 48px ghost button with danger text/border/translucent fill. Navigation: 44px circular danger button in fixed root slot. Existing callbacks and state visibility remain authoritative.",
+      "description": "Home and Controls headers: 48px shell ui_button with #danger alert_circle icon, #text label, and translucent danger fill/border. Navigation safety slot: 44px circular danger button. Existing callbacks and confirmation dialog remain authoritative.",
       "refersTo": "button-danger"
     },
     {
       "name": "Control group",
       "kind": "card",
-      "description": "Native full-width ui_card with 16px radius, 14px padding and 12px gaps.",
+      "description": "Native full-width ui_card with 16px radius, 14px padding, 12px gaps, and #353843 border.",
       "refersTo": "portrait-control-card"
     },
     {
       "name": "Text field",
       "kind": "input",
-      "description": "Existing ui_text_input; native keyboard, focus and error behavior. Native LVGL documentation only; no HTML/CSS emulation is supplied."
+      "description": "Existing ui_text_input; native keyboard, focus, and error behavior. Native LVGL documentation only; no HTML/CSS emulation is supplied."
     },
     {
       "name": "Navigation",
       "kind": "nav",
-      "description": "Native portrait 80px main row plus 44px secondary row and 4px gap; fixed 44px safety slots; 64px editor controls. Upstream selected/disabled subjects remain authoritative.",
+      "description": "Inset 94%-width floating portrait dock (24px radius, 132px height normal, 180px with 44px safety row) containing four 96px tabs (Home, Print, Control, Settings) with #3B2B6D active pill fill.",
       "refersTo": "portrait-navigation"
     },
     {
       "name": "Home action row",
       "kind": "button",
       "refersTo": "portrait-action-row",
-      "description": "Native horizontal Motion/Macros/Console rows with upstream callbacks and connection guards."
+      "description": "56px horizontal Move, Preheat, and Extrude cards with leading lavender icon, 18px bold label, and trailing chevron."
     },
     {
-      "name": "Print files",
+      "name": "Print button",
       "kind": "button",
       "refersTo": "portrait-print-button",
-      "description": "72px native primary action; 44px Reprint Last and conditional Job Queue below."
+      "description": "90px full-width primary violet button with 32px printer icon and 40px bold Print label."
     },
     {
       "name": "Machine statistics",
       "kind": "custom",
-      "description": "Native weekly hero and lifetime support bindings; 16px bold title, 24px bold hero, 14px support."
+      "description": "128px three-column card binding k3_total_time, k3_print_count, and k3_filament_used (in meters from Moonraker)."
     }
   ],
   "narrative": {
     "northStar": "",
-    "overview": "HelixScreen K3 extends the existing native embedded Linux/LVGL interface. Charcoal surfaces, violet actions and pale lavender icons follow the user’s portrait reference while retaining the upstream component vocabulary, typography and broad printer functionality.\n\nThe visual character is compact, calm and operational. Group related readings and actions in clear tonal containers; reserve semantic colors for the state or command they communicate. This documents the implemented K3 theme and portrait extension, not a replacement identity for upstream HelixScreen.",
+    "overview": "HelixScreen K3 extends the existing native embedded Linux/LVGL interface. Charcoal surfaces, electric violet actions, and pale lavender icons match the user’s supplied portrait Home and Control reference images while retaining the upstream component vocabulary, typography, and broad printer functionality.\n\nThe visual character is compact, calm, and operational. Related readings and controls sit inside dark tonal containers with subtle borders, while semantic colors are reserved for the state or command they communicate. This documents the implemented K3 theme and portrait extension, not a replacement identity for upstream HelixScreen.",
     "keyCharacteristics": [
-      "Charcoal tonal surfaces with violet action emphasis.",
-      "Native Noto Sans text and Material Design Icons.",
-      "Full-width portrait groups with reachable scrolling content.",
-      "Existing command handlers, feature discovery and machine guards."
+      "Charcoal tonal surfaces (#101118 screen, #161920 cards, #252832 elevated controls) with electric violet (#8047FF) primary emphasis.",
+      "Native Noto Sans bitmap faces (including Tier 3 noto_sans_bold_40 and noto_sans_bold_28) and Material Design Icons.",
+      "Exact portrait Home dashboard (k3_dashboard) and scrollable portrait Control cards with an inline 224px circular XY jog wheel.",
+      "Existing Moonraker command handlers, feature discovery, and machine guards preserved end-to-end."
     ],
     "rules": [
       {
         "name": "Semantic State",
-        "body": "Use danger, warning, success and info for their existing state meanings; violet identifies ordinary primary actions.",
+        "body": "Use danger, warning, success, and info for their existing state meanings; violet identifies ordinary primary actions and active step/tab selection.",
         "section": "colors"
       },
       {
         "name": "Native Hierarchy",
-        "body": "Reuse upstream responsive font tokens and MDI assets; do not introduce web fonts, a new display face or an unrelated icon family.",
+        "body": "Reuse upstream responsive font tokens, registered Noto Sans bitmap sizes, and MDI assets; do not introduce web fonts, a new display face, or an unrelated icon family.",
         "section": "typography"
       },
       {
         "name": "Tonal Depth",
-        "body": "Separate resting surfaces with the existing background ladder and borders; the K3 preset has no visible drop shadows.",
+        "body": "Separate resting surfaces with the existing background ladder and subtle #353843 borders; the K3 preset has no visible drop shadows.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do keep the Emergency action above the portrait Controls scroll container.",
-      "Do let quick macro content determine its card height.",
-      "Do use runtime responsive tokens and existing native components.",
-      "Do preserve user-edited home layouts, other resolution defaults and command guards.",
-      "Do review both first-view and scrolled content at the target resolution."
+      "Do keep the Emergency action visible in the fixed header on both Home and portrait Controls.",
+      "Do route inline jog wheel and fan step controls through the native MotionPanel and MoonrakerAPI safety paths.",
+      "Do report Moonraker filament usage honestly in meters (m) rather than inventing filament density to show kilograms.",
+      "Do preserve user-edited home layouts, other resolution defaults, and all upstream panel reachability (via Settings rows when using the 4-tab dock).",
+      "Do review both first-view and scrolled content at 400×1280 and 480×800."
     ],
     "donts": [
-      "Don’t apply the 400×1280 home grid to every display.",
-      "Don’t treat mock screenshots as physical touch, printer or display validation.",
-      "Don’t replace semantic state colors with violet for decoration.",
-      "Don’t turn incidental truncation, clipping or a transient mock value into a design rule."
+      "Don’t apply the 400×1280 k3_dashboard home grid to every display resolution.",
+      "Don’t treat mock simulator screenshots or ARM64 cross-builds as physical touch, printer, or display validation.",
+      "Don’t replace semantic state colors (danger, warning, success, info) with violet for decoration.",
+      "Don’t rely on ui_button default ghost label/icon recoloring when a button needs a #danger icon paired with a #text label; use a shell <ui_button text=\"\"> with explicit children."
     ]
   },
   "tokens": {
     "colors": {
-      "screen-bg": "#101116",
+      "screen-bg": "#101118",
       "overlay-bg": "#171921",
-      "card-bg": "#1B1D27",
-      "elevated-bg": "#292C3B",
-      "border": "#454354",
-      "text": "#F5F3FF",
-      "text-muted": "#B9B5CC",
+      "card-bg": "#161920",
+      "elevated-bg": "#252832",
+      "border": "#353843",
+      "text": "#F4F4F7",
+      "text-muted": "#ADB0BD",
       "text-subtle": "#A29CB7",
-      "primary": "#7946E8",
+      "primary": "#8047FF",
       "secondary": "#C4B5FD",
       "tertiary": "#71D4C1",
       "info": "#98C8FF",
@@ -348,6 +358,7 @@
       "warning": "#F5C879",
       "danger": "#FF879A",
       "focus": "#C4B5FD",
+      "selected-surface": "#3B2B6D",
       "light-screen-bg": "#F2F0F8",
       "light-overlay-bg": "#E9E5F2",
       "light-card-bg": "#FFFFFF",
@@ -386,9 +397,19 @@
         "fontSize": "10px",
         "fontWeight": 300
       },
+      "portrait-display": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "40px",
+        "fontWeight": 700
+      },
       "portrait-title": {
         "fontFamily": "Noto Sans",
         "fontSize": "28px",
+        "fontWeight": 700
+      },
+      "portrait-subsection": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "20px",
         "fontWeight": 700
       },
       "portrait-section": {
@@ -396,19 +417,14 @@
         "fontSize": "18px",
         "fontWeight": 700
       },
-      "portrait-hero": {
-        "fontFamily": "Noto Sans",
-        "fontSize": "24px",
-        "fontWeight": 700
-      },
       "portrait-action": {
         "fontFamily": "Noto Sans",
         "fontSize": "16px",
-        "fontWeight": 400
+        "fontWeight": 700
       },
       "portrait-nav-label": {
         "fontFamily": "Noto Sans",
-        "fontSize": "12px",
+        "fontSize": "14px",
         "fontWeight": 700
       }
     },
@@ -417,7 +433,9 @@
       "bold-medium": "10px",
       "portrait-card": "16px",
       "portrait-chip": "20px",
-      "portrait-selection": "12px"
+      "portrait-selection": "16px",
+      "portrait-dock": "24px",
+      "portrait-wheel": "112px"
     },
     "spacing": {
       "space-xxs-small": "2px",
@@ -429,7 +447,7 @@
       "space-2xl-small": "24px",
       "portrait-outer": "12px",
       "portrait-card": "14px",
-      "portrait-action-inset": "16px"
+      "portrait-action-inset": "18px"
     },
     "components": {
       "button-primary": {
@@ -456,24 +474,26 @@
         "padding": "{spacing.portrait-card}"
       },
       "portrait-action-row": {
-        "backgroundColor": "{colors.elevated-bg}",
+        "backgroundColor": "{colors.card-bg}",
         "textColor": "{colors.text}",
         "rounded": "{rounded.portrait-card}",
-        "typography": "{typography.portrait-section}"
+        "typography": "{typography.portrait-section}",
+        "height": "56px"
       },
       "portrait-print-button": {
         "backgroundColor": "{colors.primary}",
-        "typography": "{typography.portrait-hero}",
-        "height": "72px"
+        "typography": "{typography.portrait-display}",
+        "rounded": "{rounded.portrait-card}",
+        "height": "90px"
       },
       "portrait-navigation": {
         "backgroundColor": "{colors.card-bg}",
-        "rounded": "{rounded.portrait-card}",
-        "height": "128px"
+        "rounded": "{rounded.portrait-dock}",
+        "height": "132px"
       },
       "portrait-macro": {
         "typography": "{typography.portrait-action}",
-        "height": "52px"
+        "height": "48px"
       }
     }
   }

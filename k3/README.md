@@ -101,17 +101,27 @@ in their upstream settings. Calibration and hardware-specific controls appear
 according to detected printer capabilities.
 
 The custom Controls page scrolls below its fixed Emergency header in portrait
-mode. Motion opens the existing jog
-pad; cooling opens the full fan controls; every printer command still passes
-through the upstream command handling and guards. The bottom navigation remains
-available outside that scrolling content.
+mode. It provides three-column Position readouts, Homing (`All`, `XY`, `Z`),
+Axis Controls (`5mm`/`10mm`/`25mm`/`50mm` step selector, inline 224px circular
+XY jog wheel with center Home button, `Z+`/`Z-`, and `Disable Motors`), Cooling
+(`Part Fan` and `Aux Fan` `-10%`/`Off`/`+10%`), and One-Tap Macros. Every
+printer command passes through the upstream `MotionPanel`, `ControlsPanel`, and
+`MoonrakerAPI` handlers and guards. The floating four-tab bottom navigation
+(`Home`, `Print`, `Control`, `Settings`) stays outside the scrolling content,
+and portrait `Settings` includes direct rows for `Move axes`,
+`Filament & Extrusion`, and `Printer tools` so all upstream panels remain
+reachable.
 
 Applying a profile installs K3 dashboard defaults in `config/default_layout.json`.
-The 400x1280 layout adds print statistics, motion, preheat, a temperature graph,
-macros and console access. Existing saved/edited home pages remain intact; reset
-the home page in its editor to use the new defaults. Existing defaults for other
-grids are merged and preserved. The target K3 grid itself is replaced deliberately
-by applying the K3 profile, with the previous file saved in the backup.
+The 400x1280 layout places `k3_dashboard` across the full `small@10x28` grid,
+combining the `K3` printer card (`Emergency`, `State` and `Network` status
+cards, Annex K3 render, and overlaid `Nozzle`/`Bed`/`Chamber` temperature chips),
+three-column `Statistics` (`Total Time`, `Print Count`, `Filament Usage` in
+meters), the 90px `Print` button, and `Move`, `Preheat`, and `Extrude` rows.
+Existing saved/edited home pages remain intact; reset the home page in its
+editor to use the new defaults. Existing defaults for other grids are merged and
+preserved. The target K3 grid itself is replaced deliberately by applying the K3
+profile, with the previous file saved in the backup.
 
 ## Display profiles and colors
 

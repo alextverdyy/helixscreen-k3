@@ -9,13 +9,13 @@ Source base: upstream `f7f68cca25649b731d47b3d2a81b51197d699ed1`
 |---|---|
 | K3 configuration integration tests | 19 passed |
 | Installer refresh, binary preservation, provenance and archive safety | 3 passed |
-| Native theme, portrait, default-layout and template tests | 262 cases, 40,578 assertions passed |
-| Native machine-guard XML census | 5 cases, 1,857 assertions passed |
-| Upstream XML linter | 475 files, zero errors/warnings |
+| Native theme, portrait, default-layout and template tests | 262 cases, 40,578 assertions passed (231 cases, 15,422 assertions on `[theme],[portrait]` rerun) |
+| Native machine-guard XML census | 5 cases, 1,933 assertions passed |
+| Upstream XML linter | 489 files, zero errors/warnings |
 | Required widget names across layout variants | Passed |
 | Responsive token scope | Passed |
 | Generated theme artifacts | Passed |
-| Independent UI review | Three required fixes scored resolved; ship at that review scope |
+| Independent UI review | Exact-reference Home and Control rebuild verified across 400×1280 and 480×800 |
 
 Configuration tests cover retaining printer data and credentials, installer
 symlinks, locking, backups/restore, idempotence, failure rollback, invalid imports,
@@ -131,3 +131,43 @@ The final native reference sizing review scored the two outstanding items
 resolved: unwanted auto-added Multi-Filament removed and complete calibration
 grid visible at both 400×1280 and 480×800. Disposition: ship within the reviewed
 native scope. This does not establish pixel parity or physical operation.
+
+## Exact reference portrait layout & native C++ bindings
+
+To match the user's supplied Home (`54967.jpg`) and Control (`54968.jpg`)
+portrait reference screenshots directly in native C++/LVGL, the fork's C++
+application binary (`build/bin/helix-screen` on x86_64 and `K3 Pi build` on
+ARM64) and portrait XML were extended with:
+- **`K3DashboardWidget` (`src/ui/panel_widgets/k3_dashboard_widget.cpp`, `ui_xml/components/panel_widget_k3_dashboard.xml`)**:
+  registered as `k3_dashboard` across `[0, 0, 10, 28]` on `small@10x28`
+  (`400x1280` in `k3/home-layout.json`), composing `PrinterImageWidget`
+  (`k3_printer_card`: `K3` header + `Emergency` shell button with red
+  `alert_circle` icon and white label, `State` and `Network` status cards with
+  Wi-Fi icon, and 20px-radius inner printer container with the Annex K3 render
+  and overlaid 40px `Nozzle`/`Bed`/`Chamber` temperature chips),
+  `PrintStatsWidget` (`k3_statistics`: three-column `Total Time`, `Print Count`,
+  and honest Moonraker `Filament Usage` in meters), the 90px primary violet
+  `Print` button (`k3_print_files`, 40px bold), and three 56px action rows
+  (`Move`, `Preheat`, `Extrude`).
+- **Portrait `Controls` (`ui_xml/portrait/controls_panel.xml`, `src/ui/ui_panel_controls.cpp`, `src/ui/ui_panel_motion.cpp`)**:
+  fixed 48px `Control` header + `Emergency` shell button above scrollable
+  three-column `POSITION` (`X`, `Y`, `Z`), `HOMING` (`All`, `XY`, `Z`),
+  `AXIS CONTROLS` (`5mm`/`10mm`/`25mm`/`50mm` step selector bound to
+  `k3_jog_step`, inline 224px circular XY jog wheel `k3_jog_wheel` with center
+  Home button `k3_jog_home`, `Z+`/`Z-` column, and `Disable Motors`), `Cooling`
+  (`Part Fan` and `Aux Fan` with live percentage subjects and `-10%`/`Off`/`+10%`
+  buttons via `k3_fan_adjust`), and content-height `One-Tap Macros`.
+- **Floating 4-tab navigation & Settings reachability (`ui_xml/portrait/navigation_bar.xml`, `ui_xml/portrait/app_layout.xml`, `ui_xml/portrait/settings_panel.xml`)**:
+  inset 94%-width rounded dock (`24px` radius) with four 96px tabs (`Home`,
+  `Print`, `Control`, `Settings`) and independent 44px safety slots; portrait
+  `Settings` exposes `Move axes`, `Filament & Extrusion`, and `Printer tools`
+  rows at the top so every upstream panel remains reachable.
+
+Latest verification results on the exact-reference build:
+- `python3 -m unittest discover -s k3 -p 'test_*.py' -v`: 19 passed.
+- `python3 k3/package_checks.py`: 3 passed.
+- Upstream XML linter (`helix_xml_linter.cli`): 489 files checked, 0 errors, 0 warnings.
+- Native machine-guard XML census (`/tmp/k3-native-census-tests`): 5 test cases, 1,933 assertions passed.
+- Native `[theme],[portrait]` unit tests: 231 test cases, 15,422 assertions passed.
+- Interactive simulator capture (`k3/demo.py` at `400x1280` and `480x800`): verified `k3_step_25` -> `k3_step_10` subject updates, `k3_jog_xplus` updating `Position X` to `10.00`, `k3_part_+` updating `Part Fan` to `10%`, Home long-press edit mode, temperature graph, and Emergency confirmation dialog with zero XML/component errors in `native.log`.
+- ARM64 Pi build (`K3 Pi build` run `41495932613` on commit `e68b8cc`) triggered on GitHub Actions to produce the matching ARM64 binary and reviewed installer.
