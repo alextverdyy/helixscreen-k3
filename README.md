@@ -3,6 +3,17 @@
 > The upstream project documentation follows below.
 
 <p align="center">
+  <a href="docs/images/k3/home.png"><img src="docs/images/k3/home.png" alt="K3 Native Home (400x1280)" width="220"/></a>
+  <a href="docs/images/k3/controls.png"><img src="docs/images/k3/controls.png" alt="K3 Native Control (400x1280)" width="220"/></a>
+  <a href="docs/images/k3/controls-scrolled.png"><img src="docs/images/k3/controls-scrolled.png" alt="K3 Native Control Scrolled (400x1280)" width="220"/></a>
+</p>
+<p align="center">
+  <a href="K3_README.md"><strong>K3 Guide & Setup</strong></a> ·
+  <a href="docs/images/k3/"><strong>All K3 Screenshots</strong></a> ·
+  <a href="k3/VALIDATION.md"><strong>Validation Report</strong></a>
+</p>
+
+<p align="center">
   <img src="assets/images/helix-icon-256.png" alt="HelixScreen" width="128"/>
   <br>
   <h1 align="center">HelixScreen</h1>
