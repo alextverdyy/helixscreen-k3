@@ -2,72 +2,36 @@
   "grid": "small@10x28",
   "description": "K3 400x1280 home dashboard defaults; existing edited home pages are preserved.",
   "placements": {
-    "printer_image": [
+    "k3_dashboard": [
       0,
       0,
       10,
-      13
-    ],
-    "print_stats": [
-      0,
-      13,
-      10,
-      3
-    ],
-    "print_status": [
-      0,
-      16,
-      10,
-      4
-    ],
-    "motion": [
-      0,
-      20,
-      10,
-      2
-    ],
-    "preheat": [
-      0,
-      22,
-      10,
-      2
-    ],
-    "macros": [
-      0,
-      24,
-      5,
-      2
-    ],
-    "gcode_console": [
-      5,
-      24,
-      5,
-      2
+      28
     ]
   },
   "slots": {},
   "disabled": [
-    "tips",
-    "temperature",
-    "bed_temperature",
-    "temp_stack",
-    "fan_stack",
-    "temp_graph",
-    "notifications",
-    "network",
-    "led",
     "active_spool",
-    "filament",
-    "dryer",
+    "ams",
+    "bed_temperature",
     "chamber_temperature",
-    "ams"
+    "dryer",
+    "fan_stack",
+    "filament",
+    "gcode_console",
+    "led",
+    "macros",
+    "motion",
+    "network",
+    "notifications",
+    "preheat",
+    "print_stats",
+    "print_status",
+    "printer_image",
+    "temp_graph",
+    "temp_stack",
+    "temperature",
+    "tips"
   ],
-  "gaps": [
-    [
-      0,
-      26,
-      10,
-      2
-    ]
-  ]
+  "gaps": []
 }

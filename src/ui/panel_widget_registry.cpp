@@ -43,6 +43,7 @@ void register_job_queue_widget();
 void register_clog_detection_widget();
 void register_filament_buffer_widget();
 void register_print_stats_widget();
+void register_k3_dashboard_widget();
 void register_maintenance_widget();
 void register_gcode_console_widget();
 void register_bed_temperature_widget();
@@ -103,6 +104,7 @@ constexpr WidgetCategory kCatSystem = WidgetCategory::System;
 
 // clang-format off
 static std::vector<PanelWidgetDef> s_widget_defs = {
+    {"k3_dashboard", TR_NOOP("K3 Dashboard"), "home", TR_NOOP("Reference portrait dashboard"), nullptr, nullptr, kCatPrint, false, 10, 28, 8, 20, kBandColspan, kBandColspan, false, true, true, false},
     //                                                                                                                                          hint                                cat              en  col row min_c min_r max_c max_r  multi  half_c half_r merges_card
     {"printer_image",    TR_NOOP("Printer Image"),    "rotate_3d",        TR_NOOP("A picture of your printer"),    nullptr,              nullptr,                               kCatPrint,    true,  4, 4, 2, 2, 8, 6, false, true, true, false},
     {"print_status",     TR_NOOP("Print Status"),     "printer_3d",       TR_NOOP("Progress, file, and time remaining"),     nullptr,              nullptr,                               kCatPrint,    true,  4, 4, 4, 2, kBandColspan, 6, false, true, true, false},
@@ -395,6 +397,7 @@ void init_widget_registrations() {
     register_clog_detection_widget();
     register_filament_buffer_widget();
     register_print_stats_widget();
+    register_k3_dashboard_widget();
     register_maintenance_widget();
     register_gcode_console_widget();
     register_macros_widget();

@@ -1,29 +1,40 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!-- Copyright (C) 2025-2026 356C LLC; SPDX-License-Identifier: GPL-3.0-or-later -->
 <component>
   <styles>
     <style name="image_dimmed" image_opa="128" />
   </styles>
-  <view extends="lv_obj" width="100%" height="100%" style_pad_all="0" style_pad_gap="10" style_bg_opa="0%" flex_flow="column" scrollable="false">
-    <lv_obj width="100%" height="52" flex_flow="row" style_flex_cross_place="center" style_pad_all="0" style_pad_gap="8" scrollable="false">
-      <text_heading text="Printer" flex_grow="1" style_text_font="noto_sans_bold_28" style_text_color="#text" />
-      <ui_button name="k3_home_emergency" text="Emergency" icon="alert_octagon" width="content" height="44" variant="ghost" style_text_color="#danger" style_border_width="1" style_border_color="#danger" style_bg_color="#danger" style_bg_opa="20">
+  <view extends="lv_obj" width="100%" height="100%" style_pad_all="0" style_pad_gap="12" style_bg_opa="0%" flex_flow="column" scrollable="false">
+    <lv_obj width="100%" height="60" flex_flow="row" style_flex_cross_place="start" style_pad_all="0" style_pad_gap="8" scrollable="false" style_pad_top="4">
+      <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="0" height="100%" flex_grow="1" flex_flow="column" style_pad_gap="0">
+        <text_body text="Printer" style_text_font="noto_sans_bold_28" style_text_color="#text" clickable="false" event_bubble="true" />
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="content" flex_flow="row" style_pad_gap="4">
+          <text_body text="" style_text_font="noto_sans_14" style_text_color="#text_muted" clickable="false" event_bubble="true" bind_text="print_state" />
+          <text_body text="|" style_text_font="noto_sans_14" style_text_color="#text_muted" clickable="false" event_bubble="true" />
+          <text_body text="" style_text_font="noto_sans_14" style_text_color="#text_muted" clickable="false" event_bubble="true" bind_text="printer_connection_message" long_mode="dots" width="145" />
+        </lv_obj>
+      </lv_obj>
+      <ui_button name="k3_home_emergency" text="" width="144" height="48" variant="ghost" style_text_color="#text" style_border_width="1" style_border_color="#danger" style_bg_color="#danger" style_bg_opa="25" style_radius="18" style_text_font="noto_sans_bold_14" style_border_opa="100" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="6">
         <event_cb trigger="clicked" callback="emergency_stop_clicked" />
+        <icon src="alert_circle" size="xs" variant="danger" clickable="false" event_bubble="true" />
+        <text_body text="Emergency" style_text_font="noto_sans_bold_14" style_text_color="#text" clickable="false" event_bubble="true" />
       </ui_button>
       <bind_flag_if_not_eq subject="ui_breakpoint" flag="hidden" ref_value="2" />
     </lv_obj>
-    <lv_obj width="100%" height="64" flex_flow="row" style_pad_all="0" style_pad_gap="8" scrollable="false">
-      <ui_card width="0" flex_grow="1" height="100%" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_pad_all="6" style_pad_gap="2">
-        <text_small text="State" />
-        <text_body bind_text="print_state" style_text_font="noto_sans_bold_16" />
+    <lv_obj width="100%" height="68" flex_flow="row" style_pad_all="0" style_pad_gap="8" scrollable="false">
+      <ui_card width="0" flex_grow="1" height="100%" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_pad_all="8" style_pad_gap="2" style_radius="14">
+        <text_small text="State" style_text_font="noto_sans_12" width="100%" style_text_align="center" />
+        <text_body bind_text="print_state" style_text_font="noto_sans_bold_16" width="100%" style_text_align="center" />
       </ui_card>
-      <ui_card width="0" flex_grow="1" height="100%" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_pad_all="6" style_pad_gap="2">
-        <text_small text="Network" />
-        <text_small bind_text="printer_connection_message" long_mode="dots" width="100%" style_text_align="center" />
+      <ui_card width="0" flex_grow="1" height="100%" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_pad_all="8" style_pad_gap="2" style_radius="14">
+        <lv_obj width="content" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_all="0" style_pad_gap="4" scrollable="false" clickable="false" event_bubble="true">
+          <icon src="wifi" size="xs" variant="muted" clickable="false" event_bubble="true" />
+          <text_small text="Network" style_text_font="noto_sans_12" clickable="false" event_bubble="true" />
+        </lv_obj>
+        <text_small bind_text="printer_connection_message" long_mode="dots" width="100%" style_text_align="center" style_text_font="noto_sans_bold_16" style_text_color="#text" />
       </ui_card>
       <bind_flag_if_not_eq subject="ui_breakpoint" flag="hidden" ref_value="2" />
     </lv_obj>
-    <lv_obj name="printer_container" width="100%" flex_grow="1" style_bg_color="#card_bg" style_pad_all="0" scrollable="false" align="center" clickable="true" style_radius="16" style_bg_opa="255" style_border_width="1" style_border_color="#border" style_border_opa="100" style_clip_corner="true">
+    <lv_obj name="printer_container" width="100%" flex_grow="1" style_bg_color="#card_bg" style_pad_all="0" scrollable="false" align="center" clickable="true" style_radius="20" style_bg_opa="255" style_border_width="1" style_border_color="#border" style_border_opa="100" style_clip_corner="true">
       <event_cb trigger="clicked" callback="printer_manager_clicked_cb" />
       <lv_image name="printer_image" width="100%" height="100%" inner_align="contain">
         <bind_style name="image_dimmed" subject="printer_connection_state" ref_value="0" />
@@ -109,27 +120,24 @@
       </icon>
       <lv_obj name="k3_temperature_overlay" width="100%" height="100%" style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" clickable="false" floating="true">
         <bind_flag_if_not_eq subject="ui_breakpoint" flag="hidden" ref_value="2" />
-        <ui_button name="k3_nozzle_chip" width="content" height="44" align="top_left" floating="true" style_margin_all="10" style_bg_color="#screen_bg" style_bg_opa="230" style_radius="20" variant="secondary" style_pad_hor="10">
-          <temp_display size="md" show_target="true" bind_current="extruder_temp" bind_target="extruder_target" clickable="false" event_bubble="true" />
+        <ui_button name="k3_nozzle_chip" width="content" height="40" align="top_left" floating="true" style_bg_color="#screen_bg" style_bg_opa="230" style_radius="20" variant="secondary" style_pad_hor="12" x="18" y="28" style_border_width="0">
+          <temp_display size="lg" show_target="true" bind_current="extruder_temp" bind_target="extruder_target" clickable="false" event_bubble="true" />
           <event_cb trigger="clicked" callback="printer_callout_nozzle_cb" />
           <bind_flag_if_not_eq subject="ui_breakpoint" flag="hidden" ref_value="2" />
         </ui_button>
-        <ui_button name="k3_chamber_chip" width="content" height="44" align="top_right" floating="true" style_margin_all="10" style_bg_color="#screen_bg" style_bg_opa="230" style_radius="20" variant="secondary" style_pad_hor="10">
+        <ui_button name="k3_chamber_chip" width="content" height="40" align="top_right" floating="true" style_bg_color="#screen_bg" style_bg_opa="230" style_radius="20" variant="secondary" style_pad_hor="12" x="-18" y="28" style_border_width="0">
           <bind_flag_if_eq subject="printer_has_chamber" flag="hidden" ref_value="0" />
-          <temp_display size="md" show_target="true" bind_current="chamber_temp" bind_target="chamber_effective_target" clickable="false" event_bubble="true" />
+          <temp_display size="lg" show_target="true" bind_current="chamber_temp" bind_target="chamber_effective_target" clickable="false" event_bubble="true" />
           <event_cb trigger="clicked" callback="printer_callout_chamber_cb" />
           <bind_flag_if_not_eq subject="ui_breakpoint" flag="hidden" ref_value="2" />
         </ui_button>
-        <ui_button name="k3_bed_chip" width="content" height="44" align="bottom_right" floating="true" style_margin_all="10" style_bg_color="#screen_bg" style_bg_opa="230" style_radius="20" variant="secondary" style_pad_hor="10">
-          <temp_display size="md" show_target="true" bind_current="bed_temp" bind_target="bed_target" clickable="false" event_bubble="true" />
+        <ui_button name="k3_bed_chip" width="content" height="40" align="bottom_right" floating="true" style_bg_color="#screen_bg" style_bg_opa="230" style_radius="20" variant="secondary" style_pad_hor="12" x="-18" y="-24" style_border_width="0">
+          <temp_display size="lg" show_target="true" bind_current="bed_temp" bind_target="bed_target" clickable="false" event_bubble="true" />
           <event_cb trigger="clicked" callback="printer_callout_bed_cb" />
           <bind_flag_if_not_eq subject="ui_breakpoint" flag="hidden" ref_value="2" />
         </ui_button>
       </lv_obj>
     </lv_obj>
-    <lv_obj name="printer_info_bar" width="100%" style_pad_all="0" style_max_height="0">
-      <bind_flag_if_eq subject="printer_info_visible" flag="hidden" ref_value="0" />
-      <text_small width="100%" height="content" bind_text="printer_type_text" style_text_color="#text" style_text_align="center" stroke_width="1" stroke_color="#screen_bg" stroke_opa="180" />
-    </lv_obj>
+    <lv_obj hidden="true" name="printer_info_bar" />
   </view>
 </component>

@@ -1105,6 +1105,16 @@ bool MotionPanel::handle_jog_button(const char* name, bool is_repeat) {
         spdlog::debug("[{}] Bed-moves printer: inverted Z direction for bed movement", get_name());
     }
 
+    return jog_axis_distance('z', distance, is_repeat);
+}
+
+bool MotionPanel::jog_axis_distance(char axis, double distance, bool is_repeat) {
+    if (!std::isfinite(distance) || distance == 0.0) return false;
+    if (axis == 'x') return jog(distance > 0 ? JogDirection::E : JogDirection::W,
+                                static_cast<float>(std::abs(distance)), is_repeat);
+    if (axis == 'y') return jog(distance > 0 ? JogDirection::N : JogDirection::S,
+                                static_cast<float>(std::abs(distance)), is_repeat);
+    if (axis != 'z') return false;
     // Bounds are in gcode space, so this must follow the inversion above.
     const auto bounds = helix::move_clamp_bounds(get_printer_state());
     if (bounds.has_z && helix::axis_is_homed(get_printer_state(), helix::Axis::Z)) {

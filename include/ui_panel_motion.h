@@ -199,6 +199,7 @@ class MotionPanel : public OverlayBase {
     /// a hold (a fresh press); a fresh press fully clamped at a limit warns.
     bool jog(helix::JogDirection direction, float distance_mm, bool is_repeat = false);
     void home(char axis);
+    bool jog_axis_distance(char axis, double distance, bool is_repeat = false);
 
     /// Home the named axes ("X", "XY", ...; empty homes all).
     void home_axes(const std::string& axes);

@@ -47,6 +47,8 @@ struct Subjects {
     lv_subject_t show_day_labels{};
     lv_subject_t side_by_side{};
     lv_subject_t strip_text{};
+    lv_subject_t k3_hours{}, k3_count{}, k3_filament{};
+    char k3_hours_buf[32]{}, k3_count_buf[32]{}, k3_filament_buf[32]{};
     lv_subject_t hero{};
     lv_subject_t hero_label{};
     lv_subject_t support_text{};
@@ -65,6 +67,9 @@ helix::LiveTileOwner<helix::PrintStatsWidget> s_tile;
 
 void print_stats_init_subjects() {
     s_subjects.ensure_init([] {
+        UI_MANAGED_SUBJECT_STRING(s_subj.k3_hours, s_subj.k3_hours_buf, "—", "k3_total_time", s_subjects);
+        UI_MANAGED_SUBJECT_STRING(s_subj.k3_count, s_subj.k3_count_buf, "—", "k3_print_count", s_subjects);
+        UI_MANAGED_SUBJECT_STRING(s_subj.k3_filament, s_subj.k3_filament_buf, "—", "k3_filament_used", s_subjects);
         UI_MANAGED_SUBJECT_INT(s_subj.rung, static_cast<int>(helix::SizeRung::Cell),
                                "print_stats_rung", s_subjects);
         UI_MANAGED_SUBJECT_INT(s_subj.content, static_cast<int>(helix::PrintStatsContent::Loading),
@@ -364,6 +369,15 @@ void PrintStatsWidget::refresh() {
     const int cached_jobs = hm ? static_cast<int>(hm->get_jobs().size()) : 0;
     const int64_t lifetime_prints =
         lifetime_totals_valid_ ? static_cast<int64_t>(lifetime_totals_.total_jobs) : -1;
+    if (lifetime_totals_valid_) {
+        char count[32], filament[32];
+        snprintf(count, sizeof(count), "%llu", static_cast<unsigned long long>(lifetime_totals_.total_jobs));
+        // Moonraker reports length, not mass. Never invent density/material to display kilograms.
+        snprintf(filament, sizeof(filament), "%.1fm", lifetime_totals_.total_filament_used / 1000.0);
+        helix::ui::copy_string_if_changed(&s_subj.k3_hours, format_print_hours(lifetime_totals_.total_time / 3600.0).c_str());
+        helix::ui::copy_string_if_changed(&s_subj.k3_count, count);
+        helix::ui::copy_string_if_changed(&s_subj.k3_filament, filament);
+    }
     const PrintStatsContent content = print_stats_content(loaded, cached_jobs, lifetime_prints);
     const ActivityDayStarts starts = local_day_starts(std::time(nullptr));
     const WeekActivity week = hm ? summarize_week(hm->get_jobs(), starts) : WeekActivity{};

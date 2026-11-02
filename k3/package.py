@@ -28,7 +28,7 @@ def refresh(archive, output, binary_source, data_source):
         if not binary.is_file() or not (payload / "ui_xml").is_dir():
             raise ValueError("Expected a complete HelixScreen installer archive.")
         binary_digest = hashlib.sha256(binary.read_bytes()).hexdigest()
-        for name in ('ui_xml/portrait/k3_action_row.xml', 'ui_xml/portrait/panel_widget_motion.xml', 'ui_xml/portrait/panel_widget_macros.xml', 'ui_xml/portrait/panel_widget_gcode_console.xml', 'ui_xml/portrait/panel_widget_print_stats.xml', 'ui_xml/portrait/panel_widget_preheat.xml', "ui_xml/portrait/controls_panel.xml", "ui_xml/portrait/navigation_bar.xml", "ui_xml/portrait/navbar_estop.xml",
+        for name in ("ui_xml/components/panel_widget_k3_dashboard.xml", "ui_xml/portrait/app_layout.xml", "ui_xml/portrait/settings_panel.xml", 'ui_xml/portrait/k3_action_row.xml', 'ui_xml/portrait/panel_widget_motion.xml', 'ui_xml/portrait/panel_widget_macros.xml', 'ui_xml/portrait/panel_widget_gcode_console.xml', 'ui_xml/portrait/panel_widget_print_stats.xml', 'ui_xml/portrait/panel_widget_preheat.xml', "ui_xml/portrait/controls_panel.xml", "ui_xml/portrait/navigation_bar.xml", "ui_xml/portrait/navbar_estop.xml",
                      "ui_xml/portrait/navbar_drying.xml",
                      "ui_xml/components/print_status_detailed_idle.xml", "ui_xml/portrait/print_status_detailed_idle.xml",
                      "ui_xml/portrait/panel_widget_printer_image.xml", "assets/images/printers/annex-k3.png", "assets/config/themes/defaults/k3-violet.json",
@@ -36,6 +36,7 @@ def refresh(archive, output, binary_source, data_source):
             destination = payload / name
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, destination)
+        shutil.copytree(ROOT / "ui_xml/portrait", payload / "ui_xml/portrait", dirs_exist_ok=True)
         for source in (ROOT / "k3").iterdir():
             if source.is_file() and source.suffix in (".py", ".json", ".md"):
                 (payload / "k3").mkdir(exist_ok=True)

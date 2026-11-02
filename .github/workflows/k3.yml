@@ -3,7 +3,7 @@ on:
   push:
     branches: [feature/k3]
   pull_request:
-    paths: ['k3/**', 'ui_xml/portrait/controls_panel.xml', 'assets/config/themes/defaults/k3-violet.json']
+    paths: ['k3/**', 'ui_xml/portrait/**', 'ui_xml/components/panel_widget_k3_dashboard.xml', 'assets/config/themes/defaults/k3-violet.json', 'src/ui/**', 'include/ui_panel_motion.h']
   workflow_dispatch:
 permissions:
   contents: read

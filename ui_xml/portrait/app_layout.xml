@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component>
+  <styles>
+    <style name="app_layout_landscape" flex_flow="row" />
+    <style name="app_layout_portrait" flex_flow="column_reverse" />
+  </styles>
+  <view extends="lv_obj" width="100%" height="100%" style_layout="flex" style_bg_opa="0%" style_border_width="0" style_pad_all="0" style_pad_column="0" style_flex_cross_place="center" style_pad_bottom="5">
+    <bind_style_if_eq name="app_layout_portrait" subject="ui_is_portrait" ref_value="1" />
+    <bind_style_if_not_eq name="app_layout_landscape" subject="ui_is_portrait" ref_value="1" />
+    <navigation_bar name="navbar" />
+    <lv_obj name="content_area" width="100%" height="100%" flex_grow="1" style_bg_opa="0%" style_pad_all="0" flex_flow="column">
+      <bed_drying_banner name="bed_drying_banner" />
+      <lv_obj name="panel_container" width="100%" flex_grow="1" style_bg_opa="0%" style_pad_all="0">
+        <home_panel name="home_panel" />
+        <print_select_panel name="print_select_panel" />
+        <controls_panel name="controls_panel" />
+        <filament_panel name="filament_panel" />
+        <settings_panel name="settings_panel" />
+        <advanced_panel name="advanced_panel" />
+      </lv_obj>
+    </lv_obj>
+  </view>
+</component>

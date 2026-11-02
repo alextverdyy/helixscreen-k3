@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!-- Copyright (C) 2025-2026 356C LLC; SPDX-License-Identifier: GPL-3.0-or-later -->
 <component>
   <consts>
     <px name="k3_tools_grid_height" value="196" />
     <px name="k3_action_height" value="52" />
+    <color name="k3_selected" value="0x3B2B6D" />
   </consts>
   <styles>
     <style name="motion_stacked" flex_flow="column" layout="flex" pad_row="#space_xs" />
@@ -27,311 +27,472 @@
     <style name="action_row_portrait" height="#controls_action_row_portrait" />
     <style name="indicator_homed" bg_color="#success" />
     <style name="indicator_unhomed" bg_color="#text_muted" />
+    <style name="k3_step_selected" bg_color="#k3_selected" />
+    <style name="k3_step_unselected" bg_color="#elevated_bg" />
   </styles>
-  <view name="controls_panel" extends="lv_obj" width="100%" height="100%" style_pad_all="12" style_border_width="0" flex_flow="column" style_bg_color="#screen_bg" style_pad_gap="12" scrollable="false">
+  <view name="controls_panel" extends="lv_obj" width="100%" height="100%" style_pad_left="18" style_pad_right="10" style_pad_top="16" style_pad_bottom="16" style_pad_gap="12" flex_flow="column" style_bg_color="#screen_bg" scrollable="false">
     <bind_state_if_not_eq subject="nav_buttons_enabled" state="disabled" ref_value="1" />
-    <lv_obj width="100%" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_all="0" style_pad_gap="#space_sm" scrollable="false">
-      <text_heading text="Control" flex_grow="1" style_text_font="noto_sans_bold_28" style_text_color="#text" />
-      <ui_button style_text_font="noto_sans_16" name="k3_emergency_stop" width="content" height="48" icon="alert_octagon" text="Emergency" variant="ghost" style_text_color="#danger" style_border_width="1" style_border_color="#danger" style_border_opa="100" style_bg_color="#danger" style_bg_opa="20">
+    <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="48" flex_flow="row" style_flex_cross_place="center" style_pad_gap="8">
+      <text_body text="Control" style_text_font="noto_sans_bold_28" style_text_color="#text" clickable="false" event_bubble="true" flex_grow="1" />
+      <ui_button text="" height="48" width="144" variant="ghost" style_bg_color="#danger" style_bg_opa="25" style_text_color="#text" style_text_font="noto_sans_bold_14" style_border_width="1" style_radius="18" name="k3_emergency_stop" style_border_color="#danger" style_border_opa="100" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="6">
         <event_cb trigger="clicked" callback="emergency_stop_clicked" />
+        <icon src="alert_circle" size="xs" variant="danger" clickable="false" event_bubble="true" />
+        <text_body text="Emergency" style_text_font="noto_sans_bold_14" style_text_color="#text" clickable="false" event_bubble="true" />
       </ui_button>
     </lv_obj>
-    <lv_obj name="k3_scroll_content" width="100%" height="0" flex_grow="1" flex_flow="column" style_pad_all="0" style_pad_gap="12" scrollable="true" scroll_dir="ver">
-      <lv_obj width="100%" style_pad_all="0" style_pad_gap="#space_md" scrollable="false" height="content" flex_flow="column">
-        <lv_obj width="100%" style_pad_all="0" scrollable="false" height="content">
-          <ui_card name="card_position" width="100%" height="content" flex_flow="column" style_flex_main_place="space_between" style_radius="16" style_pad_all="14" scrollable="false" clickable="true" style_pad_gap="12">
-            <event_cb trigger="clicked" callback="on_controls_quick_actions" />
-            <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_pad_gap="8" clickable="false">
-              <lv_obj width="0" height="64" style_pad_all="0" scrollable="false" flex_flow="column" style_flex_cross_place="center" style_pad_gap="4" clickable="false" flex_grow="1" style_flex_main_place="center">
-                <text_muted width="100%" text="Position X" style_text_align="center" style_text_font="noto_sans_12" />
-                <text_body style_text_font="noto_sans_bold_18" name="pos_x" bind_text="controls_pos_x" style_text_align="center" width="100%" />
-              </lv_obj>
-              <lv_obj width="0" height="64" style_pad_all="0" scrollable="false" flex_flow="column" style_flex_cross_place="center" style_pad_gap="4" clickable="false" flex_grow="1" style_flex_main_place="center">
-                <text_muted width="100%" text="Position Y" style_text_align="center" style_text_font="noto_sans_12" />
-                <text_body style_text_font="noto_sans_bold_18" name="pos_y" bind_text="controls_pos_y" style_text_align="center" width="100%" />
-              </lv_obj>
-              <lv_obj width="0" height="64" style_pad_all="0" scrollable="false" flex_flow="column" style_flex_cross_place="center" style_pad_gap="4" clickable="false" flex_grow="1" style_flex_main_place="center">
-                <text_muted width="100%" text="Position Z" style_text_align="center" style_text_font="noto_sans_12" />
-                <text_body style_text_font="noto_sans_bold_18" name="pos_z" bind_text="controls_pos_z" style_text_align="center" width="100%" />
-              </lv_obj>
-            </lv_obj>
-            <lv_obj name="btn_zoffset_tune" width="100%" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_xs" style_margin_top="#space_sm" clickable="true" scrollable="false" style_radius="16" height="40">
-              <style name="styles.press_wash" selector="pressed" />
-              <event_cb trigger="clicked" callback="on_zoffset_tune" />
-              <text_muted width="content" text="Z-Offset:" />
-              <text_body bind_text="controls_z_offset" flex_grow="1" style_text_align="right" />
-              <icon src="chevron_right" size="xs" variant="secondary" />
-            </lv_obj>
-            <ui_button style_text_font="noto_sans_16" name="btn_save_z_offset" width="100%" height="#button_height_sm" variant="success" icon="check" text="Save Z-Offset" hidden="true" moves_machine="true">
-              <bind_flag_if_eq subject="z_offset_save_available" flag="hidden" ref_value="0" />
-              <event_cb trigger="clicked" callback="on_controls_save_z_offset" />
-            </ui_button>
-            <lv_obj name="position_action_row" width="100%" style_pad_all="0" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_xs" scrollable="false">
-              <bind_style_if_eq name="action_row_landscape" subject="ui_is_portrait" ref_value="0" />
-              <bind_style_if_eq name="action_row_portrait" subject="ui_is_portrait" ref_value="1" />
-              <ui_button style_text_font="noto_sans_16" name="btn_motion" width="0" height="100%" flex_grow="1" variant="primary" style_pad_all="0" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center">
-                <lv_obj width="content" height="content" style_pad_all="0" style_bg_opa="0" style_border_width="0" style_flex_main_place="center" style_flex_cross_place="center" style_flex_track_place="center" clickable="false" event_bubble="true" scrollable="false">
-                  <bind_style_if name="motion_stacked" cond="ui_breakpoint ge 2 and ui_is_portrait eq 0" />
-                  <bind_style_if name="motion_inline" cond="ui_breakpoint le 1 or ui_is_portrait eq 1" />
-                  <icon name="btn_motion_icon" src="cursor_move" size="#controls_toggle_icon_size" clickable="false" event_bubble="true" />
-                  <text_tiny text="Motion" clickable="false" event_bubble="true">
-                    <bind_style_if name="motion_label_inline" cond="ui_breakpoint le 1 or ui_is_portrait eq 1" />
-                  </text_tiny>
-                </lv_obj>
-                <event_cb trigger="clicked" callback="on_controls_quick_actions" />
-              </ui_button>
-              <home_action_tile name="btn_motors_tile" width="#controls_toggle_width" height="100%" flex_grow="0" icon="engine" icon_variant="warning" alt_icon="engine_off" alt_icon_variant="secondary" icon_swap_subject="motors_enabled" icon_size="#controls_toggle_icon_size" label="Motors Off" label_hidden_cond="ui_breakpoint le 1" callback="on_calibration_motors" button_name="btn_motors" icon_name="btn_motors_icon" moves_machine="true" disabled_cond="motors_enabled eq 0" />
-            </lv_obj>
-          </ui_card>
+    <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="true" name="k3_scroll_content" width="100%" height="0" flex_grow="1" flex_flow="column" style_pad_gap="12" scroll_dir="ver" scrollbar_mode="off">
+      <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="64" flex_flow="row" style_pad_gap="8">
+        <lv_obj style_pad_all="6" style_bg_opa="255" style_border_width="1" scrollable="false" width="0" height="64" style_bg_color="#card_bg" style_border_color="#border" style_border_opa="150" style_radius="14" flex_grow="1" flex_flow="column" style_flex_cross_place="center" style_flex_main_place="center" style_pad_gap="2">
+          <text_body text="Position X" style_text_font="noto_sans_12" style_text_color="#text_muted" clickable="false" event_bubble="true" width="100%" style_text_align="center" />
+          <text_body text="" style_text_font="noto_sans_bold_18" style_text_color="#text" clickable="false" event_bubble="true" bind_text="motion_pos_x" width="100%" style_text_align="center" />
         </lv_obj>
-        <ui_card name="card_quick_actions" width="100%" height="content" flex_flow="column" style_flex_main_place="space_between" style_radius="16" style_pad_all="14" scrollable="false" style_pad_gap="12">
-          <lv_obj flex_flow="row" style_flex_cross_place="center" style_flex_track_place="center" style_pad_all="0" style_pad_gap="#space_sm">
-            <bind_flag_if_eq subject="macro_header_visible" flag="hidden" ref_value="0" />
-            <icon src="flash" size="sm" variant="primary" />
-            <text_body style_text_font="noto_sans_bold_18" text="Quick Actions" style_text_color="#text" />
-          </lv_obj>
-          <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_xs">
-            <text_small text="Home" width="48" style_text_font="noto_sans_14" />
-            <lv_obj width="0" height="#k3_action_height" flex_grow="1" style_radius="16" style_clip_corner="true" style_pad_all="0" style_pad_gap="0" flex_flow="row" scrollable="false" style_border_width="1" style_border_color="#text_muted" style_border_opa="60">
-              <ui_button style_text_font="noto_sans_16" name="btn_home_all" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="All" flex_grow="1" style_radius="0" style_border_width="0" moves_machine="true">
-                <bind_style name="home_btn_homed" subject="all_homed" ref_value="1" />
-                <bind_style name="home_btn_unhomed" subject="all_homed" ref_value="0" />
-                <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
-                <event_cb trigger="clicked" callback="on_controls_home_all" />
-              </ui_button>
-              <ui_button style_text_font="noto_sans_16" name="btn_home_x" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="X" flex_grow="1" style_radius="0" style_border_width="1" style_border_side="left" style_border_color="#text_muted" style_border_opa="60" moves_machine="true">
-                <bind_style name="home_btn_homed" subject="x_homed" ref_value="1" />
-                <bind_style name="home_btn_unhomed" subject="x_homed" ref_value="0" />
-                <bind_flag_if_eq subject="printer_has_individual_xyz_homing" flag="hidden" ref_value="0" />
-                <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
-                <event_cb trigger="clicked" callback="on_controls_home_x" />
-              </ui_button>
-              <ui_button style_text_font="noto_sans_16" name="btn_home_y" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="Y" flex_grow="1" style_radius="0" style_border_width="1" style_border_side="left" style_border_color="#text_muted" style_border_opa="60" moves_machine="true">
-                <bind_style name="home_btn_homed" subject="y_homed" ref_value="1" />
-                <bind_style name="home_btn_unhomed" subject="y_homed" ref_value="0" />
-                <bind_flag_if_eq subject="printer_has_individual_xyz_homing" flag="hidden" ref_value="0" />
-                <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
-                <event_cb trigger="clicked" callback="on_controls_home_y" />
-              </ui_button>
-              <ui_button style_text_font="noto_sans_16" name="btn_home_xy" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="XY" flex_grow="1" style_radius="0" style_border_width="1" style_border_side="left" style_border_color="#text_muted" style_border_opa="60" moves_machine="true">
-                <bind_style name="home_btn_homed" subject="xy_homed" ref_value="1" />
-                <bind_style name="home_btn_unhomed" subject="xy_homed" ref_value="0" />
-                <bind_flag_if_eq subject="printer_has_individual_xyz_homing" flag="hidden" ref_value="0" />
-                <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
-                <event_cb trigger="clicked" callback="on_controls_home_xy" />
-              </ui_button>
-              <ui_button style_text_font="noto_sans_16" name="btn_home_z" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="Z" flex_grow="1" style_radius="0" style_border_width="1" style_border_side="left" style_border_color="#text_muted" style_border_opa="60" moves_machine="true">
-                <bind_style name="home_btn_homed" subject="z_homed" ref_value="1" />
-                <bind_style name="home_btn_unhomed" subject="z_homed" ref_value="0" />
-                <bind_flag_if_eq subject="printer_has_individual_xyz_homing" flag="hidden" ref_value="0" />
-                <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
-                <event_cb trigger="clicked" callback="on_controls_home_z" />
-              </ui_button>
-            </lv_obj>
-          </lv_obj>
-          <lv_obj width="100%" style_pad_all="0" scrollable="false" flex_flow="column" style_pad_gap="#space_xs" style_flex_main_place="end" height="content" name="k3_macro_rows">
-            <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_pad_gap="#space_xs">
-              <ui_button style_text_font="noto_sans_16" name="btn_macro_1" width="0" height="#k3_action_height" style_pad_ver="0" flex_grow="1" bind_text="macro_1_name" variant="outline" long_mode="wrap" moves_machine="true">
-                <bind_flag_if_eq subject="macro_1_visible" flag="hidden" ref_value="0" />
-                <bind_state_if cond="macro_1_available eq 0" state="disabled" />
-                <event_cb trigger="clicked" callback="on_controls_macro" user_data="0" />
-              </ui_button>
-              <lv_obj name="macro_1_light_cell" width="0" height="#k3_action_height" flex_grow="1" style_pad_all="0" scrollable="false" hidden="true">
-                <bind_flag_if cond="macro_1_light eq 0 or led_controllable eq 0" flag="hidden" />
-                <ui_button style_text_font="noto_sans_16" name="light_button" width="100%" height="100%" style_pad_ver="0" variant="secondary" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="#space_xs" focusable="false">
-                  <bind_state_if cond="printer_connection_state ne 2 or led_command_in_flight eq 1" state="disabled" />
-                  <icon name="light_icon" src="lightbulb_outline" size="sm" variant="muted" clickable="false" event_bubble="true" />
-                  <text_small text="Light" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
-                  <event_cb trigger="clicked" callback="light_toggle_cb" />
-                </ui_button>
-              </lv_obj>
-              <ui_button style_text_font="noto_sans_16" name="btn_macro_2" width="0" height="#k3_action_height" style_pad_ver="0" flex_grow="1" bind_text="macro_2_name" variant="outline" long_mode="wrap" moves_machine="true">
-                <bind_flag_if_eq subject="macro_2_visible" flag="hidden" ref_value="0" />
-                <bind_state_if cond="macro_2_available eq 0" state="disabled" />
-                <event_cb trigger="clicked" callback="on_controls_macro" user_data="1" />
-              </ui_button>
-              <lv_obj name="macro_2_light_cell" width="0" height="#k3_action_height" flex_grow="1" style_pad_all="0" scrollable="false" hidden="true">
-                <bind_flag_if cond="macro_2_light eq 0 or led_controllable eq 0" flag="hidden" />
-                <ui_button style_text_font="noto_sans_16" name="light_button" width="100%" height="100%" style_pad_ver="0" variant="secondary" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="#space_xs" focusable="false">
-                  <bind_state_if cond="printer_connection_state ne 2 or led_command_in_flight eq 1" state="disabled" />
-                  <icon name="light_icon" src="lightbulb_outline" size="sm" variant="muted" clickable="false" event_bubble="true" />
-                  <text_small text="Light" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
-                  <event_cb trigger="clicked" callback="light_toggle_cb" />
-                </ui_button>
-              </lv_obj>
-            </lv_obj>
-            <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_pad_gap="#space_xs">
-              <ui_button style_text_font="noto_sans_16" name="btn_macro_3" width="0" height="#k3_action_height" style_pad_ver="0" flex_grow="1" bind_text="macro_3_name" variant="outline" long_mode="wrap" moves_machine="true">
-                <bind_flag_if_eq subject="macro_3_visible" flag="hidden" ref_value="0" />
-                <bind_state_if cond="macro_3_available eq 0" state="disabled" />
-                <event_cb trigger="clicked" callback="on_controls_macro" user_data="2" />
-              </ui_button>
-              <lv_obj name="macro_3_light_cell" width="0" height="#k3_action_height" flex_grow="1" style_pad_all="0" scrollable="false" hidden="true">
-                <bind_flag_if cond="macro_3_light eq 0 or led_controllable eq 0" flag="hidden" />
-                <ui_button style_text_font="noto_sans_16" name="light_button" width="100%" height="100%" style_pad_ver="0" variant="secondary" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="#space_xs" focusable="false">
-                  <bind_state_if cond="printer_connection_state ne 2 or led_command_in_flight eq 1" state="disabled" />
-                  <icon name="light_icon" src="lightbulb_outline" size="sm" variant="muted" clickable="false" event_bubble="true" />
-                  <text_small text="Light" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
-                  <event_cb trigger="clicked" callback="light_toggle_cb" />
-                </ui_button>
-              </lv_obj>
-              <ui_button style_text_font="noto_sans_16" name="btn_macro_4" width="0" height="#k3_action_height" style_pad_ver="0" flex_grow="1" bind_text="macro_4_name" variant="outline" long_mode="wrap" moves_machine="true">
-                <bind_flag_if_eq subject="macro_4_visible" flag="hidden" ref_value="0" />
-                <bind_state_if cond="macro_4_available eq 0" state="disabled" />
-                <event_cb trigger="clicked" callback="on_controls_macro" user_data="3" />
-              </ui_button>
-              <lv_obj name="macro_4_light_cell" width="0" height="#k3_action_height" flex_grow="1" style_pad_all="0" scrollable="false" hidden="true">
-                <bind_flag_if cond="macro_4_light eq 0 or led_controllable eq 0" flag="hidden" />
-                <ui_button style_text_font="noto_sans_16" name="light_button" width="100%" height="100%" style_pad_ver="0" variant="secondary" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="#space_xs" focusable="false">
-                  <bind_state_if cond="printer_connection_state ne 2 or led_command_in_flight eq 1" state="disabled" />
-                  <icon name="light_icon" src="lightbulb_outline" size="sm" variant="muted" clickable="false" event_bubble="true" />
-                  <text_small text="Light" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
-                  <event_cb trigger="clicked" callback="light_toggle_cb" />
-                </ui_button>
-              </lv_obj>
-            </lv_obj>
-          </lv_obj>
-        </ui_card>
-        <lv_obj width="100%" style_pad_all="0" scrollable="false" height="content">
-          <ui_card name="card_temperatures" width="100%" height="content" flex_flow="column" style_flex_main_place="space_between" style_pad_gap="12" style_flex_cross_place="center" style_radius="16" style_pad_all="14" scrollable="false" clickable="true">
-            <event_cb trigger="clicked" callback="on_nozzle_temp_clicked" />
-            <lv_obj width="100%" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_all="0" style_pad_gap="#space_sm" scrollable="false" clickable="false">
-              <icon src="thermometer" size="sm" variant="primary" />
-              <text_body style_text_font="noto_sans_bold_18" text="Temperature" style_text_color="#text" />
-            </lv_obj>
-            <lv_obj name="btn_nozzle_temp" width="100%" flex_flow="row" style_flex_main_place="space_between" style_flex_cross_place="center" style_margin_top="#space_xs" clickable="true" scrollable="false" style_radius="16" height="44">
-              <style name="styles.press_wash" selector="pressed" />
-              <event_cb trigger="clicked" callback="on_nozzle_temp_clicked" />
-              <lv_obj width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" clickable="false" event_bubble="true">
-                <bind_style_if_eq name="temp_row_gap_tiny" subject="ui_breakpoint" ref_value="1" />
-                <bind_style_if_ge name="temp_row_gap_standard" subject="ui_breakpoint" ref_value="2" />
-                <icon name="nozzle_icon_glyph" src="heater" size="xs" variant="secondary" clickable="false" event_bubble="true" />
-                <text_small bind_text="controls_nozzle_label" style_text_font="noto_sans_14">
-                  <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
-                </text_small>
-                <temp_display name="nozzle_temp_display" size="lg" show_target="true" bind_current="extruder_temp" bind_target="extruder_target" clickable="false" event_bubble="true" />
-              </lv_obj>
-              <lv_obj name="nozzle_temp_edit_container" width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" style_pad_gap="#space_xs" clickable="true" ext_click_area="12" style_radius="16">
-                <style name="styles.press_wash" selector="pressed" />
-                <event_cb trigger="clicked" callback="on_nozzle_target_edit" />
-                <icon src="pencil" size="xs" variant="tertiary" clickable="false" event_bubble="true" />
-              </lv_obj>
-            </lv_obj>
-            <lv_obj name="nozzle_status" width="100%" height="content" flex_flow="row" style_flex_main_place="end" style_pad_all="0" scrollable="false" clickable="false">
-              <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
-              <bind_flag_if_eq subject="ui_is_portrait" flag="hidden" ref_value="1" />
-              <heater_status state_subject="controls_nozzle_status_state" duty_subject="controls_nozzle_status" />
-            </lv_obj>
-            <lv_obj name="btn_bed_temp" width="100%" flex_flow="row" style_flex_main_place="space_between" style_flex_cross_place="center" clickable="true" scrollable="false" style_radius="16" height="44">
-              <style name="styles.press_wash" selector="pressed" />
-              <event_cb trigger="clicked" callback="on_bed_temp_clicked" />
-              <lv_obj width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" clickable="false" event_bubble="true">
-                <bind_style_if_eq name="temp_row_gap_tiny" subject="ui_breakpoint" ref_value="1" />
-                <bind_style_if_ge name="temp_row_gap_standard" subject="ui_breakpoint" ref_value="2" />
-                <heater_icon src="radiator" glyph_name="bed_icon_glyph" size="xs" />
-                <text_small text="Bed" style_text_font="noto_sans_14">
-                  <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
-                </text_small>
-                <temp_display name="bed_temp_display" size="lg" show_target="true" bind_current="bed_temp" bind_target="bed_target" clickable="false" event_bubble="true" />
-              </lv_obj>
-              <lv_obj name="bed_temp_edit_container" width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" style_pad_gap="#space_xs" clickable="true" ext_click_area="12" style_radius="16">
-                <style name="styles.press_wash" selector="pressed" />
-                <event_cb trigger="clicked" callback="on_bed_target_edit" />
-                <icon src="pencil" size="xs" variant="tertiary" clickable="false" event_bubble="true" />
-              </lv_obj>
-            </lv_obj>
-            <lv_obj name="bed_status" width="100%" height="content" flex_flow="row" style_flex_main_place="end" style_pad_all="0" scrollable="false" clickable="false">
-              <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
-              <bind_flag_if_eq subject="ui_is_portrait" flag="hidden" ref_value="1" />
-              <heater_status state_subject="controls_bed_status_state" duty_subject="controls_bed_status" />
-            </lv_obj>
-            <lv_obj name="btn_chamber_temp" width="100%" flex_flow="row" style_flex_main_place="space_between" style_flex_cross_place="center" hidden="true" clickable="true" scrollable="false" style_radius="16" height="44">
-              <style name="styles.press_wash" selector="pressed" />
-              <bind_flag_if_eq subject="printer_has_chamber" flag="hidden" ref_value="0" />
-              <event_cb trigger="clicked" callback="on_chamber_temp_clicked" />
-              <lv_obj width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" clickable="false" event_bubble="true">
-                <bind_style_if_eq name="temp_row_gap_tiny" subject="ui_breakpoint" ref_value="1" />
-                <bind_style_if_ge name="temp_row_gap_standard" subject="ui_breakpoint" ref_value="2" />
-                <heater_icon src="fridge_industrial" glyph_name="chamber_icon_glyph" size="xs" />
-                <text_small text="Chamb:" clickable="false" event_bubble="true" style_text_font="noto_sans_14">
-                  <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
-                </text_small>
-                <temp_display name="chamber_temp_display" size="lg" show_target="true" bind_current="chamber_temp" bind_target="chamber_effective_target" bind_mode="chamber_mode" clickable="false" event_bubble="true" />
-              </lv_obj>
-              <lv_obj name="chamber_temp_edit_container" width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" style_pad_gap="#space_xs" clickable="true" ext_click_area="12" style_radius="16">
-                <style name="styles.press_wash" selector="pressed" />
-                <event_cb trigger="clicked" callback="on_chamber_target_edit" />
-                <icon src="pencil" size="xs" variant="tertiary" clickable="false" event_bubble="true" />
-              </lv_obj>
-            </lv_obj>
-            <lv_obj name="chamber_status" width="100%" height="content" flex_flow="row" style_flex_main_place="end" style_pad_all="0" scrollable="false" clickable="false">
-              <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
-              <bind_flag_if_eq subject="ui_is_portrait" flag="hidden" ref_value="1" />
-              <bind_flag_if_eq subject="printer_has_chamber" flag="hidden" ref_value="0" />
-              <heater_status state_subject="controls_chamber_status_state" duty_subject="controls_chamber_status" />
-            </lv_obj>
-            <lv_obj name="secondary_temps_list" width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_flex_main_place="space_between" style_flex_cross_place="center" style_pad_top="#space_xxs" clickable="true">
-              <bind_flag_if_eq subject="controls_more_sensors_count" flag="hidden" ref_value="0" />
-              <event_cb trigger="clicked" callback="on_controls_more_sensors" />
-              <text_small name="more_sensors_label" bind_text="controls_more_sensors" style_text_color="#text_muted" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
-              <icon src="chevron_right" size="xs" variant="secondary" clickable="false" event_bubble="true" />
-            </lv_obj>
-          </ui_card>
+        <lv_obj style_pad_all="6" style_bg_opa="255" style_border_width="1" scrollable="false" width="0" height="64" style_bg_color="#card_bg" style_border_color="#border" style_border_opa="150" style_radius="14" flex_grow="1" flex_flow="column" style_flex_cross_place="center" style_flex_main_place="center" style_pad_gap="2">
+          <text_body text="Position Y" style_text_font="noto_sans_12" style_text_color="#text_muted" clickable="false" event_bubble="true" width="100%" style_text_align="center" />
+          <text_body text="" style_text_font="noto_sans_bold_18" style_text_color="#text" clickable="false" event_bubble="true" bind_text="motion_pos_y" width="100%" style_text_align="center" />
         </lv_obj>
-        <lv_obj width="100%" style_pad_all="0" scrollable="false" height="content">
-          <ui_card name="card_cooling" width="100%" height="content" flex_flow="column" style_flex_main_place="start" style_flex_cross_place="center" style_radius="16" style_pad_all="14" scrollable="false" clickable="true" style_pad_gap="12">
-            <event_cb trigger="clicked" callback="on_controls_cooling" />
-            <lv_obj width="100%" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_all="0" style_pad_gap="#space_sm" scrollable="false" clickable="false">
-              <icon name="fan_icon" src="fan" size="sm" variant="primary" />
-              <text_body style_text_font="noto_sans_bold_18" text="Cooling" style_text_color="#text" />
-            </lv_obj>
-            <text_small width="100%" text="Part Fan" style_margin_top="#space_sm" style_text_font="noto_sans_14" />
-            <lv_obj width="100%" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_sm" style_pad_left="#space_lg" style_pad_right="0" style_bg_opa="0" style_border_width="0" scrollable="false" clickable="false">
-              <bind_style_if_eq name="slider_container_compact" subject="ui_breakpoint" ref_value="1" />
-              <bind_style_if_ge name="slider_container_standard" subject="ui_breakpoint" ref_value="2" />
-              <lv_slider name="part_fan_slider" flex_grow="1" bind_value="controls_fan_pct" min_value="0" max_value="100">
-                <bind_style_if_eq name="slider_compact" subject="ui_breakpoint" ref_value="1" />
-                <event_cb trigger="value_changed" callback="on_controls_fan_slider" />
-              </lv_slider>
-              <text_body name="fan_speed_display" width="content" bind_text="controls_fan_speed">
-                <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
-              </text_body>
-            </lv_obj>
-            <lv_obj name="secondary_fans_list" width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="column" style_pad_gap="#space_xxs" style_pad_top="#space_xs" clickable="true">
-              <event_cb trigger="clicked" callback="on_controls_secondary_fans" />
-            </lv_obj>
-          </ui_card>
+        <lv_obj style_pad_all="6" style_bg_opa="255" style_border_width="1" scrollable="false" width="0" height="64" style_bg_color="#card_bg" style_border_color="#border" style_border_opa="150" style_radius="14" flex_grow="1" flex_flow="column" style_flex_cross_place="center" style_flex_main_place="center" style_pad_gap="2">
+          <text_body text="Position Z" style_text_font="noto_sans_12" style_text_color="#text_muted" clickable="false" event_bubble="true" width="100%" style_text_align="center" />
+          <text_body text="" style_text_font="noto_sans_bold_18" style_text_color="#text" clickable="false" event_bubble="true" bind_text="motion_pos_z" width="100%" style_text_align="center" />
         </lv_obj>
       </lv_obj>
-      <lv_obj width="100%" style_pad_all="0" flex_flow="column" style_pad_gap="#space_md" scrollable="false" height="content">
-        <ui_card name="card_calibration" width="100%" height="content" flex_flow="column" style_flex_main_place="start" style_radius="16" style_pad_all="14" style_pad_gap="12" scrollable="false">
-          <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_sm">
-            <icon src="wrench" size="sm" variant="primary" />
-            <text_body style_text_font="noto_sans_bold_18" text="Calibration &amp; Tools" style_text_color="#text" />
+      <lv_obj style_pad_all="14" style_bg_opa="255" style_border_width="1" scrollable="false" width="100%" height="108" style_bg_color="#card_bg" style_border_color="#border" style_border_opa="150" style_radius="20" flex_flow="column" style_pad_gap="4">
+        <text_body text="HOMING" style_text_font="noto_sans_bold_14" style_text_color="#text_muted" clickable="false" event_bubble="true" height="18" />
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="58" flex_flow="row" style_pad_gap="10">
+          <ui_button text="All" height="58" width="0" variant="ghost" style_bg_color="#k3_selected" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_home_all" flex_grow="1" icon="home" moves_machine="true">
+            <event_cb trigger="clicked" callback="on_controls_home_all" />
+            <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
+          </ui_button>
+          <ui_button text="XY" height="58" width="0" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_home_xy" flex_grow="1" icon="home" moves_machine="true">
+            <event_cb trigger="clicked" callback="on_controls_home_xy" />
+            <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
+          </ui_button>
+          <ui_button text="Z" height="58" width="0" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_home_z" flex_grow="1" icon="home" moves_machine="true">
+            <event_cb trigger="clicked" callback="on_controls_home_z" />
+            <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
+          </ui_button>
+        </lv_obj>
+      </lv_obj>
+      <lv_obj style_pad_all="14" style_bg_opa="255" style_border_width="1" scrollable="false" width="100%" height="422" style_bg_color="#card_bg" style_border_color="#border" style_border_opa="150" style_radius="20" flex_flow="column" style_pad_gap="0" style_pad_top="16" style_pad_bottom="16" style_pad_left="18">
+        <text_body text="AXIS CONTROLS" style_text_font="noto_sans_bold_14" style_text_color="#text_muted" clickable="false" event_bubble="true" height="18" />
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="58" flex_flow="row" style_pad_gap="8">
+          <ui_button text="5mm" height="58" width="0" variant="ghost" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_step_5" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_step" user_data="0" />
+            <bind_style_if_eq name="k3_step_selected" subject="k3_jog_step" ref_value="0" />
+            <bind_style_if_not_eq name="k3_step_unselected" subject="k3_jog_step" ref_value="0" />
+          </ui_button>
+          <ui_button text="10mm" height="58" width="0" variant="ghost" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_step_10" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_step" user_data="1" />
+            <bind_style_if_eq name="k3_step_selected" subject="k3_jog_step" ref_value="1" />
+            <bind_style_if_not_eq name="k3_step_unselected" subject="k3_jog_step" ref_value="1" />
+          </ui_button>
+          <ui_button text="25mm" height="58" width="0" variant="ghost" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_step_25" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_step" user_data="2" />
+            <bind_style_if_eq name="k3_step_selected" subject="k3_jog_step" ref_value="2" />
+            <bind_style_if_not_eq name="k3_step_unselected" subject="k3_jog_step" ref_value="2" />
+          </ui_button>
+          <ui_button text="50mm" height="58" width="0" variant="ghost" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_step_50" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_step" user_data="3" />
+            <bind_style_if_eq name="k3_step_selected" subject="k3_jog_step" ref_value="3" />
+            <bind_style_if_not_eq name="k3_step_unselected" subject="k3_jog_step" ref_value="3" />
+          </ui_button>
+        </lv_obj>
+        <lv_obj width="1" height="16" style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" clickable="false" />
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="224" flex_flow="row" style_pad_gap="16">
+          <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" name="k3_jog_wheel" width="224" height="224">
+            <lv_arc width="224" height="224" bg_start_angle="228" bg_end_angle="312" style_arc_width="52" style_arc_color="#elevated_bg" style_arc_rounded="false" style_arc_opa-indicator="0" style_bg_opa-knob="0" style_pad_all="0" clickable="false" />
+            <lv_arc width="224" height="224" bg_start_angle="318" bg_end_angle="42" style_arc_width="52" style_arc_color="#elevated_bg" style_arc_rounded="false" style_arc_opa-indicator="0" style_bg_opa-knob="0" style_pad_all="0" clickable="false" />
+            <lv_arc width="224" height="224" bg_start_angle="48" bg_end_angle="132" style_arc_width="52" style_arc_color="#elevated_bg" style_arc_rounded="false" style_arc_opa-indicator="0" style_bg_opa-knob="0" style_pad_all="0" clickable="false" />
+            <lv_arc width="224" height="224" bg_start_angle="138" bg_end_angle="222" style_arc_width="52" style_arc_color="#elevated_bg" style_arc_rounded="false" style_arc_opa-indicator="0" style_bg_opa-knob="0" style_pad_all="0" clickable="false" />
+            <ui_button text="" height="64" width="64" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="0" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_jog_yplus" icon="arrow_up" x="80" y="0" moves_machine="true">
+              <event_cb trigger="clicked" callback="k3_jog" user_data="y+" />
+            </ui_button>
+            <ui_button text="" height="64" width="64" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="0" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_jog_yminus" icon="arrow_down" x="80" y="160" moves_machine="true">
+              <event_cb trigger="clicked" callback="k3_jog" user_data="y-" />
+            </ui_button>
+            <ui_button text="" height="64" width="64" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="0" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_jog_xminus" icon="arrow_left" x="0" y="80" moves_machine="true">
+              <event_cb trigger="clicked" callback="k3_jog" user_data="x-" />
+            </ui_button>
+            <ui_button text="" height="64" width="64" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="0" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_jog_xplus" icon="arrow_right" x="160" y="80" moves_machine="true">
+              <event_cb trigger="clicked" callback="k3_jog" user_data="x+" />
+            </ui_button>
+            <ui_button text="" height="80" width="80" variant="ghost" style_bg_color="#k3_selected" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="40" name="k3_jog_home" icon="home" x="72" y="72" moves_machine="true">
+              <event_cb trigger="clicked" callback="on_controls_home_all" />
+            </ui_button>
           </lv_obj>
-          <lv_obj name="calib_tools_grid" width="100%" style_pad_all="0" flex_flow="row_wrap" style_flex_main_place="center" style_flex_track_place="space_evenly" style_pad_row="#space_xs" style_pad_column="#space_xs" scrollable="false" height="#k3_tools_grid_height">
-            <event_cb trigger="layout_changed" callback="on_calib_grid_layout_changed" />
-            <calib_tile icon="grid_large" label="Bed Mesh" callback="on_calibration_bed_mesh" button_name="btn_bed_mesh" icon_name="btn_bed_mesh_icon" />
-            <calib_tile icon="z_closer" label="Z Calibration" callback="on_calibration_zoffset" button_name="btn_z_calibration" icon_name="btn_z_calibration_icon" moves_machine="true">
-              <bind_flag_if cond="printer_has_tool_offset_cal eq 1 and hide_manual_z_calibration eq 1" flag="hidden" />
-            </calib_tile>
-            <calib_tile icon="axis_arrow" label="Tool Offsets" callback="on_calibration_tool_offsets" button_name="btn_tool_offsets" icon_name="btn_tool_offsets_icon" moves_machine="true" hidden="true">
-              <bind_flag_if_eq subject="printer_has_tool_offset_cal" flag="hidden" ref_value="0" />
-            </calib_tile>
-            <calib_tile icon="spirit_level" label="QGL" callback="on_controls_qgl" button_name="btn_qgl" icon_name="btn_qgl_icon" moves_machine="true" disabled_cond="controls_operation_in_progress eq 1" hidden="true">
-              <bind_flag_if cond="printer_has_qgl eq 0" flag="hidden" />
-            </calib_tile>
-            <calib_tile icon="spirit_level" label="Z-Tilt" callback="on_controls_z_tilt" button_name="btn_z_tilt" icon_name="btn_z_tilt_icon" moves_machine="true" disabled_cond="controls_operation_in_progress eq 1" hidden="true">
-              <bind_flag_if cond="printer_has_z_tilt eq 0" flag="hidden" />
-            </calib_tile>
-            <calib_tile icon="gauge" label="Pressure Adv." callback="on_calibration_pa" button_name="btn_pa_cal" icon_name="btn_pa_cal_icon" moves_machine="true" hidden="true">
-              <bind_flag_if cond="printer_has_pa_cal eq 0" flag="hidden" />
-            </calib_tile>
-            <calib_tile icon="wrench" label="Bed Screws" callback="on_calibration_screws" button_name="btn_screws" icon_name="btn_screws_icon" moves_machine="true" hidden="true">
-              <bind_flag_if cond="printer_has_screws_tilt eq 0" flag="hidden" />
-            </calib_tile>
+          <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="0" height="100%" flex_grow="1" flex_flow="column" style_pad_gap="12">
+            <ui_button text="" height="0" width="100%" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_jog_Z+" flex_grow="1" flex_flow="column" style_pad_gap="6" moves_machine="true">
+              <event_cb trigger="clicked" callback="k3_jog" user_data="z+" />
+              <icon src="arrow_up" size="sm" variant="text" clickable="false" event_bubble="true" />
+              <text_body text="Z+" style_text_font="noto_sans_bold_16" style_text_color="#text" clickable="false" event_bubble="true" />
+            </ui_button>
+            <ui_button text="" height="0" width="100%" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_jog_Z-" flex_grow="1" flex_flow="column" style_pad_gap="6" moves_machine="true">
+              <event_cb trigger="clicked" callback="k3_jog" user_data="z-" />
+              <icon src="arrow_down" size="sm" variant="text" clickable="false" event_bubble="true" />
+              <text_body text="Z-" style_text_font="noto_sans_bold_16" style_text_color="#text" clickable="false" event_bubble="true" />
+            </ui_button>
           </lv_obj>
-        </ui_card>
+        </lv_obj>
+        <lv_obj width="1" height="16" style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" clickable="false" />
+        <ui_button text="Disable Motors" height="58" width="144" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_14" style_border_width="0" style_radius="18" name="k3_disable_motors" moves_machine="true">
+          <event_cb trigger="clicked" callback="on_calibration_motors" />
+        </ui_button>
+      </lv_obj>
+      <lv_obj style_pad_all="14" style_bg_opa="255" style_border_width="1" scrollable="false" width="100%" height="272" style_bg_color="#card_bg" style_border_color="#border" style_border_opa="150" style_radius="20" flex_flow="column" style_pad_gap="5">
+        <text_body text="COOLING" style_text_font="noto_sans_bold_14" style_text_color="#text_muted" clickable="false" event_bubble="true" height="18" />
+        <text_body text="Fan Speeds" style_text_font="noto_sans_bold_20" style_text_color="#text" clickable="false" event_bubble="true" height="26" />
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="24" flex_flow="row" style_flex_main_place="space_between">
+          <text_body text="Part Fan" style_text_font="noto_sans_16" style_text_color="#text" clickable="false" event_bubble="true" />
+          <text_body text="" style_text_font="noto_sans_bold_16" style_text_color="#text" clickable="false" event_bubble="true" bind_text="k3_part_speed" />
+        </lv_obj>
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="58" flex_flow="row" style_pad_gap="10">
+          <bind_state_if_eq subject="k3_part_available" state="disabled" ref_value="0" />
+          <ui_button text="-10%" height="58" width="0" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_part_-" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_fan_adjust" user_data="p-" />
+            <bind_state_if_eq subject="k3_part_available" state="disabled" ref_value="0" />
+          </ui_button>
+          <ui_button text="Off" height="58" width="0" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_part_0" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_fan_adjust" user_data="p0" />
+            <bind_state_if_eq subject="k3_part_available" state="disabled" ref_value="0" />
+          </ui_button>
+          <ui_button text="+10%" height="58" width="0" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_part_+" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_fan_adjust" user_data="p+" />
+            <bind_state_if_eq subject="k3_part_available" state="disabled" ref_value="0" />
+          </ui_button>
+        </lv_obj>
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="1" height="4" clickable="false" />
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="24" flex_flow="row" style_flex_main_place="space_between">
+          <text_body text="Aux Fan" style_text_font="noto_sans_16" style_text_color="#text" clickable="false" event_bubble="true" />
+          <text_body text="" style_text_font="noto_sans_bold_16" style_text_color="#text" clickable="false" event_bubble="true" bind_text="k3_aux_speed" />
+        </lv_obj>
+        <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="100%" height="58" flex_flow="row" style_pad_gap="10">
+          <bind_state_if_eq subject="k3_aux_available" state="disabled" ref_value="0" />
+          <ui_button text="-10%" height="58" width="0" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_aux_-" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_fan_adjust" user_data="a-" />
+            <bind_state_if_eq subject="k3_aux_available" state="disabled" ref_value="0" />
+          </ui_button>
+          <ui_button text="Off" height="58" width="0" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_aux_0" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_fan_adjust" user_data="a0" />
+            <bind_state_if_eq subject="k3_aux_available" state="disabled" ref_value="0" />
+          </ui_button>
+          <ui_button text="+10%" height="58" width="0" variant="ghost" style_bg_color="#elevated_bg" style_bg_opa="255" style_text_color="#text" style_text_font="noto_sans_bold_16" style_border_width="0" style_radius="18" name="k3_aux_+" flex_grow="1">
+            <event_cb trigger="clicked" callback="k3_fan_adjust" user_data="a+" />
+            <bind_state_if_eq subject="k3_aux_available" state="disabled" ref_value="0" />
+          </ui_button>
+        </lv_obj>
+      </lv_obj>
+      <lv_obj style_pad_all="14" style_bg_opa="255" style_border_width="1" scrollable="false" width="100%" height="content" style_bg_color="#card_bg" style_border_color="#border" style_border_opa="150" style_radius="20" style_min_height="138" flex_flow="column" style_pad_gap="6">
+        <text_body text="ONE-TAP MACROS" style_text_font="noto_sans_bold_14" style_text_color="#text_muted" clickable="false" event_bubble="true" height="18" />
+        <text_body text="Macros" style_text_font="noto_sans_bold_20" style_text_color="#text" clickable="false" event_bubble="true" height="26" />
+        <lv_obj style_pad_all="10" style_bg_opa="255" style_border_width="1" scrollable="false" width="100%" height="46" style_bg_color="#elevated_bg" style_border_color="#border" style_border_opa="150" style_radius="14">
+          <text_body text="No macros discovered." style_text_font="noto_sans_16" style_text_color="#text" clickable="false" event_bubble="true" />
+          <bind_flag_if cond="macro_1_visible eq 1 or macro_2_visible eq 1 or macro_3_visible eq 1 or macro_4_visible eq 1" flag="hidden" />
+        </lv_obj>
+        <lv_obj width="100%" style_pad_all="0" scrollable="false" flex_flow="column" style_pad_gap="#space_xs" style_flex_main_place="end" height="content" name="k3_macro_rows">
+          <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_pad_gap="#space_xs">
+            <ui_button style_text_font="noto_sans_16" name="btn_macro_1" width="0" height="#k3_action_height" style_pad_ver="0" flex_grow="1" bind_text="macro_1_name" variant="outline" long_mode="wrap" moves_machine="true">
+              <bind_flag_if_eq subject="macro_1_visible" flag="hidden" ref_value="0" />
+              <bind_state_if cond="macro_1_available eq 0" state="disabled" />
+              <event_cb trigger="clicked" callback="on_controls_macro" user_data="0" />
+            </ui_button>
+            <lv_obj name="macro_1_light_cell" width="0" height="#k3_action_height" flex_grow="1" style_pad_all="0" scrollable="false" hidden="true">
+              <bind_flag_if cond="macro_1_light eq 0 or led_controllable eq 0" flag="hidden" />
+              <ui_button style_text_font="noto_sans_16" name="light_button" width="100%" height="100%" style_pad_ver="0" variant="secondary" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="#space_xs" focusable="false">
+                <bind_state_if cond="printer_connection_state ne 2 or led_command_in_flight eq 1" state="disabled" />
+                <icon name="light_icon" src="lightbulb_outline" size="sm" variant="muted" clickable="false" event_bubble="true" />
+                <text_small text="Light" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
+                <event_cb trigger="clicked" callback="light_toggle_cb" />
+              </ui_button>
+            </lv_obj>
+            <ui_button style_text_font="noto_sans_16" name="btn_macro_2" width="0" height="#k3_action_height" style_pad_ver="0" flex_grow="1" bind_text="macro_2_name" variant="outline" long_mode="wrap" moves_machine="true">
+              <bind_flag_if_eq subject="macro_2_visible" flag="hidden" ref_value="0" />
+              <bind_state_if cond="macro_2_available eq 0" state="disabled" />
+              <event_cb trigger="clicked" callback="on_controls_macro" user_data="1" />
+            </ui_button>
+            <lv_obj name="macro_2_light_cell" width="0" height="#k3_action_height" flex_grow="1" style_pad_all="0" scrollable="false" hidden="true">
+              <bind_flag_if cond="macro_2_light eq 0 or led_controllable eq 0" flag="hidden" />
+              <ui_button style_text_font="noto_sans_16" name="light_button" width="100%" height="100%" style_pad_ver="0" variant="secondary" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="#space_xs" focusable="false">
+                <bind_state_if cond="printer_connection_state ne 2 or led_command_in_flight eq 1" state="disabled" />
+                <icon name="light_icon" src="lightbulb_outline" size="sm" variant="muted" clickable="false" event_bubble="true" />
+                <text_small text="Light" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
+                <event_cb trigger="clicked" callback="light_toggle_cb" />
+              </ui_button>
+            </lv_obj>
+          </lv_obj>
+          <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_pad_gap="#space_xs">
+            <ui_button style_text_font="noto_sans_16" name="btn_macro_3" width="0" height="#k3_action_height" style_pad_ver="0" flex_grow="1" bind_text="macro_3_name" variant="outline" long_mode="wrap" moves_machine="true">
+              <bind_flag_if_eq subject="macro_3_visible" flag="hidden" ref_value="0" />
+              <bind_state_if cond="macro_3_available eq 0" state="disabled" />
+              <event_cb trigger="clicked" callback="on_controls_macro" user_data="2" />
+            </ui_button>
+            <lv_obj name="macro_3_light_cell" width="0" height="#k3_action_height" flex_grow="1" style_pad_all="0" scrollable="false" hidden="true">
+              <bind_flag_if cond="macro_3_light eq 0 or led_controllable eq 0" flag="hidden" />
+              <ui_button style_text_font="noto_sans_16" name="light_button" width="100%" height="100%" style_pad_ver="0" variant="secondary" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="#space_xs" focusable="false">
+                <bind_state_if cond="printer_connection_state ne 2 or led_command_in_flight eq 1" state="disabled" />
+                <icon name="light_icon" src="lightbulb_outline" size="sm" variant="muted" clickable="false" event_bubble="true" />
+                <text_small text="Light" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
+                <event_cb trigger="clicked" callback="light_toggle_cb" />
+              </ui_button>
+            </lv_obj>
+            <ui_button style_text_font="noto_sans_16" name="btn_macro_4" width="0" height="#k3_action_height" style_pad_ver="0" flex_grow="1" bind_text="macro_4_name" variant="outline" long_mode="wrap" moves_machine="true">
+              <bind_flag_if_eq subject="macro_4_visible" flag="hidden" ref_value="0" />
+              <bind_state_if cond="macro_4_available eq 0" state="disabled" />
+              <event_cb trigger="clicked" callback="on_controls_macro" user_data="3" />
+            </ui_button>
+            <lv_obj name="macro_4_light_cell" width="0" height="#k3_action_height" flex_grow="1" style_pad_all="0" scrollable="false" hidden="true">
+              <bind_flag_if cond="macro_4_light eq 0 or led_controllable eq 0" flag="hidden" />
+              <ui_button style_text_font="noto_sans_16" name="light_button" width="100%" height="100%" style_pad_ver="0" variant="secondary" flex_flow="row" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="#space_xs" focusable="false">
+                <bind_state_if cond="printer_connection_state ne 2 or led_command_in_flight eq 1" state="disabled" />
+                <icon name="light_icon" src="lightbulb_outline" size="sm" variant="muted" clickable="false" event_bubble="true" />
+                <text_small text="Light" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
+                <event_cb trigger="clicked" callback="light_toggle_cb" />
+              </ui_button>
+            </lv_obj>
+          </lv_obj>
+        </lv_obj>
+      </lv_obj>
+    </lv_obj>
+    <lv_obj name="k3_native_extra_controls" width="100%" height="100%" style_pad_all="12" style_border_width="0" flex_flow="column" style_bg_color="#screen_bg" style_pad_gap="12" scrollable="false" hidden="true" floating="true">
+      <lv_obj width="100%" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_all="0" style_pad_gap="#space_sm" scrollable="false">
+        <text_heading text="Control" flex_grow="1" style_text_font="noto_sans_bold_28" style_text_color="#text" />
+        <ui_button style_text_font="noto_sans_16" name="k3_legacy_emergency" width="content" height="48" icon="alert_octagon" text="Emergency" variant="ghost" style_text_color="#danger" style_border_width="1" style_border_color="#danger" style_border_opa="100" style_bg_color="#danger" style_bg_opa="20">
+          <event_cb trigger="clicked" callback="emergency_stop_clicked" />
+        </ui_button>
+      </lv_obj>
+      <lv_obj name="k3_scroll_content" width="100%" height="0" flex_grow="1" flex_flow="column" style_pad_all="0" style_pad_gap="12" scrollable="true" scroll_dir="ver">
+        <lv_obj width="100%" style_pad_all="0" style_pad_gap="#space_md" scrollable="false" height="content" flex_flow="column">
+          <lv_obj width="100%" style_pad_all="0" scrollable="false" height="content">
+            <ui_card name="card_position" width="100%" height="content" flex_flow="column" style_flex_main_place="space_between" style_radius="16" style_pad_all="14" scrollable="false" clickable="true" style_pad_gap="12">
+              <event_cb trigger="clicked" callback="on_controls_quick_actions" />
+              <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_pad_gap="8" clickable="false">
+                <lv_obj width="0" height="64" style_pad_all="0" scrollable="false" flex_flow="column" style_flex_cross_place="center" style_pad_gap="4" clickable="false" flex_grow="1" style_flex_main_place="center">
+                  <text_muted width="100%" text="Position X" style_text_align="center" style_text_font="noto_sans_12" />
+                  <text_body style_text_font="noto_sans_bold_18" name="pos_x" bind_text="controls_pos_x" style_text_align="center" width="100%" />
+                </lv_obj>
+                <lv_obj width="0" height="64" style_pad_all="0" scrollable="false" flex_flow="column" style_flex_cross_place="center" style_pad_gap="4" clickable="false" flex_grow="1" style_flex_main_place="center">
+                  <text_muted width="100%" text="Position Y" style_text_align="center" style_text_font="noto_sans_12" />
+                  <text_body style_text_font="noto_sans_bold_18" name="pos_y" bind_text="controls_pos_y" style_text_align="center" width="100%" />
+                </lv_obj>
+                <lv_obj width="0" height="64" style_pad_all="0" scrollable="false" flex_flow="column" style_flex_cross_place="center" style_pad_gap="4" clickable="false" flex_grow="1" style_flex_main_place="center">
+                  <text_muted width="100%" text="Position Z" style_text_align="center" style_text_font="noto_sans_12" />
+                  <text_body style_text_font="noto_sans_bold_18" name="pos_z" bind_text="controls_pos_z" style_text_align="center" width="100%" />
+                </lv_obj>
+              </lv_obj>
+              <lv_obj name="btn_zoffset_tune" width="100%" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_xs" style_margin_top="#space_sm" clickable="true" scrollable="false" style_radius="16" height="40">
+                <style name="styles.press_wash" selector="pressed" />
+                <event_cb trigger="clicked" callback="on_zoffset_tune" />
+                <text_muted width="content" text="Z-Offset:" />
+                <text_body bind_text="controls_z_offset" flex_grow="1" style_text_align="right" />
+                <icon src="chevron_right" size="xs" variant="secondary" />
+              </lv_obj>
+              <ui_button style_text_font="noto_sans_16" name="btn_save_z_offset" width="100%" height="#button_height_sm" variant="success" icon="check" text="Save Z-Offset" hidden="true" moves_machine="true">
+                <bind_flag_if_eq subject="z_offset_save_available" flag="hidden" ref_value="0" />
+                <event_cb trigger="clicked" callback="on_controls_save_z_offset" />
+              </ui_button>
+              <lv_obj name="position_action_row" width="100%" style_pad_all="0" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_xs" scrollable="false">
+                <bind_style_if_eq name="action_row_landscape" subject="ui_is_portrait" ref_value="0" />
+                <bind_style_if_eq name="action_row_portrait" subject="ui_is_portrait" ref_value="1" />
+                <ui_button style_text_font="noto_sans_16" name="btn_motion" width="0" height="100%" flex_grow="1" variant="primary" style_pad_all="0" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center">
+                  <lv_obj width="content" height="content" style_pad_all="0" style_bg_opa="0" style_border_width="0" style_flex_main_place="center" style_flex_cross_place="center" style_flex_track_place="center" clickable="false" event_bubble="true" scrollable="false">
+                    <bind_style_if name="motion_stacked" cond="ui_breakpoint ge 2 and ui_is_portrait eq 0" />
+                    <bind_style_if name="motion_inline" cond="ui_breakpoint le 1 or ui_is_portrait eq 1" />
+                    <icon name="btn_motion_icon" src="cursor_move" size="#controls_toggle_icon_size" clickable="false" event_bubble="true" />
+                    <text_tiny text="Motion" clickable="false" event_bubble="true">
+                      <bind_style_if name="motion_label_inline" cond="ui_breakpoint le 1 or ui_is_portrait eq 1" />
+                    </text_tiny>
+                  </lv_obj>
+                  <event_cb trigger="clicked" callback="on_controls_quick_actions" />
+                </ui_button>
+                <home_action_tile name="btn_motors_tile" width="#controls_toggle_width" height="100%" flex_grow="0" icon="engine" icon_variant="warning" alt_icon="engine_off" alt_icon_variant="secondary" icon_swap_subject="motors_enabled" icon_size="#controls_toggle_icon_size" label="Motors Off" label_hidden_cond="ui_breakpoint le 1" callback="on_calibration_motors" button_name="btn_motors" icon_name="btn_motors_icon" moves_machine="true" disabled_cond="motors_enabled eq 0" />
+              </lv_obj>
+            </ui_card>
+          </lv_obj>
+          <ui_card name="card_quick_actions" width="100%" height="content" flex_flow="column" style_flex_main_place="space_between" style_radius="16" style_pad_all="14" scrollable="false" style_pad_gap="12">
+            <lv_obj flex_flow="row" style_flex_cross_place="center" style_flex_track_place="center" style_pad_all="0" style_pad_gap="#space_sm">
+              <bind_flag_if_eq subject="macro_header_visible" flag="hidden" ref_value="0" />
+              <icon src="flash" size="sm" variant="primary" />
+              <text_body style_text_font="noto_sans_bold_18" text="Quick Actions" style_text_color="#text" />
+            </lv_obj>
+            <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_xs">
+              <text_small text="Home" width="48" style_text_font="noto_sans_14" />
+              <lv_obj width="0" height="#k3_action_height" flex_grow="1" style_radius="16" style_clip_corner="true" style_pad_all="0" style_pad_gap="0" flex_flow="row" scrollable="false" style_border_width="1" style_border_color="#text_muted" style_border_opa="60">
+                <ui_button style_text_font="noto_sans_16" name="btn_home_all" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="All" flex_grow="1" style_radius="0" style_border_width="0" moves_machine="true">
+                  <bind_style name="home_btn_homed" subject="all_homed" ref_value="1" />
+                  <bind_style name="home_btn_unhomed" subject="all_homed" ref_value="0" />
+                  <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
+                  <event_cb trigger="clicked" callback="on_controls_home_all" />
+                </ui_button>
+                <ui_button style_text_font="noto_sans_16" name="btn_home_x" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="X" flex_grow="1" style_radius="0" style_border_width="1" style_border_side="left" style_border_color="#text_muted" style_border_opa="60" moves_machine="true">
+                  <bind_style name="home_btn_homed" subject="x_homed" ref_value="1" />
+                  <bind_style name="home_btn_unhomed" subject="x_homed" ref_value="0" />
+                  <bind_flag_if_eq subject="printer_has_individual_xyz_homing" flag="hidden" ref_value="0" />
+                  <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
+                  <event_cb trigger="clicked" callback="on_controls_home_x" />
+                </ui_button>
+                <ui_button style_text_font="noto_sans_16" name="btn_home_y" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="Y" flex_grow="1" style_radius="0" style_border_width="1" style_border_side="left" style_border_color="#text_muted" style_border_opa="60" moves_machine="true">
+                  <bind_style name="home_btn_homed" subject="y_homed" ref_value="1" />
+                  <bind_style name="home_btn_unhomed" subject="y_homed" ref_value="0" />
+                  <bind_flag_if_eq subject="printer_has_individual_xyz_homing" flag="hidden" ref_value="0" />
+                  <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
+                  <event_cb trigger="clicked" callback="on_controls_home_y" />
+                </ui_button>
+                <ui_button style_text_font="noto_sans_16" name="btn_home_xy" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="XY" flex_grow="1" style_radius="0" style_border_width="1" style_border_side="left" style_border_color="#text_muted" style_border_opa="60" moves_machine="true">
+                  <bind_style name="home_btn_homed" subject="xy_homed" ref_value="1" />
+                  <bind_style name="home_btn_unhomed" subject="xy_homed" ref_value="0" />
+                  <bind_flag_if_eq subject="printer_has_individual_xyz_homing" flag="hidden" ref_value="0" />
+                  <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
+                  <event_cb trigger="clicked" callback="on_controls_home_xy" />
+                </ui_button>
+                <ui_button style_text_font="noto_sans_16" name="btn_home_z" width="0" height="100%" style_pad_ver="0" style_min_width="0" style_pad_hor="0" text="Z" flex_grow="1" style_radius="0" style_border_width="1" style_border_side="left" style_border_color="#text_muted" style_border_opa="60" moves_machine="true">
+                  <bind_style name="home_btn_homed" subject="z_homed" ref_value="1" />
+                  <bind_style name="home_btn_unhomed" subject="z_homed" ref_value="0" />
+                  <bind_flag_if_eq subject="printer_has_individual_xyz_homing" flag="hidden" ref_value="0" />
+                  <bind_state_if_eq subject="controls_operation_in_progress" state="disabled" ref_value="1" />
+                  <event_cb trigger="clicked" callback="on_controls_home_z" />
+                </ui_button>
+              </lv_obj>
+            </lv_obj>
+          </ui_card>
+          <lv_obj width="100%" style_pad_all="0" scrollable="false" height="content">
+            <ui_card name="card_temperatures" width="100%" height="content" flex_flow="column" style_flex_main_place="space_between" style_pad_gap="12" style_flex_cross_place="center" style_radius="16" style_pad_all="14" scrollable="false" clickable="true">
+              <event_cb trigger="clicked" callback="on_nozzle_temp_clicked" />
+              <lv_obj width="100%" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_all="0" style_pad_gap="#space_sm" scrollable="false" clickable="false">
+                <icon src="thermometer" size="sm" variant="primary" />
+                <text_body style_text_font="noto_sans_bold_18" text="Temperature" style_text_color="#text" />
+              </lv_obj>
+              <lv_obj name="btn_nozzle_temp" width="100%" flex_flow="row" style_flex_main_place="space_between" style_flex_cross_place="center" style_margin_top="#space_xs" clickable="true" scrollable="false" style_radius="16" height="44">
+                <style name="styles.press_wash" selector="pressed" />
+                <event_cb trigger="clicked" callback="on_nozzle_temp_clicked" />
+                <lv_obj width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" clickable="false" event_bubble="true">
+                  <bind_style_if_eq name="temp_row_gap_tiny" subject="ui_breakpoint" ref_value="1" />
+                  <bind_style_if_ge name="temp_row_gap_standard" subject="ui_breakpoint" ref_value="2" />
+                  <icon name="nozzle_icon_glyph" src="heater" size="xs" variant="secondary" clickable="false" event_bubble="true" />
+                  <text_small bind_text="controls_nozzle_label" style_text_font="noto_sans_14">
+                    <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
+                  </text_small>
+                  <temp_display name="nozzle_temp_display" size="lg" show_target="true" bind_current="extruder_temp" bind_target="extruder_target" clickable="false" event_bubble="true" />
+                </lv_obj>
+                <lv_obj name="nozzle_temp_edit_container" width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" style_pad_gap="#space_xs" clickable="true" ext_click_area="12" style_radius="16">
+                  <style name="styles.press_wash" selector="pressed" />
+                  <event_cb trigger="clicked" callback="on_nozzle_target_edit" />
+                  <icon src="pencil" size="xs" variant="tertiary" clickable="false" event_bubble="true" />
+                </lv_obj>
+              </lv_obj>
+              <lv_obj name="nozzle_status" width="100%" height="content" flex_flow="row" style_flex_main_place="end" style_pad_all="0" scrollable="false" clickable="false">
+                <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
+                <bind_flag_if_eq subject="ui_is_portrait" flag="hidden" ref_value="1" />
+                <heater_status state_subject="controls_nozzle_status_state" duty_subject="controls_nozzle_status" />
+              </lv_obj>
+              <lv_obj name="btn_bed_temp" width="100%" flex_flow="row" style_flex_main_place="space_between" style_flex_cross_place="center" clickable="true" scrollable="false" style_radius="16" height="44">
+                <style name="styles.press_wash" selector="pressed" />
+                <event_cb trigger="clicked" callback="on_bed_temp_clicked" />
+                <lv_obj width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" clickable="false" event_bubble="true">
+                  <bind_style_if_eq name="temp_row_gap_tiny" subject="ui_breakpoint" ref_value="1" />
+                  <bind_style_if_ge name="temp_row_gap_standard" subject="ui_breakpoint" ref_value="2" />
+                  <heater_icon src="radiator" glyph_name="bed_icon_glyph" size="xs" />
+                  <text_small text="Bed" style_text_font="noto_sans_14">
+                    <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
+                  </text_small>
+                  <temp_display name="bed_temp_display" size="lg" show_target="true" bind_current="bed_temp" bind_target="bed_target" clickable="false" event_bubble="true" />
+                </lv_obj>
+                <lv_obj name="bed_temp_edit_container" width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" style_pad_gap="#space_xs" clickable="true" ext_click_area="12" style_radius="16">
+                  <style name="styles.press_wash" selector="pressed" />
+                  <event_cb trigger="clicked" callback="on_bed_target_edit" />
+                  <icon src="pencil" size="xs" variant="tertiary" clickable="false" event_bubble="true" />
+                </lv_obj>
+              </lv_obj>
+              <lv_obj name="bed_status" width="100%" height="content" flex_flow="row" style_flex_main_place="end" style_pad_all="0" scrollable="false" clickable="false">
+                <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
+                <bind_flag_if_eq subject="ui_is_portrait" flag="hidden" ref_value="1" />
+                <heater_status state_subject="controls_bed_status_state" duty_subject="controls_bed_status" />
+              </lv_obj>
+              <lv_obj name="btn_chamber_temp" width="100%" flex_flow="row" style_flex_main_place="space_between" style_flex_cross_place="center" hidden="true" clickable="true" scrollable="false" style_radius="16" height="44">
+                <style name="styles.press_wash" selector="pressed" />
+                <bind_flag_if_eq subject="printer_has_chamber" flag="hidden" ref_value="0" />
+                <event_cb trigger="clicked" callback="on_chamber_temp_clicked" />
+                <lv_obj width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" clickable="false" event_bubble="true">
+                  <bind_style_if_eq name="temp_row_gap_tiny" subject="ui_breakpoint" ref_value="1" />
+                  <bind_style_if_ge name="temp_row_gap_standard" subject="ui_breakpoint" ref_value="2" />
+                  <heater_icon src="fridge_industrial" glyph_name="chamber_icon_glyph" size="xs" />
+                  <text_small text="Chamb:" clickable="false" event_bubble="true" style_text_font="noto_sans_14">
+                    <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
+                  </text_small>
+                  <temp_display name="chamber_temp_display" size="lg" show_target="true" bind_current="chamber_temp" bind_target="chamber_effective_target" bind_mode="chamber_mode" clickable="false" event_bubble="true" />
+                </lv_obj>
+                <lv_obj name="chamber_temp_edit_container" width="content" height="content" flex_flow="row" style_pad_all="0" scrollable="false" style_flex_cross_place="center" style_pad_gap="#space_xs" clickable="true" ext_click_area="12" style_radius="16">
+                  <style name="styles.press_wash" selector="pressed" />
+                  <event_cb trigger="clicked" callback="on_chamber_target_edit" />
+                  <icon src="pencil" size="xs" variant="tertiary" clickable="false" event_bubble="true" />
+                </lv_obj>
+              </lv_obj>
+              <lv_obj name="chamber_status" width="100%" height="content" flex_flow="row" style_flex_main_place="end" style_pad_all="0" scrollable="false" clickable="false">
+                <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
+                <bind_flag_if_eq subject="ui_is_portrait" flag="hidden" ref_value="1" />
+                <bind_flag_if_eq subject="printer_has_chamber" flag="hidden" ref_value="0" />
+                <heater_status state_subject="controls_chamber_status_state" duty_subject="controls_chamber_status" />
+              </lv_obj>
+              <lv_obj name="secondary_temps_list" width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_flex_main_place="space_between" style_flex_cross_place="center" style_pad_top="#space_xxs" clickable="true">
+                <bind_flag_if_eq subject="controls_more_sensors_count" flag="hidden" ref_value="0" />
+                <event_cb trigger="clicked" callback="on_controls_more_sensors" />
+                <text_small name="more_sensors_label" bind_text="controls_more_sensors" style_text_color="#text_muted" clickable="false" event_bubble="true" style_text_font="noto_sans_14" />
+                <icon src="chevron_right" size="xs" variant="secondary" clickable="false" event_bubble="true" />
+              </lv_obj>
+            </ui_card>
+          </lv_obj>
+          <lv_obj width="100%" style_pad_all="0" scrollable="false" height="content">
+            <ui_card name="card_cooling" width="100%" height="content" flex_flow="column" style_flex_main_place="start" style_flex_cross_place="center" style_radius="16" style_pad_all="14" scrollable="false" clickable="true" style_pad_gap="12">
+              <event_cb trigger="clicked" callback="on_controls_cooling" />
+              <lv_obj width="100%" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_all="0" style_pad_gap="#space_sm" scrollable="false" clickable="false">
+                <icon name="fan_icon" src="fan" size="sm" variant="primary" />
+                <text_body style_text_font="noto_sans_bold_18" text="Cooling" style_text_color="#text" />
+              </lv_obj>
+              <text_small width="100%" text="Part Fan" style_margin_top="#space_sm" style_text_font="noto_sans_14" />
+              <lv_obj width="100%" height="content" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_sm" style_pad_left="#space_lg" style_pad_right="0" style_bg_opa="0" style_border_width="0" scrollable="false" clickable="false">
+                <bind_style_if_eq name="slider_container_compact" subject="ui_breakpoint" ref_value="1" />
+                <bind_style_if_ge name="slider_container_standard" subject="ui_breakpoint" ref_value="2" />
+                <lv_slider name="part_fan_slider" flex_grow="1" bind_value="controls_fan_pct" min_value="0" max_value="100">
+                  <bind_style_if_eq name="slider_compact" subject="ui_breakpoint" ref_value="1" />
+                  <event_cb trigger="value_changed" callback="on_controls_fan_slider" />
+                </lv_slider>
+                <text_body name="fan_speed_display" width="content" bind_text="controls_fan_speed">
+                  <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="1" />
+                </text_body>
+              </lv_obj>
+              <lv_obj name="secondary_fans_list" width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="column" style_pad_gap="#space_xxs" style_pad_top="#space_xs" clickable="true">
+                <event_cb trigger="clicked" callback="on_controls_secondary_fans" />
+              </lv_obj>
+            </ui_card>
+          </lv_obj>
+        </lv_obj>
+        <lv_obj width="100%" style_pad_all="0" flex_flow="column" style_pad_gap="#space_md" scrollable="false" height="content">
+          <ui_card name="card_calibration" width="100%" height="content" flex_flow="column" style_flex_main_place="start" style_radius="16" style_pad_all="14" style_pad_gap="12" scrollable="false">
+            <lv_obj width="100%" height="content" style_pad_all="0" scrollable="false" flex_flow="row" style_flex_cross_place="center" style_pad_gap="#space_sm">
+              <icon src="wrench" size="sm" variant="primary" />
+              <text_body style_text_font="noto_sans_bold_18" text="Calibration &amp; Tools" style_text_color="#text" />
+            </lv_obj>
+            <lv_obj name="calib_tools_grid" width="100%" style_pad_all="0" flex_flow="row_wrap" style_flex_main_place="center" style_flex_track_place="space_evenly" style_pad_row="#space_xs" style_pad_column="#space_xs" scrollable="false" height="#k3_tools_grid_height">
+              <event_cb trigger="layout_changed" callback="on_calib_grid_layout_changed" />
+              <calib_tile icon="grid_large" label="Bed Mesh" callback="on_calibration_bed_mesh" button_name="btn_bed_mesh" icon_name="btn_bed_mesh_icon" />
+              <calib_tile icon="z_closer" label="Z Calibration" callback="on_calibration_zoffset" button_name="btn_z_calibration" icon_name="btn_z_calibration_icon" moves_machine="true">
+                <bind_flag_if cond="printer_has_tool_offset_cal eq 1 and hide_manual_z_calibration eq 1" flag="hidden" />
+              </calib_tile>
+              <calib_tile icon="axis_arrow" label="Tool Offsets" callback="on_calibration_tool_offsets" button_name="btn_tool_offsets" icon_name="btn_tool_offsets_icon" moves_machine="true" hidden="true">
+                <bind_flag_if_eq subject="printer_has_tool_offset_cal" flag="hidden" ref_value="0" />
+              </calib_tile>
+              <calib_tile icon="spirit_level" label="QGL" callback="on_controls_qgl" button_name="btn_qgl" icon_name="btn_qgl_icon" moves_machine="true" disabled_cond="controls_operation_in_progress eq 1" hidden="true">
+                <bind_flag_if cond="printer_has_qgl eq 0" flag="hidden" />
+              </calib_tile>
+              <calib_tile icon="spirit_level" label="Z-Tilt" callback="on_controls_z_tilt" button_name="btn_z_tilt" icon_name="btn_z_tilt_icon" moves_machine="true" disabled_cond="controls_operation_in_progress eq 1" hidden="true">
+                <bind_flag_if cond="printer_has_z_tilt eq 0" flag="hidden" />
+              </calib_tile>
+              <calib_tile icon="gauge" label="Pressure Adv." callback="on_calibration_pa" button_name="btn_pa_cal" icon_name="btn_pa_cal_icon" moves_machine="true" hidden="true">
+                <bind_flag_if cond="printer_has_pa_cal eq 0" flag="hidden" />
+              </calib_tile>
+              <calib_tile icon="wrench" label="Bed Screws" callback="on_calibration_screws" button_name="btn_screws" icon_name="btn_screws_icon" moves_machine="true" hidden="true">
+                <bind_flag_if cond="printer_has_screws_tilt eq 0" flag="hidden" />
+              </calib_tile>
+            </lv_obj>
+          </ui_card>
+        </lv_obj>
       </lv_obj>
     </lv_obj>
   </view>

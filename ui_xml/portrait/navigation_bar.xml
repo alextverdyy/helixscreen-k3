@@ -1,100 +1,100 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!-- Copyright (C) 2025-2026 356C LLC; SPDX-License-Identifier: GPL-3.0-or-later -->
 <component>
   <styles>
-    <style name="k3_nav_selected" bg_color="#primary" bg_opa="38" radius="12" />
+    <style name="k3_nav_selected" bg_color="#primary" bg_opa="64" radius="16" border_width="1" border_color="#primary" border_opa="75" />
     <style name="nav_bar_landscape" width="#nav_width" height="100%" flex_flow="column" pad_top="#space_xl" pad_bottom="#space_xl" pad_left="0" pad_right="0" />
-    <style name="nav_bar_portrait" width="100%" height="128" flex_flow="column" pad_left="8" pad_right="8" pad_top="0" pad_bottom="0" />
+    <style name="nav_bar_portrait" width="94%" height="132" flex_flow="column" pad_left="12" pad_right="12" pad_top="12" pad_bottom="12" />
     <style name="nav_btn_edit_add_landscape" width="100%" max_height="#button_height" min_height="48" />
     <style name="nav_btn_edit_add_portrait" width="content" min_width="48" />
     <style name="nav_btn_edit_done_landscape" width="90%" max_height="#button_height" min_height="36" />
     <style name="nav_btn_edit_done_portrait" width="content" min_width="36" />
     <style name="nav_icon_fade" text_opa="0" transform_scale_x="205" transform_scale_y="205" transform_pivot_x="50%" transform_pivot_y="50%" transition="text_opa|transform_scale_x|transform_scale_y 180ms ease_out" />
     <style name="nav_icon_fade_on" text_opa="255" transform_scale_x="256" transform_scale_y="256" />
+    <style name="nav_bar_portrait_safety" width="94%" height="180" flex_flow="column" pad_all="12" />
   </styles>
-  <view extends="lv_obj" style_layout="flex" style_flex_main_place="center" style_flex_track_place="center" style_flex_cross_place="center" style_border_width="0" style_radius="16" scrollable="false" style_bg_color="#card_bg" style_bg_opa="255" style_pad_gap="4">
-    <lv_obj width="100%" height="80" flex_flow="row" style_pad_all="0" style_pad_gap="6" scrollable="false" name="k3_nav_main">
-      <ui_button name="nav_btn_home" width="0" height="80" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0">
+  <view extends="lv_obj" style_layout="flex" style_flex_main_place="center" style_flex_track_place="center" style_flex_cross_place="center" style_border_width="1" style_radius="24" scrollable="false" style_bg_color="#screen_bg" style_bg_opa="255" style_pad_gap="4" style_border_color="#border" style_border_opa="140">
+    <lv_obj width="100%" height="104" flex_flow="row" style_pad_all="0" style_pad_gap="6" scrollable="false" name="k3_nav_main" style_flex_cross_place="center">
+      <ui_button name="nav_btn_home" width="0" height="96" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0">
         <bind_state_if_eq subject="home_edit_mode" state="disabled" ref_value="1" />
-        <icon name="nav_icon_home_active" src="home" size="sm" variant="primary" floating="true" align="center" style_translate_y="-10">
+        <icon name="nav_icon_home_active" src="home" size="sm" variant="text" floating="true" align="center" style_translate_y="-10">
           <style name="nav_icon_fade" />
           <style name="nav_icon_fade_on" selector="checked" />
           <bind_state_if_eq subject="active_panel" state="checked" ref_value="0" />
         </icon>
-        <icon name="nav_icon_home_inactive" src="home_outline" size="sm" variant="secondary" floating="true" align="center" style_translate_y="-10">
+        <icon name="nav_icon_home_inactive" src="home_outline" size="sm" variant="text" floating="true" align="center" style_translate_y="-10">
           <style name="nav_icon_fade" />
           <style name="nav_icon_fade_on" selector="checked" />
           <bind_state_if_not_eq subject="active_panel" state="checked" ref_value="0" />
         </icon>
         <bind_style_if_eq name="k3_nav_selected" subject="active_panel" ref_value="0" />
-        <text_tiny text="Home" floating="true" align="center" style_translate_y="20" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_12" />
+        <text_tiny text="Home" floating="true" align="center" style_translate_y="20" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_14" />
       </ui_button>
-      <ui_button name="nav_btn_print_select" width="0" height="80" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0">
+      <ui_button name="nav_btn_print_select" width="0" height="96" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0">
         <bind_state_if_eq subject="home_edit_mode" state="disabled" ref_value="1" />
-        <icon name="nav_icon_print_select_active" src="printer_3d" size="sm" variant="primary" floating="true" align="center" style_translate_y="-10">
+        <icon name="nav_icon_print_select_active" src="printer_3d" size="sm" variant="text" floating="true" align="center" style_translate_y="-10">
           <style name="nav_icon_fade" />
           <style name="nav_icon_fade_on" selector="checked" />
           <bind_state_if_eq subject="active_panel" state="checked" ref_value="1" />
         </icon>
-        <icon name="nav_icon_print_select_inactive" src="printer_3d" size="sm" variant="secondary" floating="true" align="center" style_translate_y="-10">
+        <icon name="nav_icon_print_select_inactive" src="printer_3d" size="sm" variant="text" floating="true" align="center" style_translate_y="-10">
           <style name="nav_icon_fade" />
           <style name="nav_icon_fade_on" selector="checked" />
           <bind_state_if_not_eq subject="active_panel" state="checked" ref_value="1" />
         </icon>
         <bind_style_if_eq name="k3_nav_selected" subject="active_panel" ref_value="1" />
-        <text_tiny text="Print" floating="true" align="center" style_translate_y="20" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_12" />
+        <text_tiny text="Print" floating="true" align="center" style_translate_y="20" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_14" />
       </ui_button>
-      <ui_button name="nav_btn_controls" width="0" height="80" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0" style_pad_all="0">
+      <ui_button name="nav_btn_controls" width="0" height="96" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0" style_pad_all="0">
         <bind_state_if_not_eq subject="nav_buttons_enabled" state="disabled" ref_value="1" />
         <bind_state_if_eq subject="home_edit_mode" state="disabled" ref_value="1" />
         <lv_obj name="nav_controls_icons" width="100%" height="100%" clickable="false" style_pad_all="0">
           <bind_flag_if_eq subject="nav_buttons_enabled" flag="hidden" ref_value="0" />
-          <icon name="nav_icon_controls_active" src="fine_tune" size="sm" variant="primary" floating="true" align="center" style_translate_y="-10">
+          <icon name="nav_icon_controls_active" src="cursor_move" size="sm" variant="text" floating="true" align="center" style_translate_y="-10">
             <style name="nav_icon_fade" />
             <style name="nav_icon_fade_on" selector="checked" />
             <bind_state_if_eq subject="active_panel" state="checked" ref_value="2" />
           </icon>
-          <icon name="nav_icon_controls_inactive" src="fine_tune" size="sm" variant="secondary" floating="true" align="center" style_translate_y="-10">
+          <icon name="nav_icon_controls_inactive" src="cursor_move" size="sm" variant="text" floating="true" align="center" style_translate_y="-10">
             <style name="nav_icon_fade" />
             <style name="nav_icon_fade_on" selector="checked" />
             <bind_state_if_not_eq subject="active_panel" state="checked" ref_value="2" />
           </icon>
         </lv_obj>
-        <icon name="nav_icon_controls_disabled" src="fine_tune" size="sm" variant="disabled">
+        <icon name="nav_icon_controls_disabled" src="cursor_move" size="sm" variant="disabled">
           <bind_flag_if_eq subject="nav_buttons_enabled" flag="hidden" ref_value="1" />
         </icon>
         <bind_style_if_eq name="k3_nav_selected" subject="active_panel" ref_value="2" />
-        <text_tiny text="Control" floating="true" align="center" style_translate_y="20" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_12" />
+        <text_tiny text="Control" floating="true" align="center" style_translate_y="20" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_14" />
       </ui_button>
-      <ui_button name="nav_btn_settings" width="0" height="80" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0">
+      <ui_button name="nav_btn_settings" width="0" height="96" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0">
         <bind_state_if_eq subject="home_edit_mode" state="disabled" ref_value="1" />
-        <icon name="nav_icon_settings_active" src="settings" size="sm" variant="primary" floating="true" align="center" style_translate_y="-10">
+        <icon name="nav_icon_settings_active" src="settings" size="sm" variant="text" floating="true" align="center" style_translate_y="-10">
           <style name="nav_icon_fade" />
           <style name="nav_icon_fade_on" selector="checked" />
           <bind_state_if_eq subject="active_panel" state="checked" ref_value="4" />
         </icon>
-        <icon name="nav_icon_settings_inactive" src="settings_outline" size="sm" variant="secondary" floating="true" align="center" style_translate_y="-10">
+        <icon name="nav_icon_settings_inactive" src="settings_outline" size="sm" variant="text" floating="true" align="center" style_translate_y="-10">
           <style name="nav_icon_fade" />
           <style name="nav_icon_fade_on" selector="checked" />
           <bind_state_if_not_eq subject="active_panel" state="checked" ref_value="4" />
         </icon>
         <bind_style_if_eq name="k3_nav_selected" subject="active_panel" ref_value="4" />
-        <text_tiny text="Settings" floating="true" align="center" style_translate_y="20" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_12" />
+        <text_tiny text="Settings" floating="true" align="center" style_translate_y="20" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_14" />
       </ui_button>
       <bind_flag_if_eq subject="home_edit_mode" ref_value="1" flag="hidden" />
     </lv_obj>
     <lv_obj width="100%" height="44" flex_flow="row" style_pad_all="0" style_pad_gap="12" scrollable="false" name="k3_nav_secondary" style_pad_right="112">
-      <ui_button name="nav_btn_filament" width="0" height="44" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0" style_pad_all="0">
+      <ui_button name="nav_btn_filament" width="0" height="44" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0" style_pad_all="0" hidden="true">
         <bind_state_if_not_eq subject="nav_buttons_enabled" state="disabled" ref_value="1" />
         <bind_state_if_eq subject="home_edit_mode" state="disabled" ref_value="1" />
         <lv_obj name="nav_filament_icons" width="100%" height="100%" clickable="false" style_pad_all="0">
           <bind_flag_if_eq subject="nav_buttons_enabled" flag="hidden" ref_value="0" />
-          <icon name="nav_icon_filament_active" src="filament" size="sm" variant="primary" floating="true" align="center" style_translate_y="-10" hidden="true">
+          <icon name="nav_icon_filament_active" src="filament" size="sm" variant="text" floating="true" align="center" style_translate_y="-10" hidden="true">
             <style name="nav_icon_fade" />
             <style name="nav_icon_fade_on" selector="checked" />
             <bind_state_if_eq subject="active_panel" state="checked" ref_value="3" />
           </icon>
-          <icon name="nav_icon_filament_inactive" src="filament_outline" size="sm" variant="secondary" floating="true" align="center" style_translate_y="-10" hidden="true">
+          <icon name="nav_icon_filament_inactive" src="filament_outline" size="sm" variant="text" floating="true" align="center" style_translate_y="-10" hidden="true">
             <style name="nav_icon_fade" />
             <style name="nav_icon_fade_on" selector="checked" />
             <bind_state_if_not_eq subject="active_panel" state="checked" ref_value="3" />
@@ -104,32 +104,32 @@
           <bind_flag_if_eq subject="nav_buttons_enabled" flag="hidden" ref_value="1" />
         </icon>
         <bind_style_if_eq name="k3_nav_selected" subject="active_panel" ref_value="3" />
-        <text_tiny text="Filament" floating="true" align="center" style_translate_y="0" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_12" />
+        <text_tiny text="Filament" floating="true" align="center" style_translate_y="0" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_14" />
       </ui_button>
-      <ui_button name="nav_btn_advanced" width="0" height="44" flex_grow="1" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0">
+      <ui_button name="nav_btn_advanced" width="0" height="44" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0" hidden="true">
         <bind_state_if_eq subject="home_edit_mode" state="disabled" ref_value="1" />
-        <icon name="nav_icon_advanced_active" src="dots_vertical" size="sm" variant="primary" floating="true" align="center" style_translate_y="-10" hidden="true">
+        <icon name="nav_icon_advanced_active" src="dots_vertical" size="sm" variant="text" floating="true" align="center" style_translate_y="-10" hidden="true">
           <style name="nav_icon_fade" />
           <style name="nav_icon_fade_on" selector="checked" />
           <bind_state_if_eq subject="active_panel" state="checked" ref_value="5" />
         </icon>
-        <icon name="nav_icon_advanced_inactive" src="dots_vertical" size="sm" variant="secondary" floating="true" align="center" style_translate_y="-10" hidden="true">
+        <icon name="nav_icon_advanced_inactive" src="dots_vertical" size="sm" variant="text" floating="true" align="center" style_translate_y="-10" hidden="true">
           <style name="nav_icon_fade" />
           <style name="nav_icon_fade_on" selector="checked" />
           <bind_state_if_not_eq subject="active_panel" state="checked" ref_value="5" />
         </icon>
         <bind_style_if_eq name="k3_nav_selected" subject="active_panel" ref_value="5" />
-        <text_tiny text="More" floating="true" align="center" style_translate_y="0" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_12" />
+        <text_tiny text="More" floating="true" align="center" style_translate_y="0" style_text_color="#text" clickable="false" event_bubble="true" style_text_font="noto_sans_bold_14" />
       </ui_button>
-      <bind_flag_if_eq subject="home_edit_mode" ref_value="1" flag="hidden" />
       <ui_button name="nav_printer_badge" width="44" height="44" variant="ghost" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_border_width="0" hidden="true">
         <bind_flag_if_eq subject="show_printer_switcher" flag="hidden" ref_value="0" />
         <bind_state_if_eq subject="home_edit_mode" state="disabled" ref_value="1" />
         <lv_obj name="nav_printer_icon_wrap" clickable="false" event_bubble="true" style_pad_all="0" style_border_width="0" style_bg_opa="0">
-          <icon src="printer_3d" size="sm" variant="secondary" clickable="false" event_bubble="true" />
+          <icon src="printer_3d" size="sm" variant="text" clickable="false" event_bubble="true" />
           <lv_obj name="nav_printer_dot" width="8" height="8" style_radius="4" style_bg_opa="255" style_bg_color="#success" align="top_right" clickable="false" event_bubble="true" />
         </lv_obj>
       </ui_button>
+      <bind_flag_if cond="home_edit_mode eq 1 or show_printer_switcher eq 0 and bed_drying_state eq 0 and estop_visible eq 0" flag="hidden" />
     </lv_obj>
     <lv_obj name="k3_nav_edit" width="100%" height="100%" flex_flow="row" style_flex_cross_place="center" style_pad_all="8" style_pad_gap="12" scrollable="false">
       <bind_flag_if_eq subject="home_edit_mode" ref_value="0" flag="hidden" />
@@ -137,7 +137,7 @@
         <bind_style_if_eq name="nav_btn_edit_add_portrait" subject="ui_is_portrait" ref_value="1" />
         <bind_style_if_not_eq name="nav_btn_edit_add_landscape" subject="ui_is_portrait" ref_value="1" />
         <bind_flag_if_eq subject="home_edit_mode" flag="hidden" ref_value="0" />
-        <icon src="plus" size="sm" variant="primary" clickable="false" event_bubble="true" />
+        <icon src="plus" size="sm" variant="text" clickable="false" event_bubble="true" />
         <event_cb trigger="clicked" callback="on_edit_add_widget_clicked" />
       </ui_button>
       <ui_button name="nav_btn_edit_done" height="64" variant="primary" text="Done" hidden="true" width="0" flex_grow="1">
@@ -147,9 +147,10 @@
         <event_cb trigger="clicked" callback="on_edit_done_clicked" />
       </ui_button>
     </lv_obj>
-    <bind_style_if_eq name="nav_bar_portrait" subject="ui_is_portrait" ref_value="1" />
     <bind_style_if_not_eq name="nav_bar_landscape" subject="ui_is_portrait" ref_value="1" />
     <lv_obj name="nav_drying_slot" width="44" height="44" floating="true" align="bottom_right" style_translate_x="-60" style_pad_all="0" style_bg_opa="0" style_border_width="0" clickable="false" scrollable="false" />
     <lv_obj name="nav_estop_slot" width="44" height="44" floating="true" align="bottom_right" style_translate_x="-8" style_pad_all="0" style_bg_opa="0" style_border_width="0" clickable="false" scrollable="false" />
+    <bind_style_if name="nav_bar_portrait" cond="ui_is_portrait eq 1 and show_printer_switcher eq 0 and bed_drying_state eq 0 and estop_visible eq 0" />
+    <bind_style_if name="nav_bar_portrait_safety" cond="ui_is_portrait eq 1 and show_printer_switcher eq 1 or ui_is_portrait eq 1 and bed_drying_state ne 0 or ui_is_portrait eq 1 and estop_visible ne 0" />
   </view>
 </component>

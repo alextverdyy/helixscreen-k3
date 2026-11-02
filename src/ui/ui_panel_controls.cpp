@@ -724,7 +724,10 @@ void ControlsPanel::update_chamber_temp_display() {
     lv_subject_copy_string(&chamber_status_subject_, chamber_status_buf_);
 }
 
+void k3_refresh_fans();
+
 void ControlsPanel::update_fan_display() {
+    k3_refresh_fans();
     // Suppress Moonraker-driven updates while the user is actively dragging the slider
     // or within a short window after release, to prevent jumpy snap-back from stale values
     constexpr uint32_t suppression_ms = 1500;
@@ -765,6 +768,7 @@ static int fan_display_priority(const helix::FanInfo& fan) {
 }
 
 void ControlsPanel::populate_secondary_fans() {
+    k3_refresh_fans();
     if (!secondary_fans_list_) {
         return;
     }
@@ -1302,6 +1306,7 @@ void ControlsPanel::subscribe_to_secondary_fan_speeds() {
 }
 
 void ControlsPanel::update_secondary_fan_speed(const std::string& object_name, int speed_pct) {
+    k3_refresh_fans();
     for (const auto& row : secondary_fan_rows_) {
         if (row.object_name == object_name && row.speed_label) {
             char speed_buf[16];

@@ -1,22 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!-- Copyright (C) 2025-2026 356C LLC; SPDX-License-Identifier: GPL-3.0-or-later -->
 <component>
-  <styles>
-    <style name="ps_main_column" layout="flex" flex_flow="column" flex_main_place="center" flex_cross_place="start" flex_track_place="start" />
-    <style name="ps_main_row" layout="flex" flex_flow="row" flex_main_place="start" flex_cross_place="center" flex_track_place="center" />
-    <style name="ps_hero_inline" width="100%" layout="flex" flex_flow="row" flex_main_place="start" flex_cross_place="end" flex_track_place="start" />
-    <style name="ps_hero_stacked" width="content" layout="flex" flex_flow="column" flex_main_place="start" flex_cross_place="start" flex_track_place="start" />
-    <style name="ps_font_body" text_font="#font_body" />
-    <style name="ps_font_small" text_font="#font_small" />
-    <style name="ps_font_xs" text_font="#font_xs" />
-  </styles>
-  <view name="panel_widget_print_stats" extends="lv_obj" width="100%" height="100%" style_pad_hor="#space_sm" style_pad_ver="#space_xxs" style_pad_row="#space_xxs" style_pad_column="0" scrollable="false" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="start" style_flex_track_place="center" style_pad_all="12" style_pad_gap="4">
+  <view extends="lv_obj" width="100%" height="100%" style_pad_all="0" style_pad_gap="14" flex_flow="column" scrollable="false" clickable="true">
     <event_cb trigger="clicked" callback="print_stats_clicked_cb" />
-    <text_body text="Machine statistics" style_text_font="noto_sans_bold_16" />
-    <lv_obj width="100%" height="content" flex_flow="row" style_pad_all="0" style_pad_gap="10" style_flex_cross_place="center" clickable="false" scrollable="false">
-      <text_heading name="ps_hero" bind_text="print_stats_hero" style_text_font="noto_sans_bold_24" clickable="false" event_bubble="true" />
-      <text_small name="ps_hero_label" bind_text="print_stats_hero_label" style_text_font="noto_sans_14" clickable="false" event_bubble="true" />
+    <text_body text="MACHINE STATISTICS" style_text_font="noto_sans_bold_14" style_text_color="#text_muted" clickable="false" event_bubble="true" height="18" />
+    <lv_obj style_pad_all="8" style_bg_opa="255" style_border_width="1" scrollable="false" width="100%" height="96" style_bg_color="#card_bg" style_border_color="#border" style_border_opa="150" style_radius="20" flex_flow="row" style_pad_gap="0">
+      <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="0" height="100%" flex_grow="1" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="0">
+        <text_body text="" style_text_font="noto_sans_bold_28" style_text_color="#text" clickable="false" event_bubble="true" bind_text="k3_total_time" width="100%" style_text_align="center" />
+        <text_body text="Total Time" style_text_font="noto_sans_14" style_text_color="#text_muted" clickable="false" event_bubble="true" width="100%" style_text_align="center" />
+      </lv_obj>
+      <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="0" height="100%" flex_grow="1" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="0">
+        <text_body text="" style_text_font="noto_sans_bold_28" style_text_color="#text" clickable="false" event_bubble="true" bind_text="k3_print_count" width="100%" style_text_align="center" />
+        <text_body text="Print Count" style_text_font="noto_sans_14" style_text_color="#text_muted" clickable="false" event_bubble="true" width="100%" style_text_align="center" />
+      </lv_obj>
+      <lv_obj style_pad_all="0" style_bg_opa="0" style_border_width="0" scrollable="false" width="0" height="100%" flex_grow="1" flex_flow="column" style_flex_main_place="center" style_flex_cross_place="center" style_pad_gap="0">
+        <text_body text="" style_text_font="noto_sans_bold_28" style_text_color="#text" clickable="false" event_bubble="true" bind_text="k3_filament_used" width="100%" style_text_align="center" />
+        <text_body text="Filament Usage" style_text_font="noto_sans_14" style_text_color="#text_muted" clickable="false" event_bubble="true" width="100%" style_text_align="center" />
+      </lv_obj>
     </lv_obj>
-    <text_body name="ps_support" bind_text="print_stats_support_text" width="100%" long_mode="dots" style_text_font="noto_sans_14" clickable="false" event_bubble="true" />
   </view>
 </component>

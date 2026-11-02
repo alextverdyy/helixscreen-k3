@@ -72,8 +72,13 @@ def main():
                 time.sleep(8)
                 for screen in ("home", "print-select", "controls", "motion", "filament", "advanced", "settings"):
                     if screen == "motion":
-                        ctl("navigate", "controls")
-                        ctl("click", "btn_motion")
+                        ctl("navigate", "home")
+                        if args.size == "400x1280":
+                            ctl("click", "k3_move")
+                        else:
+                            ctl("navigate", "settings")
+                            ctl("scroll", "row_k3_motion")
+                            ctl("click", "row_k3_motion")
                     elif screen == "print-select":
                         ctl("click", "nav_btn_print_select")
                     else:
@@ -94,7 +99,13 @@ def main():
                         ctl("screenshot", str(output / "appearance.png"))
                         ctl("back")
                     if screen == "controls" and int(args.size.split("x")[0]) < int(args.size.split("x")[1]):
-                        ctl("scroll", "btn_screws")
+                        ctl("click", "k3_step_25")
+                        if "2" not in ctl("get", "k3_jog_step").stdout:
+                            raise RuntimeError("Native jog step selection did not update")
+                        ctl("click", "k3_step_10")
+                        ctl("click", "k3_jog_xplus")
+                        ctl("click", "k3_part_+")
+                        ctl("scroll", "k3_macro_rows")
                         time.sleep(0.5)
                         ctl("screenshot", str(output / "controls-scrolled.png"))
                         # Open and cancel the existing confirmation; never press STOP.
@@ -102,7 +113,7 @@ def main():
                         time.sleep(0.5)
                         ctl("screenshot", str(output / "emergency-confirmation.png"))
                         ctl("click", "btn_secondary")
-                        ctl("scroll", "card_position")
+                        ctl("navigate", "controls")
                 # Exercise native customization and conditional safety chrome.
                 if int(args.size.split("x")[0]) < int(args.size.split("x")[1]):
                     ctl("navigate", "home")
