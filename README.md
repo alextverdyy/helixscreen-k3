@@ -3,9 +3,10 @@
 > The upstream project documentation follows below.
 
 <p align="center">
-  <a href="docs/images/k3/home.png"><img src="docs/images/k3/home.png" alt="K3 Native Home (400x1280)" width="220"/></a>
-  <a href="docs/images/k3/controls.png"><img src="docs/images/k3/controls.png" alt="K3 Native Control (400x1280)" width="220"/></a>
-  <a href="docs/images/k3/controls-scrolled.png"><img src="docs/images/k3/controls-scrolled.png" alt="K3 Native Control Scrolled (400x1280)" width="220"/></a>
+  <a href="docs/images/k3/home.png"><img src="docs/images/k3/home.png" alt="K3 Native Home (400x1280)" width="190"/></a>
+  <a href="docs/images/k3/controls.png"><img src="docs/images/k3/controls.png" alt="K3 Native Control (400x1280)" width="190"/></a>
+  <a href="docs/images/k3/controls-scrolled.png"><img src="docs/images/k3/controls-scrolled.png" alt="K3 Native Control Scrolled (400x1280)" width="190"/></a>
+  <a href="docs/images/k3/motion.png"><img src="docs/images/k3/motion.png" alt="K3 Native Motion (400x1280)" width="190"/></a>
 </p>
 <p align="center">
   <a href="K3_README.md"><strong>K3 Guide & Setup</strong></a> ·
