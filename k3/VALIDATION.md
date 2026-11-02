@@ -170,4 +170,4 @@ Latest verification results on the exact-reference build:
 - Native machine-guard XML census (`/tmp/k3-native-census-tests`): 5 test cases, 1,933 assertions passed.
 - Native `[theme],[portrait]` unit tests: 231 test cases, 15,422 assertions passed.
 - Interactive simulator capture (`k3/demo.py` at `400x1280` and `480x800`): verified `k3_step_25` -> `k3_step_10` subject updates, `k3_jog_xplus` updating `Position X` to `10.00`, `k3_part_+` updating `Part Fan` to `10%`, Home long-press edit mode, temperature graph, and Emergency confirmation dialog with zero XML/component errors in `native.log`.
-- ARM64 Pi build (`K3 Pi build` run `41495932613` on commit `e68b8cc`) triggered on GitHub Actions to produce the matching ARM64 binary and reviewed installer.
+- ARM64 Pi build ([`K3 Pi build` run `41495912404`](https://github.com/alextverdyy/helixscreen-k3/actions/runs/41495912404) on commit `e68b8cc`) triggered on GitHub Actions to produce the matching ARM64 binary and reviewed installer.
