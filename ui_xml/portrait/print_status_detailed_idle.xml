@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Copyright (C) 2025-2026 356C LLC; SPDX-License-Identifier: GPL-3.0-or-later -->
+<component>
+  <view name="print_status_detailed_idle" extends="lv_obj" width="100%" height="100%" style_pad_all="0" style_pad_gap="10" flex_flow="column" scrollable="false" clickable="false" event_bubble="true" style_flex_main_place="center">
+    <text_body name="detailed_idle_filename" width="100%" bind_text="print_status_idle_filename" long_mode="scroll_circular" style_text_align="center" clickable="false" event_bubble="true">
+      <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="2" />
+    </text_body>
+    <lv_obj name="idle_main_row" width="100%" flex_grow="1" style_pad_all="0" flex_flow="row" style_pad_column="#space_lg" scrollable="false" clickable="false" event_bubble="true">
+      <lv_image name="idle_thumb" width="45%" height="100%" src="A:assets/images/benchy_thumbnail_white.png" bind_src="print_status_idle_thumb_path" inner_align="contain" clickable="false" event_bubble="true" />
+      <lv_obj name="idle_data_col" height="100%" flex_grow="1" style_pad_all="0" flex_flow="column" style_flex_main_place="center" style_pad_gap="#space_xs" scrollable="false" clickable="false" event_bubble="true">
+        <text_small bind_text="print_status_idle_when" style_text_color="#text_muted" clickable="false" event_bubble="true" />
+        <text_small bind_text="print_status_idle_meta" style_text_color="#text_muted" clickable="false" event_bubble="true" />
+      </lv_obj>
+      <bind_flag_if_eq subject="ui_breakpoint" flag="hidden" ref_value="2" />
+    </lv_obj>
+    <ui_button name="k3_print_files" width="100%" height="72" variant="primary" icon="folder" text="Print" style_text_font="noto_sans_bold_24">
+      <event_cb trigger="clicked" callback="library_files_cb" />
+    </ui_button>
+    <lv_obj name="idle_action_row" width="100%" height="content" style_pad_all="0" flex_flow="row_wrap" style_pad_column="#space_xs" style_pad_row="#space_xs" scrollable="false" clickable="false" event_bubble="true">
+      <ui_button name="idle_reprint_btn" width="content" height="44" style_min_width="content" style_pad_hor="#space_sm" flex_grow="1" variant="outline" text="Reprint Last">
+        <bind_state_if_eq subject="print_status_idle_has_last" state="disabled" ref_value="0" />
+        <event_cb trigger="clicked" callback="library_last_cb" />
+      </ui_button>
+      <ui_button name="idle_queue_btn" width="content" height="44" style_min_width="content" style_pad_hor="#space_sm" flex_grow="1" variant="outline" text="Job Queue">
+        <bind_flag_if_eq subject="print_status_queue_hidden" flag="hidden" ref_value="1" />
+        <event_cb trigger="clicked" callback="library_queue_cb" />
+      </ui_button>
+    </lv_obj>
+    <text_small name="detailed_idle_display_message" width="100%" bind_text="display_message" style_text_align="center" long_mode="dots" hidden="true" clickable="false" event_bubble="true">
+      <bind_flag_if_eq subject="display_message_visible" flag="hidden" ref_value="0" />
+    </text_small>
+  </view>
+</component>

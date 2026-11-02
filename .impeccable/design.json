@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-01T23:01:38.347226+00:00",
+  "generatedAt": "2026-11-02T00:16:41.762659+00:00",
   "title": "Design System: HelixScreen K3",
   "extensions": {
     "colorMeta": {
@@ -94,7 +94,13 @@
         "purpose": "K3 theme shadow intensity and opacity are zero."
       }
     ],
-    "motion": [],
+    "motion": [
+      {
+        "name": "nav-icon-fade",
+        "value": "text opacity and transform scale; 180ms ease_out",
+        "purpose": "Existing native navigation icon transition."
+      }
+    ],
     "breakpoints": [
       {
         "name": "micro",
@@ -102,29 +108,133 @@
       },
       {
         "name": "tiny",
-        "value": "273px\u2013390px"
+        "value": "273px–390px"
       },
       {
         "name": "small",
-        "value": "391px\u2013460px"
+        "value": "391px–460px"
       },
       {
         "name": "medium",
-        "value": "461px\u2013550px"
+        "value": "461px–550px"
       },
       {
         "name": "large",
-        "value": "551px\u2013700px"
+        "value": "551px–700px"
       },
       {
         "name": "xlarge",
-        "value": "701px\u20131000px"
+        "value": "701px–1000px"
       },
       {
         "name": "xxlarge",
         "value": "min(width,height) > 1000px"
       }
-    ]
+    ],
+    "nativeSource": {
+      "platform": "C++ / LVGL / XML",
+      "theme": "assets/config/themes/defaults/k3-violet.json",
+      "portrait": "ui_xml/portrait/",
+      "homeLayout": "k3/home-layout.json",
+      "primaryTarget": "400x1280",
+      "secondaryTarget": "480x800",
+      "evidence": [
+        ".impeccable/review/native-reference-400/",
+        ".impeccable/review/native-reference-480/"
+      ],
+      "validationLimits": "Mock simulator evidence only; no hardware validation or pixel-parity claim."
+    },
+    "homeGrid": {
+      "grid": "small@10x28",
+      "description": "K3 400x1280 home dashboard defaults; existing edited home pages are preserved.",
+      "placements": {
+        "printer_image": [
+          0,
+          0,
+          10,
+          13
+        ],
+        "print_stats": [
+          0,
+          13,
+          10,
+          3
+        ],
+        "print_status": [
+          0,
+          16,
+          10,
+          4
+        ],
+        "motion": [
+          0,
+          20,
+          10,
+          2
+        ],
+        "preheat": [
+          0,
+          22,
+          10,
+          2
+        ],
+        "macros": [
+          0,
+          24,
+          5,
+          2
+        ],
+        "gcode_console": [
+          5,
+          24,
+          5,
+          2
+        ]
+      },
+      "slots": {},
+      "disabled": [
+        "tips",
+        "temperature",
+        "bed_temperature",
+        "temp_stack",
+        "fan_stack",
+        "temp_graph",
+        "notifications",
+        "network",
+        "led",
+        "active_spool",
+        "filament",
+        "dryer",
+        "chamber_temperature",
+        "ams"
+      ],
+      "gaps": [
+        [
+          0,
+          26,
+          10,
+          2
+        ]
+      ]
+    },
+    "nativeGeometry": {
+      "navigation": {
+        "height": 128,
+        "mainHeight": 80,
+        "secondaryHeight": 44,
+        "gap": 4,
+        "safetySlot": 44,
+        "editorButtonHeight": 64
+      },
+      "controls": {
+        "outerPadding": 12,
+        "gap": 12,
+        "cardPadding": 14,
+        "cardRadius": 16,
+        "macroHeight": 52,
+        "toolsGridHeight": 196
+      }
+    }
   },
   "components": [
     {
@@ -134,22 +244,22 @@
       "refersTo": "button-primary"
     },
     {
-      "name": "Secondary macro action",
+      "name": "Quick macro action",
       "kind": "button",
-      "description": "Native secondary quick macro; content-height container. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
-      "refersTo": "button-secondary"
+      "description": "Native outline macro buttons at 52px in content-height rows; configured Light cells use secondary treatment.",
+      "refersTo": "portrait-macro"
     },
     {
       "name": "Emergency action",
       "kind": "button",
-      "description": "Native danger variant outside the Controls scroller, using the existing emergency handler. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
+      "description": "Controls header: 48px ghost button with danger text/border/translucent fill. Navigation: 44px circular danger button in fixed root slot. Existing callbacks and state visibility remain authoritative.",
       "refersTo": "button-danger"
     },
     {
       "name": "Control group",
       "kind": "card",
-      "description": "Native full-width ui_card with responsive theme radius. Native LVGL documentation only; no HTML/CSS emulation is supplied.",
-      "refersTo": "card"
+      "description": "Native full-width ui_card with 16px radius, 14px padding and 12px gaps.",
+      "refersTo": "portrait-control-card"
     },
     {
       "name": "Text field",
@@ -159,12 +269,30 @@
     {
       "name": "Navigation",
       "kind": "nav",
-      "description": "Native orientation-aware navigation_bar; portrait bottom strip and landscape leading strip. Native LVGL documentation only; no HTML/CSS emulation is supplied."
+      "description": "Native portrait 80px main row plus 44px secondary row and 4px gap; fixed 44px safety slots; 64px editor controls. Upstream selected/disabled subjects remain authoritative.",
+      "refersTo": "portrait-navigation"
+    },
+    {
+      "name": "Home action row",
+      "kind": "button",
+      "refersTo": "portrait-action-row",
+      "description": "Native horizontal Motion/Macros/Console rows with upstream callbacks and connection guards."
+    },
+    {
+      "name": "Print files",
+      "kind": "button",
+      "refersTo": "portrait-print-button",
+      "description": "72px native primary action; 44px Reprint Last and conditional Job Queue below."
+    },
+    {
+      "name": "Machine statistics",
+      "kind": "custom",
+      "description": "Native weekly hero and lifetime support bindings; 16px bold title, 24px bold hero, 14px support."
     }
   ],
   "narrative": {
     "northStar": "",
-    "overview": "HelixScreen K3 extends the existing native embedded Linux/LVGL interface. Charcoal surfaces, violet actions and pale lavender icons follow the user\u2019s portrait reference while retaining the upstream component vocabulary, typography and broad printer functionality.\n\nThe visual character is compact, calm and operational. Group related readings and actions in clear tonal containers; reserve semantic colors for the state or command they communicate. This documents the implemented K3 theme and portrait extension, not a replacement identity for upstream HelixScreen.",
+    "overview": "HelixScreen K3 extends the existing native embedded Linux/LVGL interface. Charcoal surfaces, violet actions and pale lavender icons follow the user’s portrait reference while retaining the upstream component vocabulary, typography and broad printer functionality.\n\nThe visual character is compact, calm and operational. Group related readings and actions in clear tonal containers; reserve semantic colors for the state or command they communicate. This documents the implemented K3 theme and portrait extension, not a replacement identity for upstream HelixScreen.",
     "keyCharacteristics": [
       "Charcoal tonal surfaces with violet action emphasis.",
       "Native Noto Sans text and Material Design Icons.",
@@ -196,10 +324,157 @@
       "Do review both first-view and scrolled content at the target resolution."
     ],
     "donts": [
-      "Don\u2019t apply the 400\u00d71280 home grid to every display.",
-      "Don\u2019t treat mock screenshots as physical touch, printer or display validation.",
-      "Don\u2019t replace semantic state colors with violet for decoration.",
-      "Don\u2019t turn incidental truncation, clipping or a transient mock value into a design rule."
+      "Don’t apply the 400×1280 home grid to every display.",
+      "Don’t treat mock screenshots as physical touch, printer or display validation.",
+      "Don’t replace semantic state colors with violet for decoration.",
+      "Don’t turn incidental truncation, clipping or a transient mock value into a design rule."
     ]
+  },
+  "tokens": {
+    "colors": {
+      "screen-bg": "#101116",
+      "overlay-bg": "#171921",
+      "card-bg": "#1B1D27",
+      "elevated-bg": "#292C3B",
+      "border": "#454354",
+      "text": "#F5F3FF",
+      "text-muted": "#B9B5CC",
+      "text-subtle": "#A29CB7",
+      "primary": "#7946E8",
+      "secondary": "#C4B5FD",
+      "tertiary": "#71D4C1",
+      "info": "#98C8FF",
+      "success": "#78D6A3",
+      "warning": "#F5C879",
+      "danger": "#FF879A",
+      "focus": "#C4B5FD",
+      "light-screen-bg": "#F2F0F8",
+      "light-overlay-bg": "#E9E5F2",
+      "light-card-bg": "#FFFFFF",
+      "light-elevated-bg": "#DDD7EC",
+      "light-border": "#898197",
+      "light-text": "#211A31",
+      "light-text-muted": "#544964",
+      "light-text-subtle": "#665C76",
+      "light-primary": "#6735CB",
+      "light-secondary": "#633D9C",
+      "light-tertiary": "#19695C",
+      "light-info": "#275C9A",
+      "light-success": "#226B43",
+      "light-warning": "#825500",
+      "light-danger": "#B12742",
+      "light-focus": "#6735CB"
+    },
+    "typography": {
+      "heading-small": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "20px",
+        "fontWeight": 400
+      },
+      "body-small": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "14px",
+        "fontWeight": 400
+      },
+      "label-small": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "12px",
+        "fontWeight": 300
+      },
+      "metadata-small": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "10px",
+        "fontWeight": 300
+      },
+      "portrait-title": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "28px",
+        "fontWeight": 700
+      },
+      "portrait-section": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "18px",
+        "fontWeight": 700
+      },
+      "portrait-hero": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "24px",
+        "fontWeight": 700
+      },
+      "portrait-action": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "16px",
+        "fontWeight": 400
+      },
+      "portrait-nav-label": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "12px",
+        "fontWeight": 700
+      }
+    },
+    "rounded": {
+      "bold-small": "8px",
+      "bold-medium": "10px",
+      "portrait-card": "16px",
+      "portrait-chip": "20px",
+      "portrait-selection": "12px"
+    },
+    "spacing": {
+      "space-xxs-small": "2px",
+      "space-xs-small": "4px",
+      "space-sm-small": "6px",
+      "space-md-small": "8px",
+      "space-lg-small": "12px",
+      "space-xl-small": "16px",
+      "space-2xl-small": "24px",
+      "portrait-outer": "12px",
+      "portrait-card": "14px",
+      "portrait-action-inset": "16px"
+    },
+    "components": {
+      "button-primary": {
+        "backgroundColor": "{colors.primary}",
+        "rounded": "{rounded.bold-small}",
+        "height": "48px"
+      },
+      "button-secondary": {
+        "backgroundColor": "{colors.secondary}",
+        "rounded": "{rounded.bold-small}"
+      },
+      "button-danger": {
+        "backgroundColor": "{colors.danger}",
+        "rounded": "{rounded.bold-small}"
+      },
+      "card": {
+        "backgroundColor": "{colors.card-bg}",
+        "rounded": "{rounded.bold-small}",
+        "padding": "{spacing.space-sm-small}"
+      },
+      "portrait-control-card": {
+        "backgroundColor": "{colors.card-bg}",
+        "rounded": "{rounded.portrait-card}",
+        "padding": "{spacing.portrait-card}"
+      },
+      "portrait-action-row": {
+        "backgroundColor": "{colors.elevated-bg}",
+        "textColor": "{colors.text}",
+        "rounded": "{rounded.portrait-card}",
+        "typography": "{typography.portrait-section}"
+      },
+      "portrait-print-button": {
+        "backgroundColor": "{colors.primary}",
+        "typography": "{typography.portrait-hero}",
+        "height": "72px"
+      },
+      "portrait-navigation": {
+        "backgroundColor": "{colors.card-bg}",
+        "rounded": "{rounded.portrait-card}",
+        "height": "128px"
+      },
+      "portrait-macro": {
+        "typography": "{typography.portrait-action}",
+        "height": "52px"
+      }
+    }
   }
 }

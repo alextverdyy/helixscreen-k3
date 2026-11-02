@@ -1,4 +1,7 @@
-# HelixScreen K3
+# HelixScreen K3 — native application
+
+The active build uses HelixScreen C++/LVGL directly. The earlier React/Chromium
+prototype is superseded; tdunl410/printer-ui-klipper is a visual reference only.
 
 A customizable native Klipper touchscreen for a Linux host driving a Waveshare
 display. Built on [HelixScreen](https://github.com/prestonbrown/helixscreen), with
@@ -11,10 +14,10 @@ portrait controls. Landscape screens keep the upstream layout.
 “K3” is not a verified Waveshare SKU; no resolution, display overlay, touch driver,
 or printer hardware is guessed. Start with automatic display detection.
 
-**ARM64 installer built:** [draft preview release](https://github.com/alextverdyy/helixscreen-k3/releases/tag/untagged-d191569854ede8daa717)
-or the [reviewed installer build artifact](https://github.com/alextverdyy/helixscreen-k3/actions/runs/41361637327).
-The archive checksum, AArch64 binary, reviewed XML and packaged setup tool have
-been checked. This remains a development preview with physical validation pending.
+**ARM64 installer:** download `k3-reviewed-pi-installer` from the latest successful
+[reviewed installer workflow](https://github.com/alextverdyy/helixscreen-k3/actions/workflows/k3-package.yml).
+The build records separate binary/runtime source revisions and a SHA256 checksum.
+This remains a development preview with physical validation pending.
 
 ## What you get
 
@@ -34,8 +37,10 @@ display and touch input, plus Klipper and Moonraker on that host or on the netwo
 
 ## Native screenshots
 
-400x1280 captures with synthetic printer data. The printer picture is the
-upstream Voron demo asset; use Printer Manager to select your own K3 image.
+400x1280 captures with synthetic printer data. The printer picture is the Annex K3 raster from the supplied reference project.
+Use Printer Manager to change it. The 400px Home follows the reference hierarchy;
+axis jogging remains on the native Motion screen, and 480px Home retains the
+upstream composition.
 
 <img src="docs/images/k3/home.png" alt="K3 native home dashboard with mock printer data" width="200"> <img src="docs/images/k3/controls.png" alt="K3 portrait controls with fixed Emergency header and quick macros" width="200">
 

@@ -150,6 +150,8 @@ def apply(directory, options):
                 raise ValueError("Existing settings have no config_version; run HelixScreen setup first.")
         else:
             settings = json.loads((ROOT / "config/settings.json.template").read_text())
+            settings.setdefault("appearance", {})["show_widget_labels"] = True
+            settings["printers"]["default"]["printer_image"] = "shipped:annex-k3"
         settings["dark_mode"] = options["mode"] == "dark"
         settings["brightness"] = options["brightness"]
         settings.setdefault("display", {}).update(theme="k3-violet", rotate=options["rotation"])
@@ -207,6 +209,7 @@ def restore(directory, stamp):
     names = {"settings.json", "helixscreen.env", "themes/k3-violet.json", "k3-appearance.json", "default_layout.json"}
     if set(manifest) != names or any(type(v) is not bool for v in manifest.values()):
         raise ValueError("Invalid backup manifest.")
+    names = set(manifest)
     # Read and validate everything before replacing any live file.
     data = {name: (backup / name).read_bytes() if exists else None for name, exists in manifest.items()}
     for name, content in data.items():

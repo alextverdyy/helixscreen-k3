@@ -35,12 +35,15 @@ class ConfigurationTests(unittest.TestCase):
         after = self.read()
         self.assertEqual(before["printers"], after["printers"])
         self.assertEqual(before["future_option"], after["future_option"])
+        self.assertEqual(before["appearance"], after["appearance"])
         self.assertEqual(after["display"]["rotate"], 90)
         self.assertIn("HELIX_SCREEN_SIZE=480x800", (self.path / "helixscreen.env").read_text())
 
     def test_new_install_keeps_setup_wizard(self):
         configure.apply(self.path, {})
         self.assertFalse(self.read()["wizard_completed"])
+        self.assertTrue(self.read()["appearance"]["show_widget_labels"])
+        self.assertEqual(self.read()["printers"]["default"]["printer_image"], "shipped:annex-k3")
         self.assertGreater(self.read()["config_version"], 0)
 
     def test_bad_existing_config_is_never_replaced(self):
@@ -156,7 +159,7 @@ class ConfigurationTests(unittest.TestCase):
     def test_k3_dashboard_regions_fill_grid_without_overlap(self):
         custom = json.loads((configure.ROOT / "k3/home-layout.json").read_text())
         occupied = set()
-        for name, rect in dict(custom["placements"], **custom["slots"]).items():
+        for name, rect in dict(custom["placements"], **custom["slots"], **{f"gap{i}": g for i, g in enumerate(custom["gaps"])}).items():
             col, row, width, height = rect
             with self.subTest(widget=name):
                 self.assertGreater(width, 0)

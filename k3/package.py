@@ -28,7 +28,10 @@ def refresh(archive, output, binary_source, data_source):
         if not binary.is_file() or not (payload / "ui_xml").is_dir():
             raise ValueError("Expected a complete HelixScreen installer archive.")
         binary_digest = hashlib.sha256(binary.read_bytes()).hexdigest()
-        for name in ("ui_xml/portrait/controls_panel.xml", "assets/config/themes/defaults/k3-violet.json",
+        for name in ('ui_xml/portrait/k3_action_row.xml', 'ui_xml/portrait/panel_widget_motion.xml', 'ui_xml/portrait/panel_widget_macros.xml', 'ui_xml/portrait/panel_widget_gcode_console.xml', 'ui_xml/portrait/panel_widget_print_stats.xml', 'ui_xml/portrait/panel_widget_preheat.xml', "ui_xml/portrait/controls_panel.xml", "ui_xml/portrait/navigation_bar.xml", "ui_xml/portrait/navbar_estop.xml",
+                     "ui_xml/portrait/navbar_drying.xml",
+                     "ui_xml/components/print_status_detailed_idle.xml", "ui_xml/portrait/print_status_detailed_idle.xml",
+                     "ui_xml/portrait/panel_widget_printer_image.xml", "assets/images/printers/annex-k3.png", "assets/config/themes/defaults/k3-violet.json",
                      "K3_README.md", "PRODUCT.md", "DESIGN.md", "LICENSE", "COPYRIGHT"):
             destination = payload / name
             destination.parent.mkdir(parents=True, exist_ok=True)

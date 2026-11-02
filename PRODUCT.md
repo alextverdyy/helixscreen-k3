@@ -13,6 +13,12 @@ features with easy customization. The user supplied dark violet portrait home
 and controls references and delegated implementation choices to autonomous work
 with Laya advice.
 
+## Base requirement
+
+The user explicitly requires the native HelixScreen application. The supplied
+React repository and screenshots are visual references only. The Chromium kiosk
+prototype is superseded and must not become the implementation base again.
+
 ## Stack
 
 Existing HelixScreen C++/LVGL application, runtime XML, JSON themes and Moonraker.

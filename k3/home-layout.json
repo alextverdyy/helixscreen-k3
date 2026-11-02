@@ -5,94 +5,69 @@
     "printer_image": [
       0,
       0,
-      8,
-      6
-    ],
-    "notifications": [
-      8,
-      0,
-      2,
-      2
-    ],
-    "network": [
-      8,
-      2,
-      2,
-      2
-    ],
-    "led": [
-      8,
-      4,
-      2,
-      2
-    ],
-    "temp_stack": [
-      0,
-      6,
-      6,
-      4
-    ],
-    "fan_stack": [
-      6,
-      6,
-      4,
-      4
-    ],
-    "print_status": [
-      0,
       10,
-      10,
-      6
+      13
     ],
     "print_stats": [
       0,
+      13,
+      10,
+      3
+    ],
+    "print_status": [
+      0,
       16,
-      6,
-      2
+      10,
+      4
     ],
     "motion": [
-      6,
-      16,
-      4,
+      0,
+      20,
+      10,
       2
     ],
     "preheat": [
       0,
-      18,
-      6,
-      2
-    ],
-    "temp_graph": [
-      0,
-      20,
+      22,
       10,
-      6
+      2
     ],
     "macros": [
       0,
-      26,
+      24,
       5,
       2
     ],
     "gcode_console": [
       5,
-      26,
+      24,
       5,
       2
     ]
   },
-  "slots": {
-    "spool_env": [
-      6,
-      18,
-      4,
-      2
-    ]
-  },
+  "slots": {},
   "disabled": [
     "tips",
     "temperature",
-    "bed_temperature"
+    "bed_temperature",
+    "temp_stack",
+    "fan_stack",
+    "temp_graph",
+    "notifications",
+    "network",
+    "led",
+    "active_spool",
+    "filament",
+    "dryer",
+    "chamber_temperature",
+    "ams"
   ],
-  "gaps": []
+  "gaps": [
+    [
+      0,
+      26,
+      10,
+      2
+    ]
+  ]
 }

@@ -32,6 +32,8 @@ class PackageChecks(unittest.TestCase):
             self.assertEqual(bundle.extractfile("helixscreen/bin/helix-screen").read(), self.binary)
             xml = bundle.extractfile("helixscreen/ui_xml/portrait/controls_panel.xml").read()
             self.assertIn(b'k3_scroll_content', xml)
+            self.assertIn(b'text="Control"', bundle.extractfile("helixscreen/ui_xml/portrait/navigation_bar.xml").read())
+            self.assertIn(b'k3_print_files', bundle.extractfile("helixscreen/ui_xml/portrait/print_status_detailed_idle.xml").read())
             data = json.load(bundle.extractfile("helixscreen/k3-build-provenance.json"))
             self.assertEqual(data["binary_sha256"], hashlib.sha256(self.binary).hexdigest())
             self.assertEqual(data["runtime_source"], "b" * 40)

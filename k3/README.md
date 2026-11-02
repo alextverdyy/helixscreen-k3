@@ -1,5 +1,9 @@
 # K3 setup and customization
 
+This is the native HelixScreen C++/LVGL build. Complete its native printer wizard
+and use its Appearance, Display, macro and widget settings for customization.
+The website prototype is retained only as a historical visual reference.
+
 ## Hardware requirements
 
 You need a Linux host, a working Waveshare display and touch input, and network

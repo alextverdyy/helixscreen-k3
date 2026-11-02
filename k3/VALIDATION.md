@@ -62,7 +62,7 @@ The mutation gate was attempted after pushing. Its launcher declined this
 four-core host because no configured test host was available; no mutation-pass
 claim is made. The separate deliberate printer-retention test break did run.
 
-## Pi build and physical hardware
+## Initial Pi build and physical hardware
 
 The [K3 Pi build](https://github.com/alextverdyy/helixscreen-k3/actions/workflows/k3-pi.yml)
 workflow cross-compiles DRM/framebuffer binaries and packages an installer.
@@ -85,3 +85,49 @@ No physical Waveshare panel or printer was available. The likely Annex K3
 7.9-inch Waveshare profile is 400x1280, but the user's exact SKU, host, wiring,
 touch alignment and Moonraker endpoint are unverified. No hardware deployment,
 real heating, extrusion, motion or print job has been tested.
+
+
+## Native base restored after user clarification
+
+The active product is HelixScreen C++/LVGL; the React kiosk fork is superseded.
+Application C++ sources remain unchanged from the existing ARM64 build. Portrait
+XML, default layout, theme, configuration helper and image assets are runtime
+files layered onto that verified binary.
+
+Latest local scope: 19 configuration cases, 3 packaging cases, 262 relevant native
+cases / 40,578 assertions, and 5 source-current machine-guard census cases /
+1,913 assertions. XML lint, required widget names, responsive-token scope and
+1239-token theme artifact checks pass. Existing six upstream Wi-Fi/screensaver
+baseline failures are unchanged; this is not a claim of a green full suite.
+
+The mock capture helper now visits native Home, Print Select, Control, Motion,
+Filament, Advanced and Settings, opens Appearance, opens the Home nozzle graph
+on 400×1280 and opens/cancels the native emergency confirmation. It always uses
+--test, isolated temporary configuration and a private control socket.
+
+Physical Waveshare touch/rotation, installation on the user's host and live
+printer operation remain unverified.
+
+## Reference sizing refinement
+
+Current 400×1280 defaults give the printer card 13 rows, statistics 3, native
+print actions 4, Motion 2, Preheat 2, Macros/Console 2, and a 2-row gap.
+Statistics show native weekly time and lifetime support text; no fake totals.
+The print entry keeps native reprint/queue access. The selected 400px layout
+suppresses optional auto-placed widgets; these remain available in the editor.
+Existing customized dashboards are preserved.
+
+Normal portrait navigation uses four 80px main tabs and 44px secondary controls.
+Independent 44px safety slots retain space and never overlap the main tabs.
+Home editing was entered with a real long press and exited with Done. Safety
+visibility is a synthetic fixture; actual machine safety behavior was not
+exercised on hardware. Native Control retains separate Motion navigation rather
+than the reference's inline circular jog wheel.
+
+Final source lint: 486 XML files, zero errors/warnings; required widget names,
+responsive token scope and theme artifacts pass.
+
+The final native reference sizing review scored the two outstanding items
+resolved: unwanted auto-added Multi-Filament removed and complete calibration
+grid visible at both 400×1280 and 480×800. Disposition: ship within the reviewed
+native scope. This does not establish pixel parity or physical operation.

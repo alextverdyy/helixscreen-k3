@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Copyright (C) 2025-2026 356C LLC; SPDX-License-Identifier: GPL-3.0-or-later -->
+<component>
+  <api>
+    <prop name="tile_icon_subject" type="string" default="" />
+    <prop name="tile_label_subject" type="string" default="" />
+    <prop name="tile_dir_subject" type="string" default="" />
+    <prop name="tile_target_subject" type="string" default="" />
+  </api>
+  <view name="panel_widget_motion" extends="lv_obj" height="100%" flex_grow="1" style_pad_all="0" scrollable="false">
+    <k3_action_row width="100%" height="100%" icon="cursor_move" icon_variant="secondary" label="Motion" callback="motion_widget_clicked_cb" button_name="motion_button" icon_name="motion_icon" tile_icon_subject="$tile_icon_subject" tile_label_subject="$tile_label_subject" tile_dir_subject="$tile_dir_subject" disabled_cond="printer_connection_state ne 2" icon_size="sm" />
+  </view>
+</component>

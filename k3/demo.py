@@ -70,16 +70,31 @@ def main():
                     raise RuntimeError("Simulator did not become ready in 90 seconds")
                 # Let startup discovery/toasts settle before taking review evidence.
                 time.sleep(8)
-                for screen in ("home", "controls", "motion", "settings"):
+                for screen in ("home", "print-select", "controls", "motion", "filament", "advanced", "settings"):
                     if screen == "motion":
                         ctl("navigate", "controls")
                         ctl("click", "btn_motion")
+                    elif screen == "print-select":
+                        ctl("click", "nav_btn_print_select")
                     else:
                         ctl("navigate", screen)
                     time.sleep(1)
                     ctl("screenshot", str(output / (screen + ".png")))
+                    if screen == "home" and args.size == "400x1280":
+                        ctl("click", "k3_nozzle_chip")
+                        time.sleep(0.5)
+                        current = ctl("current").stdout
+                        if "temp_graph" not in current:
+                            raise RuntimeError("Native temperature chip did not open its graph: " + current)
+                        ctl("screenshot", str(output / "temperature-graph.png"))
+                        ctl("back")
+                    if screen == "settings":
+                        ctl("click", "row_appearance")
+                        time.sleep(0.5)
+                        ctl("screenshot", str(output / "appearance.png"))
+                        ctl("back")
                     if screen == "controls" and int(args.size.split("x")[0]) < int(args.size.split("x")[1]):
-                        ctl("scroll", "btn_bed_mesh")
+                        ctl("scroll", "btn_screws")
                         time.sleep(0.5)
                         ctl("screenshot", str(output / "controls-scrolled.png"))
                         # Open and cancel the existing confirmation; never press STOP.
@@ -88,6 +103,21 @@ def main():
                         ctl("screenshot", str(output / "emergency-confirmation.png"))
                         ctl("click", "btn_secondary")
                         ctl("scroll", "card_position")
+                # Exercise native customization and conditional safety chrome.
+                if int(args.size.split("x")[0]) < int(args.size.split("x")[1]):
+                    ctl("navigate", "home")
+                    ctl("long_press", "100", "160")
+                    time.sleep(0.8)
+                    if "1" not in ctl("get", "home_edit_mode").stdout:
+                        raise RuntimeError("Native grid edit mode did not open")
+                    ctl("screenshot", str(output / "home-edit.png"))
+                    ctl("click", "nav_btn_edit_done")
+                    for subject in ("show_printer_switcher", "bed_drying_state", "estop_visible"):
+                        ctl("set", subject, "1")
+                    time.sleep(0.3)
+                    ctl("screenshot", str(output / "safety-nav.png"))
+                    for subject in ("show_printer_switcher", "bed_drying_state", "estop_visible"):
+                        ctl("set", subject, "0")
                 print("Native mock screenshots: " + str(output))
             except (RuntimeError, subprocess.SubprocessError):
                 print((directory / "demo.log").read_text()[-8000:])
