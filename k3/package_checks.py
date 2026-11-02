@@ -37,6 +37,7 @@ class PackageChecks(unittest.TestCase):
             self.assertIn(b'k3_jog_wheel', xml)
             self.assertIn("helixscreen/ui_xml/portrait/app_layout.xml", bundle.getnames())
             self.assertIn("helixscreen/ui_xml/portrait/settings_panel.xml", bundle.getnames())
+            self.assertIn("helixscreen/ui_xml/portrait/motion_panel.xml", bundle.getnames())
             data = json.load(bundle.extractfile("helixscreen/k3-build-provenance.json"))
             self.assertEqual(data["binary_sha256"], hashlib.sha256(self.binary).hexdigest())
             self.assertEqual(data["runtime_source"], "b" * 40)
